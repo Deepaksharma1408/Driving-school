@@ -33,6 +33,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
     setIsLangOpen(false);
   }, [location.pathname]);
 
+  const changeLanguage = (langCode: string, langLabel: string) => {
+    setActiveLang(langLabel);
+    setIsLangOpen(false);
+    
+    // Set cookie for Google Translate
+    const googleLangMap: Record<string, string> = {
+      'EN': '/en/en',
+      'HI': '/en/hi',
+      'PA': '/en/pa',
+      'ES': '/en/es'
+    };
+    const langPath = googleLangMap[langLabel] || '/en/en';
+    document.cookie = `googtrans=${langPath}; path=/; domain=${window.location.hostname}`;
+    document.cookie = `googtrans=${langPath}; path=/;`;
+    
+    // Trigger Google Translate Select Option
+    const selectElem = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+    if (selectElem) {
+      selectElem.value = langCode;
+      selectElem.dispatchEvent(new Event('change'));
+    } else {
+      window.location.reload();
+    }
+  };
+
   return (
     <>
       <header className={`canguruber-exact-header ${isScrolled ? 'is-scrolled' : ''}`}>
@@ -167,10 +192,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
                 </button>
                 {isLangOpen && (
                   <div className="lang-menu">
-                    <button onClick={() => { setActiveLang('EN'); setIsLangOpen(false); }}>🇬🇧 English (EN)</button>
-                    <button onClick={() => { setActiveLang('HI'); setIsLangOpen(false); }}>🇮🇳 Hindi (HI)</button>
-                    <button onClick={() => { setActiveLang('PA'); setIsLangOpen(false); }}>🇮🇳 Punjabi (PA)</button>
-                    <button onClick={() => { setActiveLang('ES'); setIsLangOpen(false); }}>🇪🇸 Spanish (ES)</button>
+                    <button onClick={() => changeLanguage('en', 'EN')}>🇬🇧 English (EN)</button>
+                    <button onClick={() => changeLanguage('hi', 'HI')}>🇮🇳 Hindi (HI)</button>
+                    <button onClick={() => changeLanguage('pa', 'PA')}>🇮🇳 Punjabi (PA)</button>
+                    <button onClick={() => changeLanguage('es', 'ES')}>🇪🇸 Spanish (ES)</button>
                   </div>
                 )}
               </div>
