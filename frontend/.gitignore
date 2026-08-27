@@ -35,3 +35,4 @@ dist-ssr
 build
 out
 .turbo
+.vercel
