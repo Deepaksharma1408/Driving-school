@@ -32,6 +32,15 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 // Swagger Interactive API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// Welcome Root Endpoint
+app.get('/', (_req: Request, res: Response) => {
+  res.json({
+    message: '🚗 Driving School API Backend is Live & Running!',
+    healthCheck: '/api/health',
+    swaggerDocs: '/api-docs'
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (_req: Request, res: Response) => {
   res.json({
