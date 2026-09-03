@@ -226,9 +226,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
               <Link to="/" className="brand-logo-exact" onClick={() => setIsMobileOpen(false)}>
                 <div className="logo-text-wrap">
                   <span className="logo-main">
-                    CANGURU<span className="logo-highlight">BER</span>
+                    DRIVIN<span className="logo-highlight">ITY</span>
                   </span>
-                  <span className="logo-sub">DRIVING SCHOOL</span>
+                  <span className="logo-sub">DRIVING ACADEMY</span>
                 </div>
               </Link>
               <button className="close-btn" onClick={() => setIsMobileOpen(false)} aria-label="Close menu">
