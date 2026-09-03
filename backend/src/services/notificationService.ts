@@ -19,7 +19,7 @@ export function getBrevoApiKey(): string | undefined {
 }
 
 export function getBrevoSenderEmail(): string {
-  return process.env.BREVO_SENDER_EMAIL || 'info@canguruber.com';
+  return process.env.BREVO_SENDER_EMAIL || 'contact@drivinity.com';
 }
 
 export function isEmailConfigured(): boolean {
@@ -89,12 +89,12 @@ export async function sendBookingEmail(payload: SendEmailPayload) {
 
   try {
     const subject = payload.isReminder
-      ? `⏰ Reminder: Driving Session Tomorrow (${payload.date}) - Canguruber`
-      : `🚗 Booking Confirmed: ${payload.bookingRef} - Canguruber Driving Academy`;
+      ? `⏰ Reminder: Driving Session Tomorrow (${payload.date}) - Drivinity`
+      : `🚗 Booking Confirmed: ${payload.bookingRef} - Drivinity Driving Academy`;
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
-        <h2 style="color: #07131D; margin-top: 0;">Canguruber Driving Academy</h2>
+        <h2 style="color: #07131D; margin-top: 0;">Drivinity Driving Academy</h2>
         <p>Hi <strong>${payload.fullName}</strong>,</p>
         <p>${payload.isReminder ? 'This is a friendly reminder for your upcoming driving session tomorrow:' : 'Your driving session booking has been successfully confirmed!'}</p>
         
@@ -108,7 +108,7 @@ export async function sendBookingEmail(payload: SendEmailPayload) {
 
         <p style="font-size: 14px; color: #64748b;">Please ensure you carry your physical or digital NSW Learner Licence for the session.</p>
         <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
-        <p style="font-size: 12px; color: #94a3b8;">Canguruber Driving Academy • Sydney, NSW Australia</p>
+        <p style="font-size: 12px; color: #94a3b8;">Drivinity Driving Academy • Sydney, NSW Australia</p>
       </div>
     `;
 
@@ -121,7 +121,7 @@ export async function sendBookingEmail(payload: SendEmailPayload) {
       },
       body: JSON.stringify({
         sender: {
-          name: 'Canguruber Driving Academy',
+          name: 'Drivinity Driving Academy',
           email: brevoSenderEmail
         },
         to: [
@@ -189,8 +189,8 @@ export async function sendBookingSms(payload: SendSmsPayload) {
   try {
     const twilioClient = twilio(sid, token);
     const body = payload.isReminder
-      ? `REMINDER: Hi ${payload.fullName}, your Canguruber driving session is tomorrow (${payload.date} @ ${payload.timeSlot}). Ref: ${payload.bookingRef}.`
-      : `CONFIRMED: Hi ${payload.fullName}, your driving lesson is confirmed for ${payload.date} @ ${payload.timeSlot}. Ref: ${payload.bookingRef}.`;
+      ? `REMINDER: Hi ${payload.fullName}, your Drivinity driving session is tomorrow (${payload.date} @ ${payload.timeSlot}). Ref: ${payload.bookingRef}.`
+      : `CONFIRMED: Hi ${payload.fullName}, your Drivinity driving lesson is confirmed for ${payload.date} @ ${payload.timeSlot}. Ref: ${payload.bookingRef}.`;
 
     const message = await twilioClient.messages.create({
       body,

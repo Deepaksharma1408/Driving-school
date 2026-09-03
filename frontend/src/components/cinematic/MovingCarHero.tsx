@@ -60,7 +60,7 @@ export const MovingCarHero: React.FC<MovingCarHeroProps> = ({ onHeroReady }) => 
         >
           {/* User Provided Driving Video Asset */}
           <source src="/videos/gerte_an_vedio_ofa_moving_car.mp4" type="video/mp4" />
-          <source src="/videos/canguruber-hero-driving.mp4" type="video/mp4" />
+          <source src="/videos/drivinity-hero-driving.mp4" type="video/mp4" />
           <source src="https://assets.mixkit.co/videos/preview/mixkit-sports-car-driving-through-a-highway-42862-large.mp4" type="video/mp4" />
         </video>
 
@@ -86,7 +86,7 @@ export const MovingCarHero: React.FC<MovingCarHeroProps> = ({ onHeroReady }) => 
         <div className="hero-main-column">
           {/* Eyebrow */}
           <div className={`hero-eyebrow-wrapper ${timelineStep >= 1 ? 'revealed' : ''}`}>
-            <span className="hero-gold-tag">CANGURUBER DRIVING SCHOOL</span>
+            <span className="hero-gold-tag">DRIVINITY DRIVING ACADEMY</span>
             <span className="tag-divider">•</span>
             <span className="hero-sub-tag">NSW TRANSPORT AUTHORISED</span>
           </div>
@@ -117,7 +117,7 @@ export const MovingCarHero: React.FC<MovingCarHeroProps> = ({ onHeroReady }) => 
 
           {/* Supporting Narrative */}
           <p className={`hero-lead-narrative ${timelineStep >= 5 ? 'revealed' : ''}`}>
-            Whether you're a beginner learning from scratch, an experienced overseas driver, or preparing for your practical test – Canguruber helps you become a safer, calmer, and fully licensed Australian driver.
+            Whether you're a beginner learning from scratch, an experienced overseas driver, or preparing for your practical test – Drivinity helps you become a safer, calmer, and fully licensed Australian driver.
           </p>
 
           {/* Action CTAs */}

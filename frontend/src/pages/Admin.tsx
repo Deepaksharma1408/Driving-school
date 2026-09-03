@@ -17,7 +17,11 @@ import {
   Eye,
   TrendingUp,
   FileText,
-  UserCheck
+  UserCheck,
+  Settings,
+  Building,
+  Phone,
+  Mail
 } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader';
 import { Button } from '../components/ui/Button';
@@ -33,7 +37,9 @@ import {
   fetchVehicles,
   toggleVehicleStatus,
   fetchAdminStudents,
-  fetchStudentProgress
+  fetchStudentProgress,
+  fetchSchoolSettings,
+  updateSchoolSettings
 } from '../services/api';
 
 export const Admin: React.FC = () => {
@@ -46,7 +52,7 @@ export const Admin: React.FC = () => {
   const [submittingLogin, setSubmittingLogin] = useState(false);
 
   // Admin Active Tab
-  const [activeTab, setActiveTab] = useState<'overview' | 'bookings' | 'instructors' | 'vehicles' | 'students' | 'inquiries'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'bookings' | 'instructors' | 'vehicles' | 'students' | 'inquiries' | 'settings'>('overview');
 
   // Admin Data States
   const [stats, setStats] = useState<any | null>(null);
@@ -55,6 +61,18 @@ export const Admin: React.FC = () => {
   const [vehicles, setVehicles] = useState<any[]>([]);
   const [students, setStudents] = useState<any[]>([]);
   const [inquiries, setInquiries] = useState<any[]>([]);
+
+  // School Settings States (Driving School Owner Customization)
+  const [schoolName, setSchoolName] = useState('Drivinity Driving Academy');
+  const [schoolPhone, setSchoolPhone] = useState('1300 855 374');
+  const [schoolEmail, setSchoolEmail] = useState('contact@drivinity.com');
+  const [schoolAddress, setSchoolAddress] = useState('Suite 100, Innovation Way, Sydney NSW Australia');
+  const [operatingHours, setOperatingHours] = useState('Mon – Sun: 7:00 AM – 7:00 PM');
+  const [serviceArea, setServiceArea] = useState('Greater Sydney & Surrounding NSW Service Centres');
+  const [tagline, setTagline] = useState('Get your Australian driver\'s licence with confidence.');
+  const [savingSettings, setSavingSettings] = useState(false);
+  const [settingsSuccess, setSettingsSuccess] = useState<string | null>(null);
+  const [settingsError, setSettingsError] = useState<string | null>(null);
 
   // Filter & Modal States
   const [statusFilter, setStatusFilter] = useState('all');
@@ -67,13 +85,14 @@ export const Admin: React.FC = () => {
     if (!token) return;
     setLoading(true);
     try {
-      const [statsRes, bookingsRes, instructorsRes, vehiclesRes, studentsRes, inquiriesRes] = await Promise.all([
+      const [statsRes, bookingsRes, instructorsRes, vehiclesRes, studentsRes, inquiriesRes, settingsRes] = await Promise.all([
         fetchAdminStats(token),
         fetchBookings(undefined, token),
         fetchInstructors(token),
         fetchVehicles(token),
         fetchAdminStudents(token),
-        fetchContactInquiries()
+        fetchContactInquiries(),
+        fetchSchoolSettings()
       ]);
 
       setStats(statsRes);
@@ -82,10 +101,62 @@ export const Admin: React.FC = () => {
       setVehicles(vehiclesRes || []);
       setStudents(studentsRes || []);
       setInquiries(inquiriesRes || []);
+
+      if (settingsRes) {
+        if (settingsRes.schoolName) setSchoolName(settingsRes.schoolName);
+        if (settingsRes.phone) setSchoolPhone(settingsRes.phone);
+        if (settingsRes.email) setSchoolEmail(settingsRes.email);
+        if (settingsRes.address) setSchoolAddress(settingsRes.address);
+        if (settingsRes.operatingHours) setOperatingHours(settingsRes.operatingHours);
+        if (settingsRes.serviceArea) setServiceArea(settingsRes.serviceArea);
+        if (settingsRes.tagline) setTagline(settingsRes.tagline);
+      }
     } catch (err) {
       console.error('Error loading admin data:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Handle Save School Settings
+  const handleSaveSchoolSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!token) return;
+    setSavingSettings(true);
+    setSettingsSuccess(null);
+    setSettingsError(null);
+
+    try {
+      const res = await updateSchoolSettings({
+        schoolName,
+        phone: schoolPhone,
+        email: schoolEmail,
+        address: schoolAddress,
+        operatingHours,
+        serviceArea,
+        tagline
+      }, token);
+
+      setSavingSettings(false);
+      if (res.success) {
+        setSettingsSuccess('Driving school details updated successfully! Live website values updated.');
+        // Persist to local storage for instant sync across tabs
+        const currentSaved = localStorage.getItem('drivinity_business_settings');
+        const updated = currentSaved ? JSON.parse(currentSaved) : {};
+        localStorage.setItem('drivinity_business_settings', JSON.stringify({
+          ...updated,
+          schoolName,
+          phone: schoolPhone,
+          email: schoolEmail,
+          address: schoolAddress
+        }));
+        setTimeout(() => setSettingsSuccess(null), 5000);
+      } else {
+        setSettingsError(res.error || 'Failed to update school settings.');
+      }
+    } catch (err: any) {
+      setSavingSettings(false);
+      setSettingsError(err.message || 'Error updating settings.');
     }
   };
 
@@ -204,7 +275,7 @@ export const Admin: React.FC = () => {
                   <input 
                     type="email" 
                     className="form-input" 
-                    placeholder="admin@apexdriving.com" 
+                    placeholder="admin@drivinity.com" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -258,7 +329,7 @@ export const Admin: React.FC = () => {
   return (
     <div className="admin-page">
       <PageHeader 
-        tag={`LOGGED IN AS: ${user.fullName.toUpperCase()} (${user.role.toUpperCase()})`}
+        tag={`STAFF PORTAL • LOGGED IN AS: ${(user.name || user.fullName).toUpperCase()} (${user.role.toUpperCase()})`}
         title="DRIVING ACADEMY MANAGEMENT."
         subtitle="Manage driving lesson bookings, instructor schedules, dual-control vehicles, and student evaluations."
         breadcrumb="Staff Operations"
@@ -305,6 +376,12 @@ export const Admin: React.FC = () => {
               >
                 <FileText size={16} /> Inquiries ({inquiries.length})
               </button>
+              <button 
+                className={`tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
+                onClick={() => setActiveTab('settings')}
+              >
+                <Settings size={16} /> School Settings
+              </button>
             </div>
 
             <div className="toolbar-actions">
@@ -327,6 +404,23 @@ export const Admin: React.FC = () => {
               {/* TAB 1: OVERVIEW DASHBOARD */}
               {activeTab === 'overview' && (
                 <div className="tab-content">
+                  {/* Dynamic User Profile Greeting Banner */}
+                  <div className="aura-card" style={{ padding: '1.5rem 2rem', marginBottom: '1.5rem', background: '#07131D', color: '#FFFFFF' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+                      <div>
+                        <h3 style={{ color: 'var(--accent-gold)', margin: 0, fontSize: '1.35rem' }}>
+                          Welcome back, {user.name || user.fullName}!
+                        </h3>
+                        <p style={{ color: '#94A3B8', margin: '0.35rem 0 0 0', fontSize: '0.9rem' }}>
+                          Authenticated as <strong>{user.email}</strong> • Access Role: <span className="tag-pill" style={{ color: 'var(--accent-gold)', borderColor: 'var(--accent-gold)', background: 'transparent' }}>{user.role.toUpperCase()}</span>
+                        </p>
+                      </div>
+                      <div style={{ fontSize: '0.85rem', color: '#94A3B8' }}>
+                        User ID: <code>{user.id}</code>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="stats-cards-grid">
                     <div className="stat-card aura-card">
                       <div className="stat-icon-wrap"><Calendar size={22} /></div>
@@ -524,13 +618,17 @@ export const Admin: React.FC = () => {
                                 </span>
                               </td>
                               <td>
-                                <Button 
-                                  onClick={() => handleToggleInstructor(inst.id, inst.activeStatus)}
-                                  variant={inst.activeStatus ? 'outline' : 'yellow'} 
-                                  size="sm"
-                                >
-                                  {inst.activeStatus ? 'DEACTIVATE' : 'ACTIVATE'}
-                                </Button>
+                                {user.role === 'admin' ? (
+                                  <Button 
+                                    onClick={() => handleToggleInstructor(inst.id, inst.activeStatus)}
+                                    variant={inst.activeStatus ? 'outline' : 'yellow'} 
+                                    size="sm"
+                                  >
+                                    {inst.activeStatus ? 'DEACTIVATE' : 'ACTIVATE'}
+                                  </Button>
+                                ) : (
+                                  <span className="td-sub" style={{ fontStyle: 'italic' }}>Admin Only</span>
+                                )}
                               </td>
                             </tr>
                           ))}
@@ -574,13 +672,17 @@ export const Admin: React.FC = () => {
                                 </span>
                               </td>
                               <td>
-                                <Button 
-                                  onClick={() => handleToggleVehicle(veh.id, veh.activeStatus)}
-                                  variant={veh.activeStatus ? 'outline' : 'yellow'} 
-                                  size="sm"
-                                >
-                                  {veh.activeStatus ? 'DEACTIVATE' : 'ACTIVATE'}
-                                </Button>
+                                {user.role === 'admin' ? (
+                                  <Button 
+                                    onClick={() => handleToggleVehicle(veh.id, veh.activeStatus)}
+                                    variant={veh.activeStatus ? 'outline' : 'yellow'} 
+                                    size="sm"
+                                  >
+                                    {veh.activeStatus ? 'DEACTIVATE' : 'ACTIVATE'}
+                                  </Button>
+                                ) : (
+                                  <span className="td-sub" style={{ fontStyle: 'italic' }}>Admin Only</span>
+                                )}
                               </td>
                             </tr>
                           ))}
@@ -657,6 +759,157 @@ export const Admin: React.FC = () => {
                       ))}
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* TAB 7: DRIVING SCHOOL BUSINESS SETTINGS */}
+              {activeTab === 'settings' && (
+                <div className="tab-content">
+                  <div className="aura-card" style={{ padding: '2.5rem 2rem', maxWidth: '800px', margin: '0 auto' }}>
+                    <div className="settings-header" style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-light)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                        <Building size={24} style={{ color: 'var(--accent-gold)' }} />
+                        <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 800 }}>DRIVING SCHOOL BUSINESS PROFILE</h2>
+                      </div>
+                      <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.92rem' }}>
+                        Configure your driving school name, support contact details, primary address, and operating hours. 
+                        <em> (Note: Website SaaS platform branding remains <strong>Drivinity</strong> across global headers and footers).</em>
+                      </p>
+                    </div>
+
+                    {settingsSuccess && (
+                      <div className="success-alert-box" style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(34, 197, 94, 0.1)', border: '1px solid #22C55E', borderRadius: '8px', color: '#22C55E', fontWeight: 600 }}>
+                        <CheckCircle2 size={18} /> {settingsSuccess}
+                      </div>
+                    )}
+
+                    {settingsError && (
+                      <div className="error-alert-box" style={{ marginBottom: '1.5rem', padding: '1rem', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #EF4444', borderRadius: '8px', color: '#EF4444', fontWeight: 600 }}>
+                        <AlertCircle size={18} /> {settingsError}
+                      </div>
+                    )}
+
+                    <form onSubmit={handleSaveSchoolSettings} className="settings-form">
+                      <div className="form-group" style={{ marginBottom: '1.25rem' }}>
+                        <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', fontWeight: 700 }}>
+                          <Building size={16} style={{ color: 'var(--accent-gold)' }} /> Driving School Business Name
+                        </label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          value={schoolName}
+                          onChange={(e) => setSchoolName(e.target.value)}
+                          placeholder="e.g. Apex Auto Driving School"
+                          required
+                          style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}
+                        />
+                        <span style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '0.2rem', display: 'block' }}>
+                          This name will be displayed as your driving school business name across booking confirmations and customer communications.
+                        </span>
+                      </div>
+
+                      <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
+                        <div className="form-group">
+                          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', fontWeight: 700 }}>
+                            <Phone size={16} style={{ color: 'var(--accent-gold)' }} /> Support Phone Number
+                          </label>
+                          <input 
+                            type="text" 
+                            className="form-input" 
+                            value={schoolPhone}
+                            onChange={(e) => setSchoolPhone(e.target.value)}
+                            placeholder="e.g. 0412 345 678"
+                            required
+                            style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', fontWeight: 700 }}>
+                            <Mail size={16} style={{ color: 'var(--accent-gold)' }} /> Support Email Address
+                          </label>
+                          <input 
+                            type="email" 
+                            className="form-input" 
+                            value={schoolEmail}
+                            onChange={(e) => setSchoolEmail(e.target.value)}
+                            placeholder="e.g. contact@yourdrivingschool.com.au"
+                            required
+                            style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-group" style={{ marginBottom: '1.25rem' }}>
+                        <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem', fontWeight: 700 }}>
+                          <MapPin size={16} style={{ color: 'var(--accent-gold)' }} /> Business HQ Address & Locations
+                        </label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          value={schoolAddress}
+                          onChange={(e) => setSchoolAddress(e.target.value)}
+                          placeholder="e.g. Suite 100, Innovation Way, Sydney NSW Australia"
+                          required
+                          style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}
+                        />
+                      </div>
+
+                      <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
+                        <div className="form-group">
+                          <label className="form-label" style={{ marginBottom: '0.4rem', fontWeight: 700 }}>
+                            Operating Hours
+                          </label>
+                          <input 
+                            type="text" 
+                            className="form-input" 
+                            value={operatingHours}
+                            onChange={(e) => setOperatingHours(e.target.value)}
+                            placeholder="e.g. Mon – Sun: 7:00 AM – 7:00 PM"
+                            style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label className="form-label" style={{ marginBottom: '0.4rem', fontWeight: 700 }}>
+                            Service Area / Suburbs
+                          </label>
+                          <input 
+                            type="text" 
+                            className="form-input" 
+                            value={serviceArea}
+                            onChange={(e) => setServiceArea(e.target.value)}
+                            placeholder="e.g. Greater Sydney & Surrounding Suburbs"
+                            style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                        <label className="form-label" style={{ marginBottom: '0.4rem', fontWeight: 700 }}>
+                          School Tagline / Mission
+                        </label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          value={tagline}
+                          onChange={(e) => setTagline(e.target.value)}
+                          placeholder="e.g. Safe, structured driving instruction for Australian roads."
+                          style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}
+                        />
+                      </div>
+
+                      <Button 
+                        type="submit" 
+                        variant="yellow" 
+                        size="lg" 
+                        disabled={savingSettings || user.role !== 'admin'}
+                        style={{ width: '100%' }}
+                      >
+                        {savingSettings ? 'SAVING BUSINESS PROFILE...' : 'SAVE SCHOOL PROFILE & PUBLISH'}
+                      </Button>
+                    </form>
+                  </div>
                 </div>
               )}
             </>

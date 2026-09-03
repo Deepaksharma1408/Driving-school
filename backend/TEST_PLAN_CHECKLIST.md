@@ -1,6 +1,6 @@
 # 🧪 Booking Engine & Auth System Test Plan Checklist
 
-This document details the test scenarios and validation steps to verify the production-grade Conflict Prevention Booking Engine and JWT Authentication system for Canguruber Driving School.
+This document details the test scenarios and validation steps to verify the production-grade Conflict Prevention Booking Engine and JWT Authentication system for Drivinity Driving Academy.
 
 ---
 

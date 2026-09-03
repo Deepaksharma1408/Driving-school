@@ -14,6 +14,7 @@ import quizRouter from './routes/quiz.js';
 import notificationsRouter from './routes/notifications.js';
 import progressRouter from './routes/progress.js';
 import adminRouter from './routes/admin.js';
+import settingsRouter from './routes/settings.js';
 
 dotenv.config();
 
@@ -47,7 +48,7 @@ app.get('/', (_req: Request, res: Response) => {
 app.get('/api/health', (_req: Request, res: Response) => {
   res.json({
     status: 'healthy',
-    service: 'Canguruber Driving School API Backend',
+    service: 'Drivinity Driving Academy SaaS API Backend',
     timestamp: new Date().toISOString(),
     database: 'PostgreSQL',
     swaggerDocs: `http://localhost:${PORT}/api-docs`
@@ -63,8 +64,9 @@ app.use('/api/locations', locationsRouter);
 app.use('/api/content', contentRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/notifications', notificationsRouter);
-app.use('/api', progressRouter);
+app.use('/api/progress', progressRouter);
 app.use('/api', adminRouter);
+app.use('/api/settings', settingsRouter);
 
 // Global Error Handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
@@ -103,7 +105,7 @@ async function startServer() {
   initDailyReminderCron();
   app.listen(PORT, () => {
     console.log(`===================================================`);
-    console.log(`🚗 Canguruber Driving School Backend Running!`);
+    console.log(`🚗 Drivinity Driving Academy SaaS Backend Running!`);
     console.log(`🌐 Server URL: http://localhost:${PORT}`);
     console.log(`📚 Swagger UI: http://localhost:${PORT}/api-docs`);
     console.log(`⚡ Health Check: http://localhost:${PORT}/api/health`);

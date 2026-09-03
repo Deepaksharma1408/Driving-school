@@ -2,7 +2,7 @@
 
 ## Overview
 
-This directory contains the database schema migrations, seed scripts, and real notification integrations for the Canguruber Driving School REST API backend.
+This directory contains the database schema migrations, seed scripts, and real notification integrations for the Drivinity Driving Academy REST API backend.
 
 ---
 

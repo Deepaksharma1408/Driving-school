@@ -18,7 +18,7 @@ import {
   FAQS, 
   BLOG_ARTICLES, 
   BRAND_INFO, 
-  WHY_CANGURUBER 
+  WHY_CHOOSE_US 
 } from '../data/content';
 import { Button } from '../components/ui/Button';
 import { BlogCard } from '../components/ui/BlogCard';
@@ -66,7 +66,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
   ];
 
   return (
-    <div className="canguruber-exact-homepage">
+    <div className="drivinity-exact-homepage">
       {/* ============================================================
           1. EXACT HERO SECTION FROM SCREENSHOT
           ============================================================ */}
@@ -172,9 +172,9 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
       </section>
 
       {/* ============================================================
-          5. WHY CANGURUBER (LARGE NUMBERS 01 - 04)
+          5. WHY DRIVINITY (LARGE NUMBERS 01 - 04)
           ============================================================ */}
-      <section className="why-canguruber-section section-padding">
+      <section className="why-drivinity-section section-padding">
         <div className="container">
           <div className="section-header text-center">
             <div className="yellow-eyebrow-line center-eyebrow">
@@ -188,7 +188,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
           </div>
 
           <div className="grid-4 why-pillars-grid">
-            {WHY_CANGURUBER.map((item, idx) => (
+            {WHY_CHOOSE_US.map((item, idx) => (
               <div key={idx} className="why-pillar-card aura-card">
                 <span className="pillar-large-num">0{idx + 1}</span>
                 <h3 className="pillar-title">{item.title}</h3>
@@ -212,7 +212,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
       {/* ============================================================
           8. BLOG & ARTICLES ("ON THE ROAD.")
           ============================================================ */}
-      <section className="canguruber-blog-section section-padding">
+      <section className="drivinity-blog-section section-padding">
         <div className="container">
           <div className="services-exact-header-row">
             <div>
@@ -241,7 +241,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
       <CinematicFinalCTA />
 
       <style>{`
-        .canguruber-exact-homepage {
+        .drivinity-exact-homepage {
           background-color: var(--bg-warm-white);
           overflow-x: hidden;
         }
@@ -440,7 +440,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
           font-family: var(--font-display);
           font-weight: 800;
           font-size: 0.925rem;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
           text-decoration: underline;
           transition: color 0.2s;
         }
@@ -485,7 +485,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
           font-size: clamp(1.85rem, 5.5vw, 3.4rem);
           font-weight: 900;
           letter-spacing: -0.035em;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
           margin-bottom: 1.15rem;
           line-height: 1.05;
         }
@@ -513,7 +513,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
           gap: 0.5rem;
           font-size: 0.825rem;
           font-weight: 700;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
           background: var(--bg-warm-white);
           padding: 0.5rem 0.75rem;
           border-radius: var(--radius-md);
@@ -540,12 +540,12 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
         }
 
         /* Why Pillars */
-        .why-canguruber-section {
+        .why-drivinity-section {
           background-color: #FFFFFF;
           border-top: 1px solid var(--border-light);
         }
         @media (max-width: 768px) {
-          .why-canguruber-section {
+          .why-drivinity-section {
             padding-top: 3rem;
             padding-bottom: 3rem;
           }
@@ -554,7 +554,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
           font-size: clamp(1.85rem, 5vw, 3rem);
           font-weight: 900;
           letter-spacing: -0.03em;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
           line-height: 1.05;
           margin-bottom: 0.75rem;
         }
@@ -599,7 +599,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
           font-weight: 900;
           letter-spacing: -0.01em;
           margin-bottom: 0.5rem;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
         }
         .pillar-desc {
           font-size: 0.885rem;
@@ -607,12 +607,12 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
           line-height: 1.55;
         }
 
-        .canguruber-blog-section {
+        .drivinity-blog-section {
           background-color: #FFFFFF;
           border-top: 1px solid var(--border-light);
         }
         @media (max-width: 768px) {
-          .canguruber-blog-section {
+          .drivinity-blog-section {
             padding-top: 3rem;
             padding-bottom: 3rem;
           }

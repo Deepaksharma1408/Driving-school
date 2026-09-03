@@ -111,7 +111,7 @@ export const EditorialTestimonials: React.FC = () => {
                   <div className="card-bg-photo-layer">
                     <img 
                       src={bg} 
-                      alt="Confident student driver with Canguruber" 
+                      alt="Confident student driver with Drivinity" 
                       className="girl-driving-bg-img"
                       draggable={false}
                     />
@@ -162,7 +162,7 @@ export const EditorialTestimonials: React.FC = () => {
       <style>{`
         .editorial-testimonials-section {
           background-color: #FFFFFF;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
           border-top: 1px solid var(--border-light);
           border-bottom: 1px solid var(--border-light);
         }
@@ -186,7 +186,7 @@ export const EditorialTestimonials: React.FC = () => {
           font-size: clamp(1.75rem, 5.5vw, 3.2rem);
           font-weight: 900;
           letter-spacing: -0.035em;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
         }
         .section-header-row {
           display: flex;
@@ -218,9 +218,9 @@ export const EditorialTestimonials: React.FC = () => {
           }
         }
         .nav-arrow:hover {
-          background: var(--canguruber-yellow);
+          background: var(--accent-gold);
           color: #0A1420;
-          border-color: var(--canguruber-yellow);
+          border-color: var(--accent-gold);
           transform: translateY(-2px);
         }
 

@@ -9,12 +9,12 @@ const { Pool } = pg;
 
 // PostgreSQL pool configuration with env variables or standard defaults
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/canguruber_db',
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/drivinity_db',
   host: process.env.PGHOST || 'localhost',
   port: parseInt(process.env.PGPORT || '5432'),
   user: process.env.PGUSER || 'postgres',
   password: process.env.PGPASSWORD || 'postgres',
-  database: process.env.PGDATABASE || 'canguruber_db',
+  database: process.env.PGDATABASE || 'drivinity_db',
   max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 3000,
@@ -35,7 +35,16 @@ export const inMemoryStore = {
   progressSkills: [] as any[],
   studentProgress: [] as any[],
   badges: [] as any[],
-  studentBadges: [] as any[]
+  studentBadges: [] as any[],
+  businessSettings: {
+    schoolName: 'Drivinity Driving Academy',
+    phone: '1300 855 374',
+    email: 'contact@drivinity.com',
+    address: 'Suite 100, Innovation Way, Sydney NSW Australia',
+    operatingHours: 'Mon – Sun: 7:00 AM – 7:00 PM',
+    serviceArea: 'Greater Sydney & Surrounding NSW Service Centres',
+    tagline: 'Get your Australian driver\'s licence with confidence.'
+  }
 };
 
 export async function initDb(): Promise<void> {

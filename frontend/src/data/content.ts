@@ -1,31 +1,33 @@
-import {
-  ServiceItem,
-  BenefitItem,
-  AudienceItem,
-  TestimonialItem,
-  LocationItem,
-  FAQItem,
-  BlogArticle
+import { 
+  ServiceItem, 
+  BenefitItem, 
+  AudienceItem, 
+  TestimonialItem, 
+  LocationItem, 
+  FAQItem, 
+  BlogArticle 
 } from '../types';
 
+import siteConfig from '../config/siteConfig';
+
 export const BRAND_INFO = {
-  name: 'CANGURUBER',
-  subName: 'DRIVING SCHOOL',
-  fullName: 'Canguruber Driving School',
-  legalName: 'Canguruber Driving School NSW',
+  name: 'DRIVINITY',
+  subName: 'DRIVING ACADEMY',
+  fullName: 'Drivinity Driving Academy',
+  legalName: 'Drivinity Platform',
   tagline: 'Get your Australian driver\'s licence with confidence.',
-  phonePlaceholder: '+61 (02) 8000 XXXX',
-  emailPlaceholder: 'info@canguruberds.com.au',
+  phonePlaceholder: '1300 855 374',
+  emailPlaceholder: 'contact@drivinity.com',
   hoursPlaceholder: 'Mon – Sun: 7:00 AM – 7:00 PM',
   serviceArea: 'Greater Sydney & Surrounding NSW Service Centres',
   instructorPlaceholder: {
     name: 'Accredited Senior Instructor',
-    qualification: 'NSW Transport Certified Driving Instructor',
+    qualification: 'Certified Driving Instructor',
     experienceYears: '10+ Years Road Safety Experience',
-    bio: 'Dedicated to empowering learner drivers, nervous students, and overseas licence converters with patient, calm, and test-route mastered instruction across Sydney.'
+    bio: 'Dedicated to empowering learner drivers, nervous students, and overseas licence converters with patient, calm, and test-route mastered instruction.'
   },
   vehiclePlaceholder: {
-    model: 'Modern Automatic Training Vehicle',
+    model: 'Modern Dual-Control Training Vehicle',
     transmission: 'Automatic Transmission',
     safety: '5-Star ANCAP Safety Rating, Dual Controls, Reversing Camera, Blind-spot Assist',
     hygiene: 'Climate controlled, smoke-free, sanitized before every session'
@@ -60,36 +62,36 @@ export const SERVICES: ServiceItem[] = [
     slug: '/car-hire',
     image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
     highlights: [
-      'Service NSW compliant dual-control vehicle',
-      'Pre-test vehicle safety audit included',
-      'Instructor accompanies to test centre',
-      'Full commercial test insurance covered',
-      'No stress of your own car failing pre-test check'
+      'Service NSW test-ready dual-control vehicle',
+      'Instructor accompanying at test centre',
+      'Comprehensive insurance coverage included',
+      'Pre-test vehicle orientation',
+      'Pick-up & drop-off for test session'
     ],
     pricePlaceholder: '$XX / test session',
-    idealFor: 'Students taking their practical driving test at Service NSW'
+    idealFor: 'Learners taking their practical test without a suitable car'
   },
   {
     id: 'lesson-and-car',
     number: '03',
-    title: 'LESSON + CAR',
-    shortDesc: 'A final preparation lesson immediately followed by use of the training vehicle for your official practical driving test.',
-    badge: 'Preparation + test day',
+    title: 'LESSON + CAR PACKAGE',
+    shortDesc: 'The ultimate test-day package: a 45-60 minute warm-up lesson right before your test plus dual-control vehicle hire for the exam.',
+    badge: 'Most Popular',
     slug: '/lesson-and-car',
-    image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1200&q=80',
     highlights: [
-      '45 to 60-minute pre-test warm-up lesson',
-      'Mock test route practice near your test centre',
-      'Car hire for the official Service NSW test',
-      'Calming guidance & final manoeuvre tuning',
-      'Support before and after test results'
+      '45-60 min pre-test warmup session',
+      'Warm-up on actual test routes',
+      'Dual-control vehicle hire for the test',
+      'Instructor support at Service NSW desk',
+      'Full insurance & test day peace of mind'
     ],
-    pricePlaceholder: '$XX / complete package',
-    idealFor: 'Maximum confidence and highest probability of first-time pass'
+    pricePlaceholder: '$XX total package',
+    idealFor: 'Students wanting maximum confidence on test day'
   }
 ];
 
-export const WHY_CANGURUBER: BenefitItem[] = [
+export const WHY_CHOOSE_US = [
   {
     iconName: 'ShieldCheck',
     title: 'PERSONALISED TRAINING',
@@ -112,7 +114,7 @@ export const WHY_CANGURUBER: BenefitItem[] = [
   }
 ];
 
-export const WHY_CHOOSE_US = WHY_CANGURUBER;
+export const WHY_DRIVINITY = WHY_CHOOSE_US;
 
 export const LEARNING_AREAS = [
   {
@@ -184,18 +186,18 @@ export const PLACEHOLDER_REVIEWS: TestimonialItem[] = [
     locationTag: 'Overseas Conversion',
     rating: 5,
     serviceType: 'Driving Lesson',
-    reviewText: 'Converting my international licence was so easy with Canguruber. Clear explanations on roundabouts, blind spots, and NSW road rules.',
+    reviewText: 'Converting my international licence was so easy with Drivinity. Clear explanations on roundabouts, blind spots, and NSW road rules.',
     passStatus: 'Licence Converted',
     date: 'Recent Graduate'
   },
   {
     id: 'rev-03',
-    studentName: 'Daniel K.',
-    locationTag: 'Beginner Learner',
+    studentName: 'Michael K.',
+    locationTag: 'Botany Test Centre',
     rating: 5,
     serviceType: 'Driving Lesson',
-    reviewText: 'Extremely patient instructor. Reverse parallel parking and busy intersection right turns became second nature in just a few lessons.',
-    passStatus: 'P-Plates Achieved',
+    reviewText: 'My instructor was incredibly patient and knew every single trick of the test routes. Highly recommend to anyone nervous about their test.',
+    passStatus: 'Passed 1st Go',
     date: 'Recent Graduate'
   },
   {
@@ -251,12 +253,14 @@ export const TEST_LOCATIONS: LocationItem[] = [
   }
 ];
 
+export const SERVICE_LOCATIONS = TEST_LOCATIONS;
+
 export const FAQS: FAQItem[] = [
   {
     id: 'faq-01',
     category: 'lessons',
-    question: 'How many lessons should I take before my practical driving test?',
-    answer: 'The number of lessons depends on your previous driving experience and confidence. During your first session, your instructor assesses your skills and recommends a personalized lesson plan.'
+    question: 'How many lessons do I need before taking my driving test?',
+    answer: 'It depends on your current experience. Beginners typically take 5 to 10 structured lessons alongside home practice, while international licence holders usually need 2 to 4 test-route preparation lessons.'
   },
   {
     id: 'faq-02',
@@ -267,7 +271,7 @@ export const FAQS: FAQItem[] = [
   {
     id: 'faq-03',
     category: 'general',
-    question: 'How do I book a lesson with Canguruber?',
+    question: 'How do I book a lesson with Drivinity Driving Academy?',
     answer: 'You can book online directly through our booking page (/book) or get in touch via our contact page. Select your service, preferred test centre or location, and pick an available time window.'
   },
   {
@@ -291,7 +295,7 @@ export const FAQS: FAQItem[] = [
   {
     id: 'faq-07',
     category: 'international',
-    question: 'Can international licence holders take lessons with Canguruber?',
+    question: 'Can international licence holders take lessons with Drivinity Driving Academy?',
     answer: 'Yes! We specialize in overseas licence conversions. We focus on right-hand drive orientation, giving way rules, school zones, and specific Service NSW scoring criteria.'
   },
   {
@@ -323,7 +327,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     category: 'Driving Test',
     readTime: '5 min read',
     date: 'Updated for 2026',
-    author: 'Canguruber Instructor Team',
+    author: 'Drivinity Instructor Team',
     image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
     imagePosition: 'center 75%',
     imagePositionDesktop: 'center 75%',
@@ -345,7 +349,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     category: 'Test Preparation',
     readTime: '6 min read',
     date: 'Updated for 2026',
-    author: 'Canguruber Instructor Team',
+    author: 'Drivinity Instructor Team',
     image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=800&q=80',
     imagePosition: 'center 45%',
     imagePositionDesktop: 'center 45%',
@@ -367,7 +371,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     category: 'International Drivers',
     readTime: '7 min read',
     date: 'Updated for 2026',
-    author: 'Canguruber Instructor Team',
+    author: 'Drivinity Instructor Team',
     image: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80',
     imagePosition: 'center 75%',
     imagePositionDesktop: 'center 75%',
@@ -390,19 +394,20 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     category: 'Driving Tips',
     readTime: '4 min read',
     date: 'Updated for 2026',
-    author: 'Canguruber Instructor Team',
+    author: 'Drivinity Instructor Team',
     image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80',
     imagePosition: 'center 75%',
     imagePositionDesktop: 'center 75%',
-    imagePositionMobile: 'center 70%',
+    imagePositionMobile: 'center 75%',
     imageFit: 'cover',
-    imageBg: '#1B242D',
+    imageBg: '#192027',
     content: [
-      'Reverse parallel parking is a standard manoeuvre in the NSW driving test. Follow these steps:',
-      'Step 1: Pull up parallel to the target car, approximately 1 metre away, aligning your rear bumper with theirs.',
-      'Step 2: Check all mirrors and over-the-shoulder blind spots before putting the car in reverse.',
-      'Step 3: Turn the wheel full lock towards the kerb until your car is at a 45-degree angle.',
-      'Step 4: Straighten the wheels and reverse gently, then lock full opposite to glide smoothly into place.'
+      'Reverse parallel parking is a mandatory component of the NSW practical driving test.',
+      'Follow these 4 key reference points:',
+      '1. Parallel Alignment: Stop parallel to the target car in front, leaving approximately 1 metre space.',
+      '2. Initial Turn: Select Reverse, check all blind spots, and turn steering fully left until your car is at a 45-degree angle.',
+      '3. Straight Back: Straighten wheel and reverse straight back until your front bumper clears the rear bumper of the car ahead.',
+      '4. Final Tuck: Lock steering fully right and glide smoothly into the kerbside space.'
     ]
   }
 ];

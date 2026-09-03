@@ -304,7 +304,8 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
       token,
       user: {
         id: user.id,
-        fullName: user.fullName,
+        name: user.fullName || user.name,
+        fullName: user.fullName || user.name,
         email: user.email,
         phone: user.phone,
         role: user.role
@@ -339,6 +340,7 @@ router.get('/me', authenticateToken, async (req: AuthenticatedRequest, res: Resp
         success: true,
         user: {
           id: row.id,
+          name: row.full_name,
           fullName: row.full_name,
           email: row.email,
           phone: row.phone,
@@ -356,7 +358,8 @@ router.get('/me', authenticateToken, async (req: AuthenticatedRequest, res: Resp
         success: true,
         user: {
           id: user.id,
-          fullName: user.fullName,
+          name: user.fullName || user.name,
+          fullName: user.fullName || user.name,
           email: user.email,
           phone: user.phone,
           role: user.role,

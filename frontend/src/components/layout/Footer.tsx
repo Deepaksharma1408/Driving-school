@@ -15,7 +15,7 @@ import {
 import { BRAND_INFO, SERVICES, TEST_LOCATIONS } from '../../data/content';
 
 export const Footer: React.FC = () => {
-  const savedSettings = localStorage.getItem('canguruber_business_settings');
+  const savedSettings = localStorage.getItem('drivinity_business_settings');
   const businessInfo = savedSettings ? JSON.parse(savedSettings) : {
     phone: BRAND_INFO.phonePlaceholder,
     email: BRAND_INFO.emailPlaceholder,
@@ -36,9 +36,9 @@ export const Footer: React.FC = () => {
             <div className="brand-outro-lockup">
               <Link to="/" className="brand-outro-logo">
                 <span className="brand-outro-main">
-                  CANGURU<span className="brand-outro-gold">BER</span>
+                  DRIVIN<span className="brand-outro-gold">ITY</span>
                 </span>
-                <span className="brand-outro-sub">DRIVING SCHOOL // NSW</span>
+                <span className="brand-outro-sub">DRIVING ACADEMY // NSW</span>
               </Link>
               <p className="brand-outro-tagline">
                 Premier automotive driver academy in Greater Sydney. Developing calm, defensive, and test-ready motorists for Australian roads.
@@ -98,7 +98,7 @@ export const Footer: React.FC = () => {
               <span className="col-eyebrow">COMPANY</span>
               <ul className="directory-links-list">
                 <li>
-                  <Link to="/about" className="directory-link">About Canguruber</Link>
+                  <Link to="/about" className="directory-link">About Drivinity</Link>
                 </li>
                 <li>
                   <Link to="/faq" className="directory-link">Frequently Asked Questions</Link>

@@ -154,9 +154,9 @@ export async function runSeeds(): Promise<boolean> {
     // 3. Initial Users Seed
     const defaultPasswordHash = bcrypt.hashSync('admin123', 10);
     const initialUsers = [
-      { id: 'usr-admin-01', fullName: 'Head Instructor (Admin)', email: 'admin@canguruber.com.au', phone: '0400000000', passwordHash: defaultPasswordHash, role: 'admin' },
-      { id: 'usr-inst-01', fullName: 'John Doe', email: 'john.d@canguruber.com.au', phone: '0411222333', passwordHash: defaultPasswordHash, role: 'instructor' },
-      { id: 'usr-inst-02', fullName: 'Maria Santos', email: 'maria.s@canguruber.com.au', phone: '0422333444', passwordHash: defaultPasswordHash, role: 'instructor' },
+      { id: 'usr-admin-01', fullName: 'Head Instructor (Admin)', email: 'admin@drivinity.com', phone: '0400000000', passwordHash: defaultPasswordHash, role: 'admin' },
+      { id: 'usr-inst-01', fullName: 'John Doe', email: 'john.d@drivinity.com', phone: '0411222333', passwordHash: defaultPasswordHash, role: 'instructor' },
+      { id: 'usr-inst-02', fullName: 'Maria Santos', email: 'maria.s@drivinity.com', phone: '0422333444', passwordHash: defaultPasswordHash, role: 'instructor' },
       { id: 'usr-stud-01', fullName: 'Alex Smith', email: 'alex.s@gmail.com', phone: '0433444555', passwordHash: defaultPasswordHash, role: 'student' },
       { id: 'usr-stud-02', fullName: 'Sam Wilson', email: 'sam.w@gmail.com', phone: '0444555666', passwordHash: defaultPasswordHash, role: 'student' }
     ];

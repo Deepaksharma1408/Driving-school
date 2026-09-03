@@ -18,7 +18,7 @@ export const RunningCarVisual: React.FC = () => {
           poster="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1000&q=80"
         >
           <source src="/videos/gerte_an_vedio_ofa_moving_car.mp4" type="video/mp4" />
-          <source src="/videos/canguruber-hero-driving.mp4" type="video/mp4" />
+          <source src="/videos/drivinity-hero-driving.mp4" type="video/mp4" />
           <source src="https://assets.mixkit.co/videos/preview/mixkit-driving-down-a-coastal-road-42861-large.mp4" type="video/mp4" />
         </video>
 

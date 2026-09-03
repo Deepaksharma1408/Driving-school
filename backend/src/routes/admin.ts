@@ -106,7 +106,7 @@ router.get('/instructors', authenticateToken, requireRole('admin', 'instructor')
       const userMap = new Map(inMemoryStore.users.map(u => [u.id, u]));
 
       const data = inMemoryStore.instructors.map(i => {
-        const u = userMap.get(i.userId) || { fullName: 'Instructor User', email: 'instructor@apexdriving.com', phone: '1300 855 374' };
+        const u = userMap.get(i.userId) || { fullName: 'Instructor User', email: 'instructor@drivinity.com', phone: '1300 855 374' };
         const todayBookingsCount = inMemoryStore.bookings.filter(b => b.instructorId === i.id && b.date === today).length;
         return {
           id: i.id,

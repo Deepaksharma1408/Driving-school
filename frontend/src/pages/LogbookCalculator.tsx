@@ -57,7 +57,7 @@ export const LogbookCalculator: React.FC = () => {
         <PageHeader 
           tag="NSW TRANSPORT LOGBOOK ASSISTANT"
           title="120-HOUR LOGBOOK & 3-FOR-1 CALCULATOR."
-          subtitle="Please log in to calculate your real logbook hours based on your verified Canguruber driving sessions."
+          subtitle="Please log in to calculate your real logbook hours based on your verified driving sessions."
           breadcrumb="Logbook Calculator"
         />
         <section className="section-padding">

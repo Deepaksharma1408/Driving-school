@@ -7,26 +7,26 @@ import {
   BookOpen, 
   Sparkles 
 } from 'lucide-react';
-import { WHY_CANGURUBER } from '../../data/content';
+import { WHY_CHOOSE_US } from '../../data/content';
 
 export const WhyChooseUs: React.FC = () => {
   return (
     <section className="why-us-section section-padding">
       <div className="container">
         <div className="section-header text-center">
-          <span className="pill-badge gold">SECTION 07 // WHY CANGURUBER</span>
+          <span className="pill-badge gold">SECTION 07 // WHY CHOOSE US</span>
           <h2 className="section-title mega-headline">CONFIDENCE ON THE ROAD.</h2>
           <p className="section-subtitle">
             Structured driving instruction designed to build calm instincts, eliminate test anxiety, and ensure you are genuinely ready for Australian roads.
           </p>
         </div>
 
-        <div className="why-canguruber-grid">
-          {WHY_CANGURUBER.map((item, idx) => (
+        <div className="why-us-grid">
+          {WHY_CHOOSE_US.map((item, idx) => (
             <div key={idx} className="why-number-card aura-card">
               <div className="why-card-top">
                 <span className="large-num-accent">0{idx + 1}</span>
-                <span className="num-dot-tag">CANGURUBER PILLAR</span>
+                <span className="num-dot-tag">ACADEMY PILLAR</span>
               </div>
               <h3 className="why-number-title">{item.title}</h3>
               <p className="why-number-desc">{item.description}</p>
@@ -41,19 +41,19 @@ export const WhyChooseUs: React.FC = () => {
           border-top: 1px solid var(--border-light);
           border-bottom: 1px solid var(--border-light);
         }
-        .why-canguruber-grid {
+        .why-us-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 1.75rem;
           margin-top: 2rem;
         }
         @media (max-width: 1024px) {
-          .why-canguruber-grid {
+          .why-us-grid {
             grid-template-columns: repeat(2, 1fr);
           }
         }
         @media (max-width: 640px) {
-          .why-canguruber-grid {
+          .why-us-grid {
             grid-template-columns: 1fr;
           }
         }

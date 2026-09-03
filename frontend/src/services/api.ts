@@ -1,4 +1,4 @@
-// API Client for Canguruber Driving School Backend
+// API Client for Apex Driving Academy SaaS Backend
 
 const API_BASE_URL = '/api';
 
@@ -143,6 +143,49 @@ export async function loginUser(email: string, password: string) {
 
 export async function loginAdmin(email: string, password: string) {
   return loginUser(email, password);
+}
+
+export async function fetchCurrentUser(token: string) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/me`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    return await res.json();
+  } catch (err: any) {
+    console.error('Error fetching current user profile:', err);
+    return { success: false, error: 'Network error fetching current user profile' };
+  }
+}
+
+export async function fetchSchoolSettings() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/settings`);
+    const data = await res.json();
+    return data.success ? data.data : null;
+  } catch (err) {
+    console.error('Error fetching school settings:', err);
+    return null;
+  }
+}
+
+export async function updateSchoolSettings(payload: any, token: string) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/settings`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
+  } catch (err: any) {
+    console.error('Error updating school settings:', err);
+    return { success: false, error: 'Network error updating school settings' };
+  }
 }
 
 export async function registerStudent(payload: { fullName: string; email: string; password: string; phone?: string }) {

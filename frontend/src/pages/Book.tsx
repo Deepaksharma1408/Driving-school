@@ -90,13 +90,13 @@ export const Book: React.FC = () => {
   };
 
   const downloadICalFile = () => {
-    const title = `Canguruber Driving Session: ${selectedServiceObj.title}`;
-    const description = `Driving Lesson / Test Hire with Canguruber Driving School at ${selectedLocationObj.name}. Reference ID: ${bookingRef || 'BOOK-CONFIRMED'}`;
+    const title = `Drivinity Driving Session: ${selectedServiceObj.title}`;
+    const description = `Driving Lesson / Test Hire with Drivinity Driving Academy at ${selectedLocationObj.name}. Reference ID: ${bookingRef || 'BOOK-CONFIRMED'}`;
     const locationName = selectedLocationObj.name;
 
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Canguruber Driving School//EN
+PRODID:-//Drivinity Driving Academy//EN
 BEGIN:VEVENT
 SUMMARY:${title}
 DESCRIPTION:${description}
@@ -109,7 +109,7 @@ END:VCALENDAR`;
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `canguruber-booking-${bookingRef || 'session'}.ics`);
+    link.setAttribute('download', `drivinity-booking-${bookingRef || 'session'}.ics`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

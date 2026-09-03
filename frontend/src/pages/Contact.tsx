@@ -17,7 +17,7 @@ import { Button } from '../components/ui/Button';
 import { submitContact } from '../services/api';
 
 export const Contact: React.FC = () => {
-  const savedSettings = localStorage.getItem('canguruber_business_settings');
+  const savedSettings = localStorage.getItem('drivinity_business_settings');
   const businessInfo = savedSettings ? JSON.parse(savedSettings) : {
     phone: BRAND_INFO.phonePlaceholder,
     email: BRAND_INFO.emailPlaceholder,

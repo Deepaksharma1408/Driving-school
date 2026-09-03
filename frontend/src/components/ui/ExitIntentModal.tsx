@@ -17,21 +17,21 @@ export const ExitIntentModal: React.FC = () => {
   const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
-    const hasSeenModal = sessionStorage.getItem('canguruber_exit_modal_shown');
+    const hasSeenModal = sessionStorage.getItem('drivinity_exit_modal_shown');
     if (hasSeenModal) return;
 
     // Trigger on mouse exit intent or after 12 seconds
     const timer = setTimeout(() => {
-      if (!sessionStorage.getItem('canguruber_exit_modal_shown')) {
+      if (!sessionStorage.getItem('drivinity_exit_modal_shown')) {
         setIsOpen(true);
-        sessionStorage.setItem('canguruber_exit_modal_shown', 'true');
+        sessionStorage.setItem('drivinity_exit_modal_shown', 'true');
       }
     }, 12000);
 
     const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 10 && !sessionStorage.getItem('canguruber_exit_modal_shown')) {
+      if (e.clientY <= 10 && !sessionStorage.getItem('drivinity_exit_modal_shown')) {
         setIsOpen(true);
-        sessionStorage.setItem('canguruber_exit_modal_shown', 'true');
+        sessionStorage.setItem('drivinity_exit_modal_shown', 'true');
       }
     };
 
@@ -72,7 +72,7 @@ export const ExitIntentModal: React.FC = () => {
             <span className="pill-badge accent">SPECIAL LEARNER OFFER</span>
             <h2 className="exit-title">WAIT! CLAIM $20 OFF YOUR FIRST LESSON BLOCK!</h2>
             <p className="exit-desc">
-              Don't leave empty handed! Enter your email to unlock an instant <strong>$20 Discount Voucher Code</strong> for Canguruber Driving School packages.
+              Don't leave empty handed! Enter your email to unlock an instant <strong>$20 Discount Voucher Code</strong> for driving lesson packages.
             </p>
 
             <form onSubmit={handleClaimDiscount} className="exit-form">

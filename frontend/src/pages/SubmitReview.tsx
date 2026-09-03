@@ -39,7 +39,7 @@ export const SubmitReview: React.FC = () => {
       <PageHeader 
         tag="STUDENT SUCCESS WALL"
         title="SUBMIT YOUR PASS STORY & REVIEW."
-        subtitle="Did you recently pass your Service NSW Practical Driving Test with Canguruber? Share your experience with future learners!"
+        subtitle="Did you recently pass your Service NSW Practical Driving Test with Apex Driving Academy? Share your experience with future learners!"
         breadcrumb="Submit Review"
       />
 

@@ -1,9 +1,9 @@
 export const swaggerDocument = {
   openapi: '3.0.0',
   info: {
-    title: '🚗 Canguruber Driving School REST API',
+    title: '🚗 Drivinity Driving Academy REST API',
     version: '1.3.0',
-    description: 'Official interactive API documentation for Canguruber Driving School (NSW, Australia). Features JWT auth, conflict-free booking engine, PostgreSQL persistence, and Admin Management Portal.'
+    description: 'Official interactive API documentation for Drivinity Driving Academy SaaS Platform. Features JWT auth, conflict-free booking engine, PostgreSQL persistence, and Admin Management Portal.'
   },
   servers: [
     {
@@ -68,7 +68,7 @@ export const swaggerDocument = {
                 type: 'object',
                 required: ['email', 'password'],
                 properties: {
-                  email: { type: 'string', example: 'admin@apexdriving.com' },
+                  email: { type: 'string', example: 'admin@drivinity.com' },
                   password: { type: 'string', example: 'admin123' }
                 }
               }

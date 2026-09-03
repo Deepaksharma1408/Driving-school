@@ -31,7 +31,7 @@ export const Referral: React.FC = () => {
     setTimeout(() => setIsCopied(false), 3000);
   };
 
-  const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(`Hey! Use my referral link to get $20 OFF your driving lessons with Canguruber Driving School: ${generatedLink}`)}`;
+  const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(`Hey! Use my referral link to get $20 OFF your driving lessons with Apex Driving Academy: ${generatedLink}`)}`;
 
   return (
     <div className="referral-page">

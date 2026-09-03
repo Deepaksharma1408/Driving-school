@@ -17,7 +17,7 @@ export const About: React.FC = () => {
   return (
     <div className="about-page">
       <PageHeader 
-        tag="ABOUT CANGURUBER"
+        tag="ABOUT DRIVINITY DRIVING ACADEMY"
         title="DEDICATED TO SAFER ROADS AND CONFIDENT DRIVERS."
         subtitle="We combine structured NSW driver training with a calm, patient, and modern approach so you can master Australian driving without stress."
         breadcrumb="About Us"
@@ -51,7 +51,7 @@ export const About: React.FC = () => {
               <h2 className="section-title">A PATIENT, PROFESSIONAL APPROACH TO DRIVING.</h2>
               
               <p className="story-p">
-                At Canguruber Driving School, we believe learning to drive should not be an anxiety-inducing ordeal. Whether you are getting behind the wheel for the first time or transitioning your overseas driving experience to Australian roads, our goal is to build long-term confidence and safe defensive habits.
+                At Apex Driving Academy, we believe learning to drive should not be an anxiety-inducing ordeal. Whether you are getting behind the wheel for the first time or transitioning your overseas driving experience to Australian roads, our goal is to build long-term confidence and safe defensive habits.
               </p>
 
               <p className="story-p">

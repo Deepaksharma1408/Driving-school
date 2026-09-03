@@ -1,7 +1,7 @@
 {
-  "name": "canguruber-backend",
+  "name": "drivinity-backend",
   "version": "1.0.0",
-  "description": "Express + PostgreSQL REST API backend for Canguruber Driving School",
+  "description": "Express + PostgreSQL REST API backend for Driving School SaaS Platform",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {

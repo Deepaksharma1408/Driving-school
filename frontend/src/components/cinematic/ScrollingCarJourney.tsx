@@ -78,7 +78,7 @@ export const ScrollingCarJourney: React.FC = () => {
               playsInline
             >
               <source src="/videos/gerte_an_vedio_ofa_moving_car.mp4" type="video/mp4" />
-              <source src="/videos/canguruber-hero-driving.mp4" type="video/mp4" />
+              <source src="/videos/drivinity-hero-driving.mp4" type="video/mp4" />
             </video>
             <div className="track-road-dark-scrim" />
             <div className="road-center-stripe" />
@@ -135,7 +135,7 @@ export const ScrollingCarJourney: React.FC = () => {
 
             <div className="spotlight-action">
               <Button to={`/book?stage=${current.label.toLowerCase()}`} variant="yellow" size="lg" icon={<ArrowRight size={16} />}>
-                BOOK THIS STAGE WITH CANGURUBER
+                BOOK THIS STAGE WITH DRIVINITY
               </Button>
             </div>
           </div>
@@ -145,7 +145,7 @@ export const ScrollingCarJourney: React.FC = () => {
       <style>{`
         .scrolling-car-journey-section {
           background-color: #FFFFFF;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
           border-top: 1px solid var(--border-light);
           border-bottom: 1px solid var(--border-light);
         }
@@ -170,7 +170,7 @@ export const ScrollingCarJourney: React.FC = () => {
           font-weight: 900;
           letter-spacing: -0.03em;
           line-height: 1.05;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
           margin-bottom: 0.75rem;
         }
         .text-yellow-highlight {

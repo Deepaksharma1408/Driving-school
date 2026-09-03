@@ -1,5 +1,5 @@
 -- Migration 001: Initial Schema
--- Creates initial core tables for Canguruber Driving School
+-- Creates initial core tables for Drivinity Driving Academy
 
 CREATE TABLE IF NOT EXISTS bookings (
   id VARCHAR(50) PRIMARY KEY,

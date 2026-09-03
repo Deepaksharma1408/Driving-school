@@ -60,16 +60,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
 
   return (
     <>
-      <header className={`canguruber-exact-header ${isScrolled ? 'is-scrolled' : ''}`}>
+      <header className={`drivinity-exact-header ${isScrolled ? 'is-scrolled' : ''}`}>
         <div className="container-wide">
           <nav className="header-nav-row">
             {/* Exact Brand Logo from Screenshot */}
             <Link to="/" className="brand-logo-exact">
               <div className="logo-text-wrap">
                 <span className="logo-main">
-                  CANGURU<span className="logo-highlight">BER</span>
+                  DRIVIN<span className="logo-highlight">ITY</span>
                 </span>
-                <span className="logo-sub">DRIVING SCHOOL</span>
+                <span className="logo-sub">DRIVING ACADEMY</span>
               </div>
             </Link>
 
@@ -290,17 +290,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
       )}
 
       <style>{`
-        .canguruber-exact-header {
+        .drivinity-exact-header {
           position: sticky;
           top: 0;
           left: 0;
           right: 0;
-          z-index: 200;
+          z-index: 999;
           background: #FFFFFF;
           border-bottom: 1px solid rgba(0, 0, 0, 0.06);
           transition: all 0.3s ease;
         }
-        .canguruber-exact-header.is-scrolled {
+        .drivinity-exact-header.is-scrolled {
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
         .header-nav-row {
@@ -416,7 +416,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
         .dropdown-link strong {
           font-family: var(--font-display);
           font-size: 0.85rem;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
         }
         .dropdown-link span {
           font-size: 0.75rem;
@@ -429,7 +429,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
         }
         .dropdown-link.view-all span {
           font-weight: 800;
-          color: var(--canguruber-navy);
+          color: var(--drivinity-navy);
         }
 
         /* Language & Theme Controls */

@@ -1,6 +1,6 @@
-# 🚗 CANGURUBER DRIVING SCHOOL — Official Web Application
+# 🚗 DRIVINITY DRIVING ACADEMY — Official Web Application
 
-A cinematic, modern, editorial web application built for **Canguruber Driving School (NSW, Australia)**. Designed with award-level automotive aesthetics, live driving video motion, interactive journey tracking, structured service presentation, and a multi-step booking engine.
+A cinematic, modern, editorial web application built for **Drivinity Driving Academy (NSW, Australia)**. Designed with award-level automotive aesthetics, live driving video motion, interactive journey tracking, structured service presentation, and a multi-step booking engine.
 
 ---
 
@@ -100,4 +100,4 @@ A cinematic, modern, editorial web application built for **Canguruber Driving Sc
 
 ## 📄 License & Ownership
 
-Copyright © 2026 Canguruber Driving School. All rights reserved. Registered NSW Driving School.
+Copyright © 2026 Drivinity Driving Academy. All rights reserved. Registered NSW Driving School.

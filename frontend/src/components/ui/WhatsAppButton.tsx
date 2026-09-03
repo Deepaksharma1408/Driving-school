@@ -2,7 +2,7 @@ import React from 'react';
 import { MessageCircle } from 'lucide-react';
 
 export const WhatsAppButton: React.FC = () => {
-  const savedSettings = localStorage.getItem('canguruber_business_settings');
+  const savedSettings = localStorage.getItem('drivinity_business_settings');
   const businessInfo = savedSettings ? JSON.parse(savedSettings) : { phone: '0412345678' };
 
   let cleanPhone = (businessInfo.phone || '0412345678').replace(/[^0-9]/g, '');
@@ -10,7 +10,7 @@ export const WhatsAppButton: React.FC = () => {
     cleanPhone = '61' + cleanPhone.slice(1);
   }
 
-  const message = encodeURIComponent('Hi Canguruber Driving School! I want to inquire about booking a driving lesson or test car hire.');
+  const message = encodeURIComponent('Hi Apex Driving Academy! I want to inquire about booking a driving lesson or test car hire.');
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${message}`;
 
   return (
@@ -20,7 +20,7 @@ export const WhatsAppButton: React.FC = () => {
         target="_blank" 
         rel="noopener noreferrer"
         className="whatsapp-float-btn"
-        title="Chat live with Canguruber on WhatsApp"
+        title="Chat live on WhatsApp"
         aria-label="Chat on WhatsApp"
       >
         <MessageCircle size={24} fill="#FFFFFF" color="#25D366" />

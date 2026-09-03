@@ -66,7 +66,7 @@ export const AIChatbotWidget: React.FC = () => {
       } else if (lower.includes('price') || lower.includes('cost') || lower.includes('package') || lower.includes('fees')) {
         botResponseText = "Standard 1-hour driving lessons are $95. Our popular 3-Lesson Combo is $270, and Test Day Car Hire + Warmup is $220. Check our /services page for all package details!";
       } else if (lower.includes('logbook') || lower.includes('hours') || lower.includes('3 for 1') || lower.includes('3-for-1')) {
-        botResponseText = "Under Transport for NSW rules, 1 hour with a licensed Canguruber instructor equals 3 logbook hours! You can credit up to 30 hours towards your 120-hour logbook requirement. Try our interactive calculator at /logbook!";
+        botResponseText = "Under Transport for NSW rules, 1 hour with a licensed driving instructor equals 3 logbook hours! You can credit up to 30 hours towards your 120-hour logbook requirement. Try our interactive calculator at /logbook!";
       } else if (lower.includes('book') || lower.includes('appointment') || lower.includes('schedule')) {
         botResponseText = "You can instantly reserve your preferred date, time slot, and test centre using our online booking wizard at /book!";
       }
