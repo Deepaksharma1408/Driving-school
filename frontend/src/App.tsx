@@ -4,8 +4,6 @@ import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { StudentPortalModal } from './components/layout/StudentPortalModal';
 import { ArticleModal } from './components/layout/ArticleModal';
-import { WhatsAppButton } from './components/ui/WhatsAppButton';
-import { AIChatbotWidget } from './components/ui/AIChatbotWidget';
 import { ExitIntentModal } from './components/ui/ExitIntentModal';
 
 // Pages
@@ -99,8 +97,6 @@ export const App: React.FC = () => {
         />
 
         {/* Global Floating Widgets & Lead Magnets */}
-        <WhatsAppButton />
-        <AIChatbotWidget />
         <ExitIntentModal />
       </div>
 
