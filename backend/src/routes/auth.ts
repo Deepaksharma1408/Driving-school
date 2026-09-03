@@ -269,7 +269,9 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
           role: row.role
         };
       }
-    } else {
+    }
+
+    if (!user) {
       user = inMemoryStore.users.find(u => u.email.toLowerCase() === lowerEmail);
     }
 

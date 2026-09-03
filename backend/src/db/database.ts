@@ -1,4 +1,5 @@
 import pg from 'pg';
+import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import { runMigrations } from './migrate.js';
 import { runSeeds } from './seed.js';
@@ -25,13 +26,24 @@ export const pool = new Pool({
 
 export let isPgConnected = false;
 
+const defaultAdminPasswordHash = bcrypt.hashSync('admin123', 10);
+
 // Fallback in-memory data store in case local PostgreSQL DB service is not actively running
 export const inMemoryStore = {
   bookings: [] as any[],
   contactInquiries: [] as any[],
-  users: [] as any[],
-  instructors: [] as any[],
-  vehicles: [] as any[],
+  users: [
+    { id: 'usr-admin-01', fullName: 'Head Instructor (Admin)', email: 'admin@drivinity.com', phone: '0400000000', passwordHash: defaultAdminPasswordHash, role: 'admin' },
+    { id: 'usr-admin-02', fullName: 'Head Instructor (Admin Legacy)', email: 'admin@canguruber.com.au', phone: '0400000000', passwordHash: defaultAdminPasswordHash, role: 'admin' },
+    { id: 'usr-inst-01', fullName: 'John Doe', email: 'john.d@drivinity.com', phone: '0411222333', passwordHash: defaultAdminPasswordHash, role: 'instructor' },
+    { id: 'usr-stud-01', fullName: 'Alex Smith', email: 'alex.s@gmail.com', phone: '0433444555', passwordHash: defaultAdminPasswordHash, role: 'student' }
+  ] as any[],
+  instructors: [
+    { id: 'inst-01', userId: 'usr-inst-01', licenseNumber: 'NSW-INST-8821', transmissionTypes: ['automatic', 'manual'], activeStatus: true, todayBookingsCount: 0 }
+  ] as any[],
+  vehicles: [
+    { id: 'veh-01', registrationNumber: 'DRV-990-NSW', transmission: 'automatic', instructorId: 'inst-01', instructorName: 'John Doe', activeStatus: true, todayBookingsCount: 0 }
+  ] as any[],
   progressSkills: [] as any[],
   studentProgress: [] as any[],
   badges: [] as any[],
