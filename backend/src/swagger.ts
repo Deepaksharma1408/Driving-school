@@ -2,8 +2,8 @@ export const swaggerDocument = {
   openapi: '3.0.0',
   info: {
     title: '🚗 Canguruber Driving School REST API',
-    version: '1.0.0',
-    description: 'Official interactive API documentation for Canguruber Driving School (NSW, Australia). Powered by Express, TypeScript, and PostgreSQL.'
+    version: '1.3.0',
+    description: 'Official interactive API documentation for Canguruber Driving School (NSW, Australia). Features JWT auth, conflict-free booking engine, PostgreSQL persistence, and Admin Management Portal.'
   },
   servers: [
     {
@@ -13,11 +13,10 @@ export const swaggerDocument = {
   ],
   tags: [
     { name: 'Health', description: 'System health check endpoints' },
-    { name: 'Bookings', description: 'Driving session and test car hire booking management' },
-    { name: 'Contact Inquiries', description: 'Student & instructor contact form submissions' },
-    { name: 'Services', description: 'Driving lesson packages & pricing' },
-    { name: 'Test Locations', description: 'Service NSW test centres and available time slots' },
-    { name: 'Content & Statistics', description: 'Verified student reviews and pass statistics' }
+    { name: 'Authentication', description: 'User registration, login, and profile retrieval' },
+    { name: 'Bookings & Availability', description: 'Driving session booking, conflict checking, auto-assignment, and schedule availability' },
+    { name: 'Admin & Operations', description: 'Staff dashboard metrics, instructor roster, fleet management, and student directory' },
+    { name: 'Contact Inquiries', description: 'Student & instructor contact form submissions' }
   ],
   paths: {
     '/api/health': {
@@ -25,218 +24,161 @@ export const swaggerDocument = {
         tags: ['Health'],
         summary: 'Check API server health status',
         responses: {
-          '200': {
-            description: 'Server is healthy and reachable',
-            content: {
-              'application/json': {
-                example: {
-                  status: 'healthy',
-                  service: 'Canguruber Driving School API Backend',
-                  timestamp: '2026-08-26T06:30:00.000Z',
-                  database: 'PostgreSQL'
-                }
-              }
-            }
-          }
+          '200': { description: 'Server is healthy and reachable' }
         }
       }
     },
-    '/api/bookings': {
+    '/api/auth/register': {
       post: {
-        tags: ['Bookings'],
-        summary: 'Create a new driving lesson or car hire booking',
+        tags: ['Authentication'],
+        summary: 'Register a new student user account',
         requestBody: {
           required: true,
           content: {
             'application/json': {
               schema: {
                 type: 'object',
-                required: ['fullName', 'email', 'phone', 'date', 'timeSlot'],
+                required: ['fullName', 'email', 'password'],
                 properties: {
-                  serviceId: { type: 'string', example: 'driving-lesson' },
-                  locationId: { type: 'string', example: 'loc-01' },
-                  transmission: { type: 'string', example: 'automatic' },
-                  date: { type: 'string', example: '2026-09-15' },
-                  timeSlot: { type: 'string', example: '09:30 AM - 11:00 AM' },
                   fullName: { type: 'string', example: 'Alex Smith' },
-                  email: { type: 'string', example: 'alex@example.com' },
-                  phone: { type: 'string', example: '0412345678' },
-                  licenceType: { type: 'string', example: 'NSW Learner Licence' },
-                  pickupAddress: { type: 'string', example: '124 Botany Rd, Mascot' },
-                  notes: { type: 'string', example: 'Prefer morning drive' }
+                  email: { type: 'string', example: 'alex.s@gmail.com' },
+                  password: { type: 'string', example: 'securepassword123' },
+                  phone: { type: 'string', example: '0412345678' }
                 }
               }
             }
           }
         },
         responses: {
-          '201': {
-            description: 'Booking created successfully',
-            content: {
-              'application/json': {
-                example: {
-                  success: true,
-                  message: 'Booking created successfully!',
-                  bookingId: 'BOOK-473276-968',
-                  data: {
-                    id: 'BOOK-473276-968',
-                    serviceId: 'driving-lesson',
-                    fullName: 'Alex Smith',
-                    email: 'alex@example.com',
-                    status: 'confirmed'
-                  }
-                }
-              }
-            }
-          },
-          '400': { description: 'Missing required booking fields' }
-        }
-      },
-      get: {
-        tags: ['Bookings'],
-        summary: 'Retrieve all bookings',
-        parameters: [
-          { name: 'status', in: 'query', schema: { type: 'string' }, description: 'Filter by status (confirmed, pending, cancelled)' },
-          { name: 'email', in: 'query', schema: { type: 'string' }, description: 'Filter by student email address' }
-        ],
-        responses: {
-          '200': {
-            description: 'List of bookings returned successfully'
-          }
+          '201': { description: 'User account created and JWT token issued' },
+          '400': { description: 'Validation error' },
+          '409': { description: 'Email address already exists' }
         }
       }
     },
-    '/api/bookings/{id}': {
-      get: {
-        tags: ['Bookings'],
-        summary: 'Get single booking by ID',
-        parameters: [
-          { name: 'id', in: 'path', required: true, schema: { type: 'string' }, example: 'BOOK-473276-968' }
-        ],
-        responses: {
-          '200': { description: 'Booking detail' },
-          '404': { description: 'Booking not found' }
-        }
-      }
-    },
-    '/api/bookings/{id}/status': {
-      patch: {
-        tags: ['Bookings'],
-        summary: 'Update booking status',
-        parameters: [
-          { name: 'id', in: 'path', required: true, schema: { type: 'string' }, example: 'BOOK-473276-968' }
-        ],
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  status: { type: 'string', example: 'confirmed' }
-                }
-              }
-            }
-          }
-        },
-        responses: {
-          '200': { description: 'Status updated' },
-          '404': { description: 'Booking not found' }
-        }
-      }
-    },
-    '/api/contact': {
+    '/api/auth/login': {
       post: {
-        tags: ['Contact Inquiries'],
-        summary: 'Submit a new contact form inquiry',
+        tags: ['Authentication'],
+        summary: 'Authenticate against users table & receive signed JWT',
         requestBody: {
           required: true,
           content: {
             'application/json': {
               schema: {
                 type: 'object',
-                required: ['name', 'email', 'message'],
+                required: ['email', 'password'],
                 properties: {
-                  name: { type: 'string', example: 'Sarah Connor' },
-                  email: { type: 'string', example: 'sarah@example.com' },
-                  phone: { type: 'string', example: '0488776655' },
-                  suburb: { type: 'string', example: 'Marrickville' },
-                  serviceInterest: { type: 'string', example: 'car-hire-test' },
-                  message: { type: 'string', example: 'I have a test scheduled next Tuesday at Botany Service NSW.' }
+                  email: { type: 'string', example: 'admin@apexdriving.com' },
+                  password: { type: 'string', example: 'admin123' }
                 }
               }
             }
           }
         },
         responses: {
-          '201': { description: 'Inquiry submitted successfully' },
-          '400': { description: 'Missing required fields' }
-        }
-      },
-      get: {
-        tags: ['Contact Inquiries'],
-        summary: 'List all submitted contact inquiries',
-        responses: {
-          '200': { description: 'List of inquiries' }
+          '200': { description: 'Login successful, returns JWT bearer token' },
+          '401': { description: 'Invalid email address or password' }
         }
       }
     },
-    '/api/services': {
+    '/api/admin/stats': {
       get: {
-        tags: ['Services'],
-        summary: 'Fetch all driving lesson packages and car hire services',
+        tags: ['Admin & Operations'],
+        summary: 'Overview dashboard metrics & status breakdown (Admin & Instructor)',
+        security: [{ bearerAuth: [] }],
         responses: {
-          '200': { description: 'List of available services' }
+          '200': { description: 'Summary statistics returned successfully' },
+          '401': { description: 'Unauthorized' },
+          '403': { description: 'Forbidden role' }
         }
       }
     },
-    '/api/services/{id}': {
+    '/api/instructors': {
       get: {
-        tags: ['Services'],
-        summary: 'Fetch single service detail',
-        parameters: [
-          { name: 'id', in: 'path', required: true, schema: { type: 'string' }, example: 'driving-lesson' }
-        ],
+        tags: ['Admin & Operations'],
+        summary: 'List all instructors with today booking counts (Admin & Instructor)',
+        security: [{ bearerAuth: [] }],
         responses: {
-          '200': { description: 'Service details' },
-          '404': { description: 'Service not found' }
+          '200': { description: 'Instructor list returned' },
+          '401': { description: 'Unauthorized' }
         }
       }
     },
-    '/api/locations': {
-      get: {
-        tags: ['Test Locations'],
-        summary: 'Fetch all Service NSW test centres covered',
+    '/api/instructors/{id}': {
+      patch: {
+        tags: ['Admin & Operations'],
+        summary: 'Toggle instructor active status (Admin Only)',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['activeStatus'],
+                properties: { activeStatus: { type: 'boolean', example: false } }
+              }
+            }
+          }
+        },
         responses: {
-          '200': { description: 'List of test locations' }
+          '200': { description: 'Instructor active status updated' },
+          '403': { description: 'Forbidden: Admin role required' }
         }
       }
     },
-    '/api/locations/timeslots': {
+    '/api/vehicles': {
       get: {
-        tags: ['Test Locations'],
-        summary: 'Fetch available booking time slots',
+        tags: ['Admin & Operations'],
+        summary: 'List all fleet vehicles with assigned instructors (Admin & Instructor)',
+        security: [{ bearerAuth: [] }],
         responses: {
-          '200': { description: 'List of time slots' }
+          '200': { description: 'Vehicle list returned' }
         }
       }
     },
-    '/api/content/reviews': {
-      get: {
-        tags: ['Content & Statistics'],
-        summary: 'Fetch verified student reviews and rating breakdown',
+    '/api/vehicles/{id}': {
+      patch: {
+        tags: ['Admin & Operations'],
+        summary: 'Toggle vehicle active status (Admin Only)',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['activeStatus'],
+                properties: { activeStatus: { type: 'boolean', example: false } }
+              }
+            }
+          }
+        },
         responses: {
-          '200': { description: 'List of reviews' }
+          '200': { description: 'Vehicle active status updated' },
+          '403': { description: 'Forbidden: Admin role required' }
         }
       }
     },
-    '/api/content/stats': {
+    '/api/admin/students': {
       get: {
-        tags: ['Content & Statistics'],
-        summary: 'Fetch academy pass rate and student statistics',
+        tags: ['Admin & Operations'],
+        summary: 'List student users with total booking counts (Admin & Instructor)',
+        security: [{ bearerAuth: [] }],
         responses: {
-          '200': { description: 'Statistics summary' }
+          '200': { description: 'Student directory returned' }
         }
+      }
+    }
+  },
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
       }
     }
   }

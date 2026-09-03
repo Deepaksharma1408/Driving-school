@@ -1,11 +1,11 @@
-import { 
-  ServiceItem, 
-  BenefitItem, 
-  AudienceItem, 
-  TestimonialItem, 
-  LocationItem, 
-  FAQItem, 
-  BlogArticle 
+import {
+  ServiceItem,
+  BenefitItem,
+  AudienceItem,
+  TestimonialItem,
+  LocationItem,
+  FAQItem,
+  BlogArticle
 } from '../types';
 
 export const BRAND_INFO = {

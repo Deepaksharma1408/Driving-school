@@ -1,122 +1,152 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Award, 
   CheckCircle2, 
   Lock, 
   Sparkles, 
   ShieldCheck, 
-  Moon, 
-  Car, 
-  TrendingUp, 
-  Download 
+  Clock, 
+  UserCheck,
+  ArrowRight
 } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader';
 import { Button } from '../components/ui/Button';
+import { useAuth } from '../context/AuthContext';
+import { fetchAllBadges, fetchStudentBadges } from '../services/api';
 
 export const Badges: React.FC = () => {
-  const BADGES_DATA = [
-    {
-      id: 'bdg-1',
-      title: 'First Reverse Park Mastered',
-      category: 'Maneuver Mastery',
-      unlocked: true,
-      desc: 'Completed perfect kerbside parallel parking on Service NSW test route without touching kerb.',
-      icon: <Car size={24} />
-    },
-    {
-      id: 'bdg-2',
-      title: 'Night Driving Hero',
-      category: 'Night Operations',
-      unlocked: true,
-      desc: 'Completed 20 required night driving logbook hours in sunset & dark conditions.',
-      icon: <Moon size={24} />
-    },
-    {
-      id: 'bdg-3',
-      title: '3-for-1 Bonus Credit Unlocked',
-      category: 'NSW Logbook',
-      unlocked: true,
-      desc: 'Completed 10 structured instructor lessons, unlocking 30 credit hours.',
-      icon: <Award size={24} />
-    },
-    {
-      id: 'bdg-4',
-      title: 'Mock Test Auditor 100%',
-      category: 'Test Prep',
-      unlocked: true,
-      desc: 'Passed pre-test audit drive at Botany Service NSW test center with zero critical errors.',
-      icon: <ShieldCheck size={24} />
-    },
-    {
-      id: 'bdg-5',
-      title: 'Highway Merging Champion',
-      category: 'Advanced Driving',
-      unlocked: false,
-      desc: 'Mastered 90 km/h highway merging on M5 motorway.',
-      icon: <TrendingUp size={24} />
-    },
-    {
-      id: 'bdg-6',
-      title: 'NSW P1 Licence Passed!',
-      category: 'Final Graduation',
-      unlocked: false,
-      desc: 'Passed practical drive test and received official P1 Provisional licence.',
-      icon: <Sparkles size={24} />
-    }
-  ];
+  const { user, token, isAuthenticated } = useAuth();
 
-  const unlockedCount = BADGES_DATA.filter(b => b.unlocked).length;
+  const [allBadges, setAllBadges] = useState<any[]>([]);
+  const [earnedBadges, setEarnedBadges] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadBadgesData() {
+      setLoading(true);
+      try {
+        const systemBadges = await fetchAllBadges();
+        setAllBadges(systemBadges || []);
+
+        if (isAuthenticated && user && token) {
+          const studentBadges = await fetchStudentBadges(user.id, token);
+          setEarnedBadges(studentBadges || []);
+        }
+      } catch (err) {
+        console.error('Error loading badges:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadBadgesData();
+  }, [user, token, isAuthenticated]);
+
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="badges-page">
+        <PageHeader 
+          tag="GAMIFIED LEARNING PORTAL"
+          title="STUDENT ACHIEVEMENT BADGES & MILESTONES."
+          subtitle="Please log in to view your unlocked driver achievement badges."
+          breadcrumb="Student Badges"
+        />
+        <section className="section-padding">
+          <div className="container" style={{ maxWidth: '600px', textAlign: 'center' }}>
+            <div className="aura-card" style={{ padding: '3rem 2rem' }}>
+              <UserCheck size={48} style={{ color: 'var(--accent-gold)', marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>Student Login Required</h3>
+              <p style={{ color: '#64748B', marginBottom: '2rem', lineHeight: '1.6' }}>
+                Log in to view your earned badges, milestone progress, and graduation achievement status.
+              </p>
+              <Button to="/admin" variant="yellow" size="lg" icon={<ArrowRight size={18} />}>
+                LOGIN TO VIEW BADGES
+              </Button>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  const earnedBadgeIds = new Set(earnedBadges.map(b => b.badgeId || b.id));
+  const earnedMap = new Map(earnedBadges.map(b => [b.badgeId || b.id, b]));
+
+  const totalBadgesCount = allBadges.length || 5;
+  const unlockedCount = earnedBadges.length;
 
   return (
     <div className="badges-page">
       <PageHeader 
         tag="GAMIFIED LEARNING PORTAL"
         title="STUDENT ACHIEVEMENT BADGES & MILESTONES."
-        subtitle="Track your driving progress, earn milestone badges, and download your Canguruber graduation certificate!"
+        subtitle={`Track your driving milestones, earn achievement badges, and unlock graduation rewards (${user.fullName}).`}
         breadcrumb="Student Badges"
       />
 
       <section className="section-padding">
         <div className="container">
-          {/* Progress Header Box */}
-          <div className="badges-progress-card aura-card" style={{ marginBottom: '2.5rem' }}>
-            <div className="progress-top-row">
-              <div>
-                <span className="pill-badge accent">LEVEL 3 LEARNER</span>
-                <h3 className="prog-title">Achievement Progress: {unlockedCount} / {BADGES_DATA.length} Badges Unlocked</h3>
-              </div>
-              <Button to="/book" variant="yellow" size="md">
-                CONTINUE LESSONS
-              </Button>
+          {loading ? (
+            <div className="aura-card" style={{ padding: '3rem', textAlign: 'center', color: '#64748B' }}>
+              <Clock size={32} className="spinning" style={{ marginBottom: '1rem', color: 'var(--accent-gold)' }} />
+              <p>Fetching your earned achievement badges...</p>
             </div>
-
-            <div className="bar-bg">
-              <div className="bar-fill" style={{ width: `${(unlockedCount / BADGES_DATA.length) * 100}%` }} />
-            </div>
-          </div>
-
-          {/* Badges Grid */}
-          <div className="badges-grid">
-            {BADGES_DATA.map((b) => (
-              <div key={b.id} className={`badge-item-card aura-card ${b.unlocked ? 'unlocked' : 'locked'}`}>
-                <div className="badge-icon-badge">
-                  {b.unlocked ? b.icon : <Lock size={20} />}
+          ) : (
+            <>
+              {/* Progress Header Box */}
+              <div className="badges-progress-card aura-card" style={{ marginBottom: '2.5rem' }}>
+                <div className="progress-top-row">
+                  <div>
+                    <span className="pill-badge accent">VERIFIED MILESTONES</span>
+                    <h3 className="prog-title">
+                      Achievement Progress: {unlockedCount} of {totalBadgesCount} Badges Unlocked
+                    </h3>
+                  </div>
+                  <Button to="/book" variant="yellow" size="md">
+                    CONTINUE LESSONS
+                  </Button>
                 </div>
 
-                <span className="badge-cat">{b.category}</span>
-                <h4 className="badge-name">{b.title}</h4>
-                <p className="badge-desc">{b.desc}</p>
-
-                <div className="badge-status-tag">
-                  {b.unlocked ? (
-                    <span className="status-unlocked">UNLOCKED ✓</span>
-                  ) : (
-                    <span className="status-locked">LOCKED 🔒</span>
-                  )}
+                <div className="bar-bg">
+                  <div className="bar-fill" style={{ width: `${totalBadgesCount > 0 ? (unlockedCount / totalBadgesCount) * 100 : 0}%` }} />
                 </div>
               </div>
-            ))}
-          </div>
+
+              {/* Badges Grid */}
+              <div className="badges-grid">
+                {allBadges.map((badge) => {
+                  const isUnlocked = earnedBadgeIds.has(badge.id);
+                  const earnedInfo = earnedMap.get(badge.id);
+
+                  return (
+                    <div key={badge.id} className={`badge-item-card aura-card ${isUnlocked ? 'unlocked' : 'locked'}`}>
+                      <div className="badge-icon-badge">
+                        {isUnlocked ? (
+                          <span className="emoji-icon">{badge.icon || '🏆'}</span>
+                        ) : (
+                          <Lock size={22} />
+                        )}
+                      </div>
+
+                      <span className="badge-cat">{badge.category || 'Competency'}</span>
+                      <h4 className="badge-name">{badge.name}</h4>
+                      <p className="badge-desc">{badge.description}</p>
+
+                      <div className="badge-status-tag">
+                        {isUnlocked ? (
+                          <span className="status-unlocked">
+                            UNLOCKED ✓ {earnedInfo?.earnedAt ? `(${new Date(earnedInfo.earnedAt).toLocaleDateString()})` : ''}
+                          </span>
+                        ) : (
+                          <span className="status-locked">LOCKED 🔒 (NOT YET EARNED)</span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       </section>
 
@@ -175,7 +205,7 @@ export const Badges: React.FC = () => {
         }
         .badge-item-card.locked {
           opacity: 0.65;
-          filter: grayscale(0.8);
+          filter: grayscale(0.85);
         }
         .badge-icon-badge {
           width: 64px;
@@ -187,6 +217,9 @@ export const Badges: React.FC = () => {
           align-items: center;
           justify-content: center;
           margin-bottom: 1.25rem;
+        }
+        .emoji-icon {
+          font-size: 2rem;
         }
         .badge-item-card.locked .badge-icon-badge {
           background: #FAFAF8;
@@ -220,7 +253,7 @@ export const Badges: React.FC = () => {
           font-weight: 900;
           color: #16A34A;
           background: rgba(22, 163, 74, 0.15);
-          padding: 0.2rem 0.65rem;
+          padding: 0.25rem 0.65rem;
           border-radius: var(--radius-full);
         }
         .status-locked {
@@ -228,10 +261,12 @@ export const Badges: React.FC = () => {
           font-weight: 900;
           color: #64748B;
           background: #FAFAF8;
-          padding: 0.2rem 0.65rem;
+          padding: 0.25rem 0.65rem;
           border-radius: var(--radius-full);
         }
       `}</style>
     </div>
   );
 };
+
+export default Badges;

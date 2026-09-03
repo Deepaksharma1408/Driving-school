@@ -1,276 +1,396 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
-  Eye, 
   ShieldCheck, 
   Car, 
   Sparkles, 
-  HelpCircle, 
   CheckCircle2, 
   ArrowRight,
-  Info
+  Clock,
+  Calendar,
+  Award,
+  BookOpen,
+  UserCheck,
+  AlertCircle
 } from 'lucide-react';
 import { PageHeader } from '../components/layout/PageHeader';
 import { Button } from '../components/ui/Button';
+import { useAuth } from '../context/AuthContext';
+import { fetchBookings, fetchStudentProgress, fetchStudentBadges } from '../services/api';
 
 export const Cockpit: React.FC = () => {
-  const [activeSpot, setActiveSpot] = useState<string | null>('pedals');
+  const { user, token, isAuthenticated } = useAuth();
 
-  const HOTSPOTS: { [key: string]: { title: string; subtitle: string; desc: string; tips: string[] } } = {
-    pedals: {
-      title: 'Dual-Control Passenger Safety Pedals',
-      subtitle: 'Instructor Emergency Brake & Clutch',
-      desc: 'Your Canguruber instructor has an auxiliary dual-brake pedal on the passenger side. If you ever hesitate or face an unexpected hazard, your instructor can safely stop the vehicle instantly.',
-      tips: [
-        'Zero stress: Your instructor always has full braking capability.',
-        'RMS Approved dual-control setup in all vehicles.'
-      ]
-    },
-    steering: {
-      title: 'Steering Wheel & Hand Position',
-      subtitle: '9 and 3 o\'clock Grip Position',
-      desc: 'Transport for NSW examiners evaluate smooth pull-push steering without crossing arms awkwardly during turns.',
-      tips: [
-        'Keep hands at 9 and 3 o\'clock positions.',
-        'Use smooth pull-push technique when taking tight roundabouts.'
-      ]
-    },
-    gear: {
-      title: 'Automatic Gear Shifter',
-      subtitle: 'P - R - N - D Shift Operations',
-      desc: 'Dual-control Toyota Corolla & Mazda 3 vehicles feature smooth automatic transmissions with Park, Reverse, Neutral, and Drive modes.',
-      tips: [
-        'Ensure foot is firmly on brake pedal before shifting into Drive.',
-        'Check rear mirrors before engaging Reverse gear.'
-      ]
-    },
-    mirrors: {
-      title: 'Rear Vision & Side Mirrors',
-      subtitle: '5-Second Head Checks & Blind Spots',
-      desc: 'Examiners check whether you perform shoulder head checks before merging or changing lanes.',
-      tips: [
-        'Perform head shoulder checks before pulling out from the kerb.',
-        'Check rear vision mirror every 8-10 seconds.'
-      ]
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [skills, setSkills] = useState<any[]>([]);
+  const [badges, setBadges] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadDashboardData() {
+      if (!isAuthenticated || !user || !token) {
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const [bookingsData, progressData, badgesData] = await Promise.all([
+          fetchBookings(user.email, token),
+          fetchStudentProgress(user.id, token),
+          fetchStudentBadges(user.id, token)
+        ]);
+
+        const today = new Date().toISOString().split('T')[0];
+        const upcoming = (bookingsData || []).filter(
+          (b: any) => (b.status === 'confirmed' || b.status === 'pending') && (b.date >= today)
+        );
+
+        setBookings(upcoming);
+        setSkills(progressData || []);
+        setBadges(badgesData || []);
+      } catch (err) {
+        console.error('Error loading dashboard data:', err);
+      } finally {
+        setLoading(false);
+      }
     }
-  };
 
-  const currentInfo = activeSpot ? HOTSPOTS[activeSpot] : HOTSPOTS['pedals'];
+    loadDashboardData();
+  }, [user, token, isAuthenticated]);
+
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="cockpit-page">
+        <PageHeader 
+          tag="STUDENT COMMAND COCKPIT"
+          title="YOUR PERSONAL DRIVING DASHBOARD."
+          subtitle="Please log in to view your upcoming lesson schedule, logbook progress, and earned driver badges."
+          breadcrumb="Student Dashboard"
+        />
+        <section className="section-padding">
+          <div className="container" style={{ maxWidth: '600px', textAlign: 'center' }}>
+            <div className="aura-card" style={{ padding: '3rem 2rem' }}>
+              <UserCheck size={48} style={{ color: 'var(--accent-gold)', marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>Student Login Required</h3>
+              <p style={{ color: '#64748B', marginBottom: '2rem', lineHeight: '1.6' }}>
+                Access your personalized NSW driving progress, scheduled instructor sessions, and competency badges.
+              </p>
+              <Button to="/admin" variant="yellow" size="lg" icon={<ArrowRight size={18} />}>
+                LOGIN TO STUDENT PORTAL
+              </Button>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  const masteredCount = skills.filter(s => s.status === 'mastered').length;
+  const inProgressCount = skills.filter(s => s.status === 'in_progress').length;
+  const totalSkills = skills.length || 8;
+  const progressPercent = Math.round((masteredCount / totalSkills) * 100);
 
   return (
     <div className="cockpit-page">
       <PageHeader 
-        tag="INTERACTIVE CABIN SIMULATOR"
-        title="360° VEHICLE COCKPIT & CONTROLS."
-        subtitle="Explore the interior controls of our dual-control Toyota Corolla before your first driving lesson!"
-        breadcrumb="Cockpit Simulator"
+        tag={`WELCOME BACK, ${user.fullName.toUpperCase()}`}
+        title="STUDENT COMMAND COCKPIT & PROGRESS."
+        subtitle="Track real-time upcoming bookings, master NSW driving competencies, and view your earned milestone badges."
+        breadcrumb="Student Dashboard"
       />
 
       <section className="section-padding">
         <div className="container">
-          <div className="cockpit-grid">
-            {/* Visual Cabin Container */}
-            <div className="cabin-visual-card aura-card dark-theme">
-              <div className="cabin-top-bar">
-                <span className="pill-badge accent">CLICK HOTSPOTS TO EXPLORE</span>
-                <span className="car-model-tag">2025 Toyota Corolla Dual-Control</span>
-              </div>
+          {loading ? (
+            <div className="aura-card" style={{ padding: '3rem', textAlign: 'center', color: '#64748B' }}>
+              <Clock size={32} className="spinning" style={{ marginBottom: '1rem', color: 'var(--accent-gold)' }} />
+              <p>Loading your student dashboard data...</p>
+            </div>
+          ) : (
+            <div className="dashboard-grid">
+              {/* Left Column: Progress & Bookings */}
+              <div className="main-dash-col">
+                {/* Overall Competency Metric */}
+                <div className="aura-card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+                  <div className="dash-card-header">
+                    <div>
+                      <span className="pill-badge accent">NSW DRIVER COMPETENCY</span>
+                      <h3 style={{ fontSize: '1.5rem', marginTop: '0.5rem' }}>
+                        Skill Mastery: {masteredCount} of {totalSkills} Completed
+                      </h3>
+                    </div>
+                    <span className="mastery-percent">{progressPercent}%</span>
+                  </div>
 
-              {/* Interactive Cabin Graphic */}
-              <div className="cabin-graphic-container">
-                <div className="windshield-view">
-                  <span>ROAD AHEAD • SERVICE NSW TEST ROUTE</span>
+                  <div className="progress-bar-bg" style={{ margin: '1.25rem 0 1rem 0' }}>
+                    <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }} />
+                  </div>
+
+                  <div className="skills-summary-pills">
+                    <span className="status-pill mastered"><CheckCircle2 size={14} /> {masteredCount} Mastered</span>
+                    <span className="status-pill in-progress"><Clock size={14} /> {inProgressCount} In Progress</span>
+                    <span className="status-pill not-started">{totalSkills - (masteredCount + inProgressCount)} Pending</span>
+                  </div>
                 </div>
 
-                {/* Hotspot 1: Steering */}
-                <button 
-                  className={`hotspot-pin steering ${activeSpot === 'steering' ? 'active' : ''}`}
-                  onClick={() => setActiveSpot('steering')}
-                >
-                  <Eye size={16} />
-                  <span>Steering</span>
-                </button>
+                {/* Upcoming Bookings Card */}
+                <div className="aura-card" style={{ padding: '2rem' }}>
+                  <div className="dash-card-header">
+                    <div>
+                      <span className="pill-badge accent">SCHEDULED LESSONS</span>
+                      <h3 style={{ fontSize: '1.4rem', marginTop: '0.5rem' }}>Upcoming Driving Sessions</h3>
+                    </div>
+                    <Button to="/book" variant="outline" size="sm">BOOK NEW LESSON</Button>
+                  </div>
 
-                {/* Hotspot 2: Dual Pedals */}
-                <button 
-                  className={`hotspot-pin pedals ${activeSpot === 'pedals' ? 'active' : ''}`}
-                  onClick={() => setActiveSpot('pedals')}
-                >
-                  <ShieldCheck size={16} />
-                  <span>Dual Pedals</span>
-                </button>
+                  {bookings.length === 0 ? (
+                    <div className="empty-state-box">
+                      <Calendar size={32} style={{ color: '#94A3B8', marginBottom: '0.75rem' }} />
+                      <p>You have no upcoming driving lessons scheduled.</p>
+                      <Button to="/book" variant="yellow" size="sm" style={{ marginTop: '1rem' }}>
+                        SCHEDULE YOUR NEXT SESSION
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="bookings-list">
+                      {bookings.map((booking: any) => (
+                        <div key={booking.id} className="booking-dash-item">
+                          <div className="booking-date-badge">
+                            <Calendar size={18} style={{ color: 'var(--accent-gold)' }} />
+                            <span>{booking.date}</span>
+                          </div>
+                          <div className="booking-details">
+                            <strong>{booking.timeSlot}</strong>
+                            <span className="booking-sub">
+                              {booking.serviceId === 'car-hire-test' ? 'Service NSW Test Day Car Hire' : 'Structured Driving Lesson'} • {booking.transmission.toUpperCase()}
+                            </span>
+                            {booking.pickupAddress && (
+                              <span className="booking-address">📍 Pickup: {booking.pickupAddress}</span>
+                            )}
+                          </div>
+                          <span className="booking-status-tag confirmed">{booking.status.toUpperCase()}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
 
-                {/* Hotspot 3: Gear Shifter */}
-                <button 
-                  className={`hotspot-pin gear ${activeSpot === 'gear' ? 'active' : ''}`}
-                  onClick={() => setActiveSpot('gear')}
-                >
-                  <Car size={16} />
-                  <span>Shifter</span>
-                </button>
+              {/* Right Column: Skills Detail & Badges */}
+              <div className="side-dash-col">
+                {/* Earned Badges Showcase */}
+                <div className="aura-card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+                  <div className="dash-card-header">
+                    <div>
+                      <span className="pill-badge accent">ACHIEVEMENTS</span>
+                      <h3 style={{ fontSize: '1.25rem', marginTop: '0.35rem' }}>Earned Badges ({badges.length})</h3>
+                    </div>
+                    <Link to="/badges" style={{ fontSize: '0.85rem', color: 'var(--accent-gold)', fontWeight: 700 }}>
+                      View All →
+                    </Link>
+                  </div>
 
-                {/* Hotspot 4: Mirrors */}
-                <button 
-                  className={`hotspot-pin mirrors ${activeSpot === 'mirrors' ? 'active' : ''}`}
-                  onClick={() => setActiveSpot('mirrors')}
-                >
-                  <Eye size={16} />
-                  <span>Mirrors</span>
-                </button>
+                  {badges.length === 0 ? (
+                    <div className="empty-state-box" style={{ padding: '1.5rem' }}>
+                      <Award size={28} style={{ color: '#94A3B8', marginBottom: '0.5rem' }} />
+                      <p style={{ fontSize: '0.85rem' }}>Master driving skills during lessons to unlock achievement badges!</p>
+                    </div>
+                  ) : (
+                    <div className="mini-badges-grid">
+                      {badges.map((b: any) => (
+                        <div key={b.id} className="mini-badge-card">
+                          <span className="badge-icon-lg">{b.icon}</span>
+                          <div>
+                            <strong>{b.name}</strong>
+                            <p>{b.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Skills Progress Checklist */}
+                <div className="aura-card" style={{ padding: '2rem' }}>
+                  <span className="pill-badge accent">NSW COMPETENCIES</span>
+                  <h3 style={{ fontSize: '1.25rem', marginTop: '0.35rem', marginBottom: '1rem' }}>Key Driving Skills</h3>
+
+                  {skills.length === 0 ? (
+                    <p style={{ fontSize: '0.85rem', color: '#64748B' }}>No skill evaluations recorded yet.</p>
+                  ) : (
+                    <div className="skills-checklist">
+                      {skills.map((sk: any) => (
+                        <div key={sk.skillId} className="skill-check-item">
+                          <div className="skill-info">
+                            <span className="skill-cat">{sk.category}</span>
+                            <strong>{sk.skillName}</strong>
+                            {sk.instructorNotes && <p className="notes-text">"{sk.instructorNotes}"</p>}
+                          </div>
+                          <span className={`skill-status-tag ${sk.status}`}>
+                            {sk.status === 'mastered' ? 'MASTERED' : sk.status === 'in_progress' ? 'IN PROGRESS' : 'NOT STARTED'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-
-            {/* Explanation Drawer */}
-            <div className="cockpit-drawer-card aura-card">
-              <span className="pill-badge accent">CONTROL EXPLANATION</span>
-              <h3 className="drawer-title">{currentInfo.title}</h3>
-              <span className="drawer-sub">{currentInfo.subtitle}</span>
-
-              <p className="drawer-desc">{currentInfo.desc}</p>
-
-              <div className="tips-box">
-                <strong>💡 Test Day Inspection Tips:</strong>
-                <ul>
-                  {currentInfo.tips.map((tip, i) => (
-                    <li key={i}>{tip}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="drawer-cta-box">
-                <Button to="/book" variant="yellow" size="lg" icon={<ArrowRight size={16} />} style={{ width: '100%' }}>
-                  BOOK LESSON IN THIS VEHICLE
-                </Button>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
       <style>{`
-        .cockpit-grid {
+        .dashboard-grid {
           display: grid;
           grid-template-columns: 1.2fr 0.8fr;
           gap: 2rem;
         }
         @media (max-width: 900px) {
-          .cockpit-grid { grid-template-columns: 1fr; }
+          .dashboard-grid { grid-template-columns: 1fr; }
         }
 
-        .cabin-visual-card {
-          padding: 1.5rem;
-          min-height: 440px;
-          display: flex;
-          flex-direction: column;
-        }
-        .cabin-top-bar {
+        .dash-card-header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 1.5rem;
         }
-        .car-model-tag {
-          font-size: 0.775rem;
-          font-weight: 700;
-          color: #94A3B8;
-        }
-
-        .cabin-graphic-container {
-          flex: 1;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: var(--radius-lg);
-          position: relative;
-          min-height: 320px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .windshield-view {
-          width: 80%;
-          height: 120px;
-          border-radius: var(--radius-md);
-          background: linear-gradient(180deg, rgba(37, 99, 235, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 0.75rem;
-          font-weight: 800;
-          color: #94A3B8;
-          letter-spacing: 0.06em;
+        .mastery-percent {
+          font-family: var(--font-display);
+          font-size: 2rem;
+          font-weight: 900;
+          color: var(--accent-gold);
         }
 
-        .hotspot-pin {
-          position: absolute;
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-          padding: 0.45rem 0.85rem;
-          border-radius: var(--radius-full);
-          background: #07131D;
-          border: 1.5px solid var(--accent-gold);
-          color: #FFFFFF;
-          font-size: 0.75rem;
-          font-weight: 800;
-          cursor: pointer;
-          transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        .progress-bar-bg {
+          width: 100%;
+          height: 10px;
+          background: #E2DFD6;
+          border-radius: 99px;
+          overflow: hidden;
         }
-        .hotspot-pin:hover, .hotspot-pin.active {
+        .progress-bar-fill {
+          height: 100%;
           background: var(--accent-gold);
-          color: #07131D;
-          transform: scale(1.1);
+          border-radius: 99px;
+          transition: width 0.4s ease;
         }
 
-        .hotspot-pin.steering { top: 40%; left: 25%; }
-        .hotspot-pin.pedals { bottom: 20%; right: 30%; }
-        .hotspot-pin.gear { bottom: 25%; left: 45%; }
-        .hotspot-pin.mirrors { top: 20%; right: 15%; }
+        .skills-summary-pills {
+          display: flex;
+          gap: 0.75rem;
+          flex-wrap: wrap;
+        }
+        .status-pill {
+          font-size: 0.775rem;
+          font-weight: 800;
+          padding: 0.3rem 0.75rem;
+          border-radius: var(--radius-full);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+        }
+        .status-pill.mastered { background: rgba(22, 163, 74, 0.15); color: #16A34A; }
+        .status-pill.in-progress { background: rgba(217, 119, 6, 0.15); color: #D97706; }
+        .status-pill.not-started { background: #F1F5F9; color: #64748B; }
 
-        .cockpit-drawer-card {
-          padding: 2.25rem;
+        .empty-state-box {
+          background: #FAFAF8;
+          border: 1px solid var(--border-light);
+          padding: 2rem;
+          border-radius: var(--radius-md);
+          text-align: center;
+          margin-top: 1.25rem;
+        }
+
+        .bookings-list {
           display: flex;
           flex-direction: column;
+          gap: 1rem;
+          margin-top: 1.25rem;
+        }
+        .booking-dash-item {
+          display: flex;
+          align-items: center;
           gap: 1.25rem;
-        }
-        .drawer-title {
-          font-size: 1.5rem;
-          margin-bottom: 0.15rem;
-        }
-        .drawer-sub {
-          font-size: 0.85rem;
-          color: #64748B;
-          font-weight: 700;
-          display: block;
-        }
-        .drawer-desc {
-          font-size: 0.95rem;
-          color: #475569;
-          line-height: 1.5;
-        }
-
-        .tips-box {
           background: #FAFAF8;
           padding: 1.25rem;
           border-radius: var(--radius-md);
           border: 1px solid var(--border-light);
+        }
+        .booking-date-badge {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
-          font-size: 0.85rem;
+          align-items: center;
+          font-size: 0.8rem;
+          font-weight: 800;
+          color: #07131D;
         }
-        .tips-box ul {
-          padding-left: 1.2rem;
+        .booking-details {
+          flex: 1;
           display: flex;
           flex-direction: column;
-          gap: 0.35rem;
-          color: #475569;
+          gap: 0.25rem;
         }
+        .booking-sub { font-size: 0.8rem; color: #64748B; }
+        .booking-address { font-size: 0.775rem; color: #475569; }
+        .booking-status-tag {
+          font-size: 0.725rem;
+          font-weight: 900;
+          padding: 0.25rem 0.65rem;
+          border-radius: var(--radius-full);
+        }
+        .booking-status-tag.confirmed { background: rgba(22, 163, 74, 0.15); color: #16A34A; }
 
-        .drawer-cta-box {
-          margin-top: auto;
+        .mini-badges-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 0.85rem;
+          margin-top: 1rem;
         }
+        .mini-badge-card {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          background: #FAFAF8;
+          padding: 0.85rem 1rem;
+          border-radius: var(--radius-md);
+          border: 1px solid var(--border-light);
+        }
+        .badge-icon-lg { font-size: 1.75rem; }
+        .mini-badge-card strong { font-size: 0.9rem; display: block; }
+        .mini-badge-card p { font-size: 0.775rem; color: #64748B; margin: 0; }
+
+        .skills-checklist {
+          display: flex;
+          flex-direction: column;
+          gap: 0.85rem;
+        }
+        .skill-check-item {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1rem;
+          padding: 0.85rem 0;
+          border-bottom: 1px solid var(--border-light);
+        }
+        .skill-info { display: flex; flex-direction: column; gap: 0.15rem; }
+        .skill-cat { font-size: 0.7rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; }
+        .notes-text { font-size: 0.775rem; font-style: italic; color: #64748B; margin-top: 0.2rem; }
+        .skill-status-tag {
+          font-size: 0.7rem;
+          font-weight: 900;
+          padding: 0.2rem 0.55rem;
+          border-radius: var(--radius-full);
+          white-space: nowrap;
+        }
+        .skill-status-tag.mastered { background: rgba(22, 163, 74, 0.15); color: #16A34A; }
+        .skill-status-tag.in_progress { background: rgba(217, 119, 6, 0.15); color: #D97706; }
+        .skill-status-tag.not_started { background: #F1F5F9; color: #94A3B8; }
       `}</style>
     </div>
   );
 };
+
+export default Cockpit;

@@ -3,14 +3,14 @@ import { Car, CheckCircle2, ArrowRight, Sparkles, ShieldCheck } from 'lucide-rea
 import { Button } from '../ui/Button';
 
 export const ScrollingCarJourney: React.FC = () => {
-  const [activeStage, setActiveStage] = useState<number>(2);
+  const [activeStage, setActiveStage] = useState<number>(0);
 
   const stages = [
     {
       id: 0,
       label: 'LEARN',
       title: 'Foundation & Vehicle Control',
-      carPosPercent: 10,
+      carPosPercent: 6,
       desc: 'Mastering smooth throttle, progressive braking, mirror scans, and steering posture in calm residential streets.',
       focusList: ['Pedal sensitivity & speed moderation', 'Blind spot head checks', 'Sydney school zone speed limits']
     },
@@ -18,7 +18,7 @@ export const ScrollingCarJourney: React.FC = () => {
       id: 1,
       label: 'PRACTICE',
       title: 'Traffic & Manoeuvres',
-      carPosPercent: 30,
+      carPosPercent: 28,
       desc: 'Executing repeatable reverse parallel parking, 3-point turns, lane changes, and multi-lane roundabouts.',
       focusList: ['Reverse parallel parking within 50cm', 'Sydney roundabout signal rules', 'Safe buffer margins from parked cars']
     },
@@ -26,7 +26,7 @@ export const ScrollingCarJourney: React.FC = () => {
       id: 2,
       label: 'PREPARE',
       title: 'Mock Route Simulation',
-      carPosPercent: 52,
+      carPosPercent: 50,
       desc: 'Driving genuine Service NSW practical test routes under full examiner score-sheet conditions.',
       focusList: ['Authentic Service NSW scoring audit', 'Eliminating critical instant fail habits', 'Managing test-day nerves & composure']
     },
@@ -34,7 +34,7 @@ export const ScrollingCarJourney: React.FC = () => {
       id: 3,
       label: 'TEST',
       title: 'Test-Day Car Hire & Warm-Up',
-      carPosPercent: 74,
+      carPosPercent: 72,
       desc: '45-minute warm up drive on test day followed by taking the test in our familiar dual-control automatic car.',
       focusList: ['Pre-test vehicle safety verification', 'Instructor accompaniment to desk', 'Immediate post-test feedback']
     },
@@ -42,7 +42,7 @@ export const ScrollingCarJourney: React.FC = () => {
       id: 4,
       label: 'PASS',
       title: 'P-Plates & Independence',
-      carPosPercent: 92,
+      carPosPercent: 94,
       desc: 'Receiving your pass result, posing for your licence photo, and driving away with complete lifelong road confidence.',
       focusList: ['NSW Provisional P1 licence issue', 'Total driving freedom unlocked', 'Defensive driving instincts for life']
     }
@@ -66,30 +66,10 @@ export const ScrollingCarJourney: React.FC = () => {
           </p>
         </div>
 
-        {/* Horizontal Highway Track with Traveling Car */}
+        {/* Horizontal Highway Track with Integrated 5 Steps & Traveling Car */}
         <div className="highway-interactive-wrapper">
-          {/* Top Stage Indicators */}
-          <div className="stages-milestones-row">
-            {stages.map((stage) => {
-              const isSelected = activeStage === stage.id;
-              const isPassed = activeStage > stage.id;
-              return (
-                <button
-                  key={stage.id}
-                  className={`stage-step-btn ${isSelected ? 'selected' : ''} ${isPassed ? 'passed' : ''}`}
-                  onClick={() => setActiveStage(stage.id)}
-                >
-                  <span className="stage-step-tag">{stage.label}</span>
-                  <div className="stage-step-indicator">
-                    <span>0{stage.id + 1}</span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Dynamic Asphalt Road Surface with Real Motion Video */}
           <div className="journey-road-track">
+            {/* Real Highway Motion Video */}
             <video 
               className="track-road-video" 
               autoPlay 
@@ -102,14 +82,34 @@ export const ScrollingCarJourney: React.FC = () => {
             </video>
             <div className="track-road-dark-scrim" />
             <div className="road-center-stripe" />
+
+            {/* The 5 Step Milestone Buttons Overlaying the Road */}
+            <div className="stages-milestones-row">
+              {stages.map((stage) => {
+                const isSelected = activeStage === stage.id;
+                const isPassed = activeStage > stage.id;
+                return (
+                  <button
+                    key={stage.id}
+                    className={`stage-step-btn ${isSelected ? 'selected' : ''} ${isPassed ? 'passed' : ''}`}
+                    onClick={() => setActiveStage(stage.id)}
+                  >
+                    <span className="stage-step-tag">{stage.label}</span>
+                    <div className="stage-step-indicator">
+                      <span>0{stage.id + 1}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
             
-            {/* The Traveling Car Element */}
+            {/* The Traveling Car Element Sliding Across the Road Track */}
             <div 
               className="traveling-car-rig" 
               style={{ left: `${current.carPosPercent}%` }}
             >
               <div className="car-marker-box">
-                <Car size={26} className="car-svg" />
+                <Car size={24} className="car-svg" />
                 <span className="car-pulsar" />
               </div>
               <span className="car-stage-badge">STAGE: {current.label}</span>
@@ -188,7 +188,7 @@ export const ScrollingCarJourney: React.FC = () => {
           background: #0A1420;
           border: 1px solid rgba(255, 255, 255, 0.12);
           border-radius: var(--radius-xl);
-          padding: 3.5rem;
+          padding: 3rem;
           position: relative;
           overflow: hidden;
           box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
@@ -200,30 +200,79 @@ export const ScrollingCarJourney: React.FC = () => {
           }
         }
 
-        /* Milestones Row */
-        .stages-milestones-row {
+        /* Integrated Asphalt Road Track */
+        .journey-road-track {
+          position: relative;
+          height: 170px;
+          background: #050B12;
+          border-radius: var(--radius-lg);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          margin-bottom: 2.25rem;
           display: flex;
           align-items: center;
+          overflow: hidden;
+        }
+        @media (max-width: 768px) {
+          .journey-road-track {
+            height: 150px;
+            margin-bottom: 1.5rem;
+          }
+        }
+
+        .track-road-video {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 0.45;
+          filter: contrast(115%);
+        }
+        .track-road-dark-scrim {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(5, 11, 18, 0.75) 0%, rgba(5, 11, 18, 0.45) 50%, rgba(5, 11, 18, 0.85) 100%);
+          z-index: 1;
+        }
+        .road-center-stripe {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 68%;
+          height: 4px;
+          background: repeating-linear-gradient(90deg, #D2B04C 0px, #D2B04C 45px, transparent 45px, transparent 90px);
+          opacity: 0.85;
+          z-index: 2;
+        }
+
+        /* Milestones Row inside Road Track */
+        .stages-milestones-row {
+          position: absolute;
+          inset: 0;
+          padding: 1.25rem 3.5rem;
+          display: flex;
+          align-items: flex-start;
           justify-content: space-between;
-          margin-bottom: 2.5rem;
+          z-index: 4;
         }
         @media (max-width: 768px) {
           .stages-milestones-row {
+            padding: 1rem 1.5rem;
             overflow-x: auto;
-            gap: 1rem;
+            gap: 1.25rem;
             justify-content: flex-start;
-            padding-bottom: 0.75rem;
-            -webkit-overflow-scrolling: touch;
           }
         }
         .stage-step-btn {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 0.6rem;
+          gap: 0.5rem;
           cursor: pointer;
           flex-shrink: 0;
           background: transparent;
+          border: none;
+          z-index: 5;
         }
         .stage-step-tag {
           font-family: var(--font-display);
@@ -241,8 +290,8 @@ export const ScrollingCarJourney: React.FC = () => {
           width: 44px;
           height: 44px;
           border-radius: 50%;
-          background: #172833;
-          border: 2px solid rgba(255, 255, 255, 0.25);
+          background: #0F1C28;
+          border: 2px solid rgba(255, 255, 255, 0.3);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -251,6 +300,7 @@ export const ScrollingCarJourney: React.FC = () => {
           font-size: 0.85rem;
           color: #FFFFFF !important;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
         @media (max-width: 640px) {
           .stage-step-indicator {
@@ -264,7 +314,7 @@ export const ScrollingCarJourney: React.FC = () => {
           color: #07131D !important;
           border-color: #D2B04C !important;
           transform: scale(1.15);
-          box-shadow: 0 0 25px rgba(210, 176, 76, 0.7);
+          box-shadow: 0 0 25px rgba(210, 176, 76, 0.8);
         }
         .stage-step-btn.passed .stage-step-indicator {
           background: #FFFFFF !important;
@@ -272,82 +322,43 @@ export const ScrollingCarJourney: React.FC = () => {
           border-color: #FFFFFF !important;
         }
 
-        /* Asphalt Track */
-        .journey-road-track {
-          position: relative;
-          height: 100px;
-          background: #050B12;
-          border-radius: var(--radius-md);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          margin-bottom: 2.5rem;
-          display: flex;
-          align-items: center;
-          overflow: hidden;
-        }
-        @media (max-width: 640px) {
-          .journey-road-track {
-            height: 80px;
-            margin-bottom: 1.75rem;
-          }
-        }
-        .track-road-video {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          opacity: 0.6;
-          filter: contrast(110%);
-        }
-        .track-road-dark-scrim {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, rgba(5, 11, 18, 0.6) 0%, rgba(5, 11, 18, 0.3) 50%, rgba(5, 11, 18, 0.7) 100%);
-        }
-        .road-center-stripe {
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: 50%;
-          height: 4px;
-          background: repeating-linear-gradient(90deg, #D2B04C 0px, #D2B04C 45px, transparent 45px, transparent 90px);
-          opacity: 0.75;
-        }
+        /* Traveling Car Element sliding on the Road */
         .traveling-car-rig {
           position: absolute;
-          transform: translate(-50%, 0);
+          bottom: 12px;
+          transform: translateX(-50%);
           transition: left 0.8s cubic-bezier(0.25, 1, 0.5, 1);
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 0.25rem;
-          z-index: 5;
+          gap: 0.2rem;
+          z-index: 6;
         }
         .car-marker-box {
-          width: 48px;
-          height: 48px;
+          width: 42px;
+          height: 42px;
           border-radius: 50%;
           background: #D2B04C;
           color: #07131D;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 30px rgba(210, 176, 76, 0.7);
+          box-shadow: 0 0 30px rgba(210, 176, 76, 0.8);
           position: relative;
         }
         @media (max-width: 640px) {
           .car-marker-box {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
           }
           .car-svg {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
           }
         }
         .car-pulsar {
           position: absolute;
-          inset: -6px;
+          inset: -5px;
           border-radius: 50%;
           border: 2px solid #D2B04C;
           animation: pulseMarker 1.8s infinite ease-out;
@@ -365,7 +376,7 @@ export const ScrollingCarJourney: React.FC = () => {
           padding: 0.15rem 0.5rem;
           border-radius: var(--radius-full);
           color: #FFFFFF;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid var(--accent-gold);
           white-space: nowrap;
         }
 
@@ -451,3 +462,5 @@ export const ScrollingCarJourney: React.FC = () => {
     </section>
   );
 };
+
+export default ScrollingCarJourney;

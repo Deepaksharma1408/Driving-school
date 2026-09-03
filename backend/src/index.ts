@@ -12,6 +12,8 @@ import locationsRouter from './routes/locations.js';
 import contentRouter from './routes/content.js';
 import quizRouter from './routes/quiz.js';
 import notificationsRouter from './routes/notifications.js';
+import progressRouter from './routes/progress.js';
+import adminRouter from './routes/admin.js';
 
 dotenv.config();
 
@@ -61,6 +63,8 @@ app.use('/api/locations', locationsRouter);
 app.use('/api/content', contentRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/notifications', notificationsRouter);
+app.use('/api', progressRouter);
+app.use('/api', adminRouter);
 
 // Global Error Handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
@@ -80,9 +84,23 @@ app.use((_req: Request, res: Response) => {
   });
 });
 
+import { checkNotificationProvidersOnStartup } from './services/notificationService.js';
+import { initDailyReminderCron } from './jobs/reminderCron.js';
+
 // Server Initialization
 async function startServer() {
+  if (!process.env.JWT_SECRET) {
+    console.error('❌ FATAL ERROR: JWT_SECRET environment variable is required to start the server safely.');
+    throw new Error('JWT_SECRET environment variable is required');
+  }
+
+  // Diagnostic warning checks for notification providers
+  checkNotificationProvidersOnStartup();
+
   await initDb();
+  
+  // Initialize daily reminder background cron schedule
+  initDailyReminderCron();
   app.listen(PORT, () => {
     console.log(`===================================================`);
     console.log(`🚗 Canguruber Driving School Backend Running!`);
