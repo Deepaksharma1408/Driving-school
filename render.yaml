@@ -6,6 +6,8 @@ services:
     rootDir: backend
     buildCommand: npm install && npm run build
     startCommand: npm start
+    envVarGroups:
+      - name: driving-school-env
     envVars:
       - key: NODE_ENV
         value: production
