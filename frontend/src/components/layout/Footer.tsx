@@ -86,7 +86,7 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <Link to="/services" className="directory-link gold-highlight">
-                    <span>All Packages & Pricing ($XX)</span>
+                    <span>All Packages & Pricing ($75 - $430)</span>
                     <ArrowRight size={13} className="link-chevron" />
                   </Link>
                 </li>

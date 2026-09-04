@@ -65,7 +65,7 @@ export const CarHire: React.FC = () => {
 
               <div className="car-hire-cta-bar">
                 <Button to="/book?service=car-hire" variant="primary" size="lg" icon={<ArrowRight size={18} />}>
-                  BOOK TEST CAR HIRE ($XX)
+                  BOOK TEST CAR HIRE ($220)
                 </Button>
                 <Button to="/lesson-and-car" variant="outline" size="lg">
                   VIEW LESSON + CAR PACKAGE
@@ -217,7 +217,7 @@ export const CarHire: React.FC = () => {
             </p>
             <div className="cta-buttons">
               <Button to="/book?service=car-hire" variant="primary" size="lg" icon={<ArrowRight size={18} />}>
-                BOOK CAR HIRE ONLINE ($XX)
+                BOOK CAR HIRE ONLINE ($220)
               </Button>
               <Button to="/contact" variant="outline" size="lg">
                 HAVE QUESTIONS? CONTACT US

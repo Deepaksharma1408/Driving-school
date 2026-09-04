@@ -42,7 +42,7 @@ export const LessonAndCar: React.FC = () => {
               <div className="package-highlights-box aura-card">
                 <div className="highlight-pill-row">
                   <span className="pill-badge dark">ALL-IN-ONE PACKAGE</span>
-                  <span className="pill-badge accent">PRICE: $XX</span>
+                  <span className="pill-badge accent">PRICE: $430</span>
                 </div>
 
                 <ul className="package-list">
@@ -79,7 +79,7 @@ export const LessonAndCar: React.FC = () => {
 
               <div className="package-action-row">
                 <Button to="/book?service=lesson-and-car" variant="primary" size="lg" icon={<ArrowRight size={18} />}>
-                  BOOK LESSON + CAR PACKAGE ($XX)
+                  BOOK LESSON + CAR PACKAGE ($430)
                 </Button>
               </div>
             </div>
@@ -197,7 +197,7 @@ export const LessonAndCar: React.FC = () => {
             </p>
             <div className="pkg-cta-btns">
               <Button to="/book?service=lesson-and-car" variant="primary" size="lg" icon={<ArrowRight size={18} />}>
-                BOOK PACKAGE ONLINE ($XX)
+                BOOK PACKAGE ONLINE ($430)
               </Button>
               <Button to="/contact" variant="outline" size="lg">
                 TALK TO INSTRUCTOR

@@ -50,7 +50,7 @@ export const SERVICES: ServiceItem[] = [
       'Pick-up & drop-off options available',
       '3-for-1 NSW logbook bonus hours'
     ],
-    pricePlaceholder: '$XX / session',
+    pricePlaceholder: '$75 / session',
     idealFor: 'Beginners, international licence conversions, and test refreshers'
   },
   {
@@ -68,7 +68,7 @@ export const SERVICES: ServiceItem[] = [
       'Pre-test vehicle orientation',
       'Pick-up & drop-off for test session'
     ],
-    pricePlaceholder: '$XX / test session',
+    pricePlaceholder: '$220 / test session',
     idealFor: 'Learners taking their practical test without a suitable car'
   },
   {
@@ -86,7 +86,7 @@ export const SERVICES: ServiceItem[] = [
       'Instructor support at Service NSW desk',
       'Full insurance & test day peace of mind'
     ],
-    pricePlaceholder: '$XX total package',
+    pricePlaceholder: '$430 total package',
     idealFor: 'Students wanting maximum confidence on test day'
   }
 ];

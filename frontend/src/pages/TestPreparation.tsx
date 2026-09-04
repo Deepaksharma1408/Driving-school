@@ -61,7 +61,7 @@ export const TestPreparation: React.FC = () => {
 
               <div className="test-prep-actions">
                 <Button to="/book?service=lesson-and-car" variant="primary" size="lg" icon={<ArrowRight size={18} />}>
-                  BOOK MOCK TEST & CAR PACKAGE ($XX)
+                  BOOK MOCK TEST & CAR PACKAGE ($95)
                 </Button>
                 <Button to="/faq" variant="outline" size="lg">
                   VIEW TEST DAY FAQ

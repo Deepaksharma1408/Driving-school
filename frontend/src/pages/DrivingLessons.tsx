@@ -65,7 +65,7 @@ export const DrivingLessons: React.FC = () => {
 
               <div className="lessons-action-bar">
                 <Button to="/book?service=driving-lesson" variant="primary" size="lg" icon={<ArrowRight size={18} />}>
-                  BOOK A LESSON ($XX)
+                  BOOK A LESSON ($75)
                 </Button>
                 <Button to="/faq" variant="outline" size="lg">
                   VIEW FAQS
@@ -188,7 +188,7 @@ export const DrivingLessons: React.FC = () => {
             </p>
             <div className="final-cta-btns">
               <Button to="/book?service=driving-lesson" variant="primary" size="lg" icon={<ArrowRight size={18} />}>
-                BOOK LESSON ONLINE ($XX)
+                BOOK LESSON ONLINE ($75)
               </Button>
               <Button to="/contact" variant="outline" size="lg">
                 CONTACT INSTRUCTOR

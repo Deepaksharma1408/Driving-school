@@ -118,7 +118,7 @@ export const Home: React.FC<HomeProps> = ({ onSelectArticle, onHeroReady }) => {
 
           <div className="services-all-cta-bar">
             <Link to="/services" className="compare-packages-link">
-              <span>View All Package Inclusions & Pricing Breakdown ($XX)</span>
+              <span>View All Package Inclusions & Pricing Breakdown ($75 - $430)</span>
               <ArrowRight size={16} />
             </Link>
           </div>
