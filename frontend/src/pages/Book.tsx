@@ -501,8 +501,8 @@ END:VCALENDAR`;
                         Continue to Step {step + 1}
                       </Button>
                     ) : (
-                      <Button onClick={handleFinalSubmit} variant="primary" size="lg" icon={<CheckCircle2 size={18} />}>
-                        CONFIRM BOOKING REQUEST
+                      <Button onClick={handleFinalSubmit} variant="primary" size="lg" icon={<CheckCircle2 size={18} />} disabled={submitting}>
+                        {submitting ? 'CONFIRMING BOOKING...' : 'CONFIRM BOOKING REQUEST'}
                       </Button>
                     )}
                   </div>

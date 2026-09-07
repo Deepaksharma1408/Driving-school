@@ -119,6 +119,7 @@ export async function sendBookingEmail(payload: SendEmailPayload) {
         'api-key': brevoApiKey,
         'content-type': 'application/json'
       },
+      signal: AbortSignal.timeout(5000),
       body: JSON.stringify({
         sender: {
           name: 'Drivinity Driving Academy',

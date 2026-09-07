@@ -301,31 +301,33 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
 
         console.log(`📌 Booking confirmed: ${bookingId} (Instructor: ${assignedInstructorId}, Vehicle: ${assignedVehicleId})`);
 
-        // Best-Effort Notification Trigger (Post-Commit)
-        try {
-          if (email) {
-            sendBookingEmail({
-              recipientEmail: email,
-              fullName,
-              bookingRef: bookingId,
-              serviceTitle: serviceId,
-              date,
-              timeSlot,
-              pickupAddress
-            }).catch(err => console.error('Non-fatal email dispatch error:', err.message));
+        // Best-Effort Notification Trigger (Background Fire-and-Forget)
+        setImmediate(() => {
+          try {
+            if (email) {
+              sendBookingEmail({
+                recipientEmail: email,
+                fullName,
+                bookingRef: bookingId,
+                serviceTitle: serviceId,
+                date,
+                timeSlot,
+                pickupAddress
+              }).catch(err => console.error('Non-fatal email dispatch error:', err.message));
+            }
+            if (phone) {
+              sendBookingSms({
+                recipientPhone: phone,
+                fullName,
+                bookingRef: bookingId,
+                date,
+                timeSlot
+              }).catch(err => console.error('Non-fatal SMS dispatch error:', err.message));
+            }
+          } catch (notifErr: any) {
+            console.error('Non-fatal notification error during booking confirmation:', notifErr.message);
           }
-          if (phone) {
-            sendBookingSms({
-              recipientPhone: phone,
-              fullName,
-              bookingRef: bookingId,
-              date,
-              timeSlot
-            }).catch(err => console.error('Non-fatal SMS dispatch error:', err.message));
-          }
-        } catch (notifErr: any) {
-          console.error('Non-fatal notification error during booking confirmation:', notifErr.message);
-        }
+        });
 
         res.status(201).json({
           success: true,
@@ -432,31 +434,33 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
 
       inMemoryStore.bookings.unshift(newBooking);
 
-      // Best-Effort Notification Trigger
-      try {
-        if (email) {
-          sendBookingEmail({
-            recipientEmail: email,
-            fullName,
-            bookingRef: bookingId,
-            serviceTitle: serviceId,
-            date,
-            timeSlot,
-            pickupAddress
-          }).catch(err => console.error('Non-fatal email dispatch error:', err.message));
+      // Best-Effort Notification Trigger (Background Fire-and-Forget)
+      setImmediate(() => {
+        try {
+          if (email) {
+            sendBookingEmail({
+              recipientEmail: email,
+              fullName,
+              bookingRef: bookingId,
+              serviceTitle: serviceId,
+              date,
+              timeSlot,
+              pickupAddress
+            }).catch(err => console.error('Non-fatal email dispatch error:', err.message));
+          }
+          if (phone) {
+            sendBookingSms({
+              recipientPhone: phone,
+              fullName,
+              bookingRef: bookingId,
+              date,
+              timeSlot
+            }).catch(err => console.error('Non-fatal SMS dispatch error:', err.message));
+          }
+        } catch (notifErr: any) {
+          console.error('Non-fatal notification error during booking confirmation:', notifErr.message);
         }
-        if (phone) {
-          sendBookingSms({
-            recipientPhone: phone,
-            fullName,
-            bookingRef: bookingId,
-            date,
-            timeSlot
-          }).catch(err => console.error('Non-fatal SMS dispatch error:', err.message));
-        }
-      } catch (notifErr: any) {
-        console.error('Non-fatal notification error during booking confirmation:', notifErr.message);
-      }
+      });
 
       res.status(201).json({
         success: true,
