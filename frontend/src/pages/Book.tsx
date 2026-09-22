@@ -142,7 +142,7 @@ END:VCALENDAR`;
                 {/* Moving Driving Car Badge */}
                 <div 
                   className="stepper-car-badge" 
-                  style={{ left: `calc(${((step - 1) / 4) * 100}% - 18px)` }}
+                  style={{ left: `clamp(16px, ${((step - 1) / 4) * 100}%, calc(100% - 16px))` }}
                   title={`Driving to Step ${step}`}
                 >
                   <Car size={18} />
@@ -618,6 +618,7 @@ END:VCALENDAR`;
           z-index: 5;
           width: 32px;
           height: 32px;
+          transform: translateX(-50%);
           border-radius: 50%;
           background: #111111;
           color: var(--accent-champagne);
@@ -989,6 +990,18 @@ END:VCALENDAR`;
           justify-content: space-between;
           padding-top: 1.75rem;
           border-top: 1px solid var(--border-light);
+          gap: 1rem;
+        }
+
+        @media (max-width: 480px) {
+          .stepper-nav-bar {
+            flex-direction: column-reverse;
+            gap: 0.75rem;
+          }
+          .stepper-nav-bar button {
+            width: 100%;
+            justify-content: center;
+          }
         }
 
         /* Sidebar */
@@ -998,6 +1011,13 @@ END:VCALENDAR`;
           border-radius: var(--radius-xl);
           position: sticky;
           top: 100px;
+        }
+
+        @media (max-width: 960px) {
+          .summary-sidebar-card {
+            position: static;
+            padding: 1.5rem 1.25rem;
+          }
         }
         .sidebar-title {
           font-size: 1.35rem;

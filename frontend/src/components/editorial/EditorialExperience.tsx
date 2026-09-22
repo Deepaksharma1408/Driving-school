@@ -213,15 +213,25 @@ export const EditorialExperience: React.FC = () => {
           }
         }
 
+        .campaign-narrative-col {
+          min-width: 0;
+          max-width: 100%;
+          width: 100%;
+        }
+
         /* Step Selector Rail */
         .steps-selector-rail {
           display: flex;
           align-items: center;
-          gap: 1.5rem;
-          margin-bottom: 2.5rem;
+          gap: 1.25rem;
+          margin-bottom: 2rem;
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
           padding-bottom: 0.85rem;
           overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          width: 100%;
+          max-width: 100%;
+          min-width: 0;
           scrollbar-width: none;
         }
         .steps-selector-rail::-webkit-scrollbar {
@@ -240,6 +250,7 @@ export const EditorialExperience: React.FC = () => {
           position: relative;
           padding-bottom: 0.85rem;
           white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .step-rail-item.active, .step-rail-item:hover {
@@ -253,6 +264,42 @@ export const EditorialExperience: React.FC = () => {
           right: 0;
           height: 2px;
           background-color: var(--accent-champagne);
+        }
+
+        @media (max-width: 640px) {
+          .steps-selector-rail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem;
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 1.5rem;
+            overflow-x: visible;
+          }
+
+          .step-rail-item {
+            padding: 0.75rem 0.85rem;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.6;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5rem;
+            white-space: nowrap;
+          }
+
+          .step-rail-item.active {
+            opacity: 1;
+            background: rgba(197, 168, 128, 0.14);
+            border-color: var(--accent-champagne);
+            box-shadow: 0 0 12px rgba(197, 168, 128, 0.15);
+          }
+
+          .step-rail-item .rail-line-indicator {
+            display: none;
+          }
         }
 
         .rail-num {
@@ -281,11 +328,15 @@ export const EditorialExperience: React.FC = () => {
           display: flex;
           flex-direction: column;
           gap: 1.25rem;
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+          min-width: 0;
         }
 
         @media (max-width: 640px) {
           .active-step-content-card {
-            padding: 1.5rem;
+            padding: 1.35rem 1.15rem;
           }
         }
 
@@ -311,6 +362,8 @@ export const EditorialExperience: React.FC = () => {
           font-size: 0.95rem;
           color: #CBD5E1;
           line-height: 1.6;
+          word-break: normal;
+          overflow-wrap: break-word;
         }
 
         .active-step-telemetry-badge {
@@ -359,6 +412,8 @@ export const EditorialExperience: React.FC = () => {
           color: #E2E8F0;
           line-height: 1.45;
           margin: 0;
+          word-break: normal;
+          overflow-wrap: break-word;
         }
 
         /* Right Stage Viewport */
@@ -379,6 +434,29 @@ export const EditorialExperience: React.FC = () => {
         @media (max-width: 900px) {
           .visual-stage-viewport {
             height: 380px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .visual-stage-viewport {
+            height: 280px;
+          }
+          .active-step-content-card {
+            padding: 1.35rem 1.15rem;
+          }
+          .step-action-row button,
+          .step-action-row a {
+            width: 100%;
+          }
+          .editorial-experience-section {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .visual-stage-viewport {
+            height: 230px;
           }
         }
 

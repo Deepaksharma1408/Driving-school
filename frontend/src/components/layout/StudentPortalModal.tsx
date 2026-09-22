@@ -126,6 +126,16 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({ isOpen, 
           box-shadow: var(--shadow-xl);
           animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        @media (max-width: 480px) {
+          .portal-overlay {
+            padding: 1rem;
+          }
+          .portal-dialog {
+            padding: 1.5rem 1.15rem;
+            max-height: 90vh;
+            overflow-y: auto;
+          }
+        }
         .portal-close {
           position: absolute;
           top: 18px;

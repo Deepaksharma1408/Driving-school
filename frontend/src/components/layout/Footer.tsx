@@ -162,6 +162,14 @@ export const Footer: React.FC = () => {
           gap: 1.5rem;
         }
 
+        @media (max-width: 640px) {
+          .footer-top-compact {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.25rem;
+          }
+        }
+
         .footer-brand-lockup {
           display: flex;
           flex-direction: column;
@@ -207,8 +215,8 @@ export const Footer: React.FC = () => {
         }
 
         .compact-social-btn {
-          width: 34px;
-          height: 34px;
+          width: 38px;
+          height: 38px;
           border-radius: 50%;
           border: 1px solid rgba(255, 255, 255, 0.15);
           background: rgba(255, 255, 255, 0.04);

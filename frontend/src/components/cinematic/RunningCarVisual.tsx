@@ -77,6 +77,12 @@ export const RunningCarVisual: React.FC = () => {
           }
         }
 
+        @media (max-width: 600px) {
+          .running-car-stage {
+            min-height: 260px;
+          }
+        }
+
         .running-car-viewport {
           position: relative;
           width: 100%;

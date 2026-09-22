@@ -569,13 +569,13 @@ export const Services: React.FC = () => {
 
         @media (max-width: 768px) {
           .comparison-box {
-            padding: 2rem 1.5rem;
+            padding: 1.5rem 1.15rem;
           }
         }
 
         .comparison-header {
           max-width: 650px;
-          margin-bottom: 2.5rem;
+          margin-bottom: 2rem;
         }
 
         .comparison-eyebrow {
@@ -590,7 +590,7 @@ export const Services: React.FC = () => {
 
         .comparison-title {
           font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
-          font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+          font-size: clamp(1.4rem, 5vw, 2.6rem);
           font-weight: 700;
           color: var(--text-primary);
           margin-bottom: 0.75rem;

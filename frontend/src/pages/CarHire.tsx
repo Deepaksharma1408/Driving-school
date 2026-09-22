@@ -286,6 +286,20 @@ export const CarHire: React.FC = () => {
           overflow: hidden;
           background: #EAE8DE;
         }
+        @media (max-width: 768px) {
+          .car-hire-img-wrapper {
+            height: 280px;
+          }
+          .car-hire-cta-bar button,
+          .car-hire-cta-bar a,
+          .cta-buttons button,
+          .cta-buttons a {
+            width: 100%;
+          }
+          .car-cta-box {
+            padding: 2.25rem 1.25rem;
+          }
+        }
         .car-img {
           width: 100%;
           height: 100%;

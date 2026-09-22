@@ -221,6 +221,11 @@ export const About: React.FC = () => {
           overflow: hidden;
           background: #EAE8DE;
         }
+        @media (max-width: 768px) {
+          .story-img-box {
+            height: 280px;
+          }
+        }
         .story-img {
           width: 100%;
           height: 100%;
@@ -382,6 +387,11 @@ export const About: React.FC = () => {
           overflow: hidden;
           background: #EAE8DE;
         }
+        @media (max-width: 768px) {
+          .vehicle-image-wrap {
+            height: 220px;
+          }
+        }
         .vehicle-img {
           width: 100%;
           height: 100%;
@@ -397,6 +407,15 @@ export const About: React.FC = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
+        }
+        @media (max-width: 768px) {
+          .about-cta-box {
+            padding: 2.25rem 1.25rem;
+          }
+          .cta-btns button,
+          .cta-btns a {
+            width: 100%;
+          }
         }
         .cta-btns {
           display: flex;

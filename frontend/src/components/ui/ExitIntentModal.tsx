@@ -155,7 +155,14 @@ export const ExitIntentModal: React.FC = () => {
           border-radius: var(--radius-xl);
           border: 1px solid rgba(210, 176, 76, 0.3);
           box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-          animation: modalScale 0.35 cubic-bezier(0.16, 1, 0.3, 1);
+          animation: modalScale 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @media (max-width: 480px) {
+          .exit-modal-card {
+            padding: 2rem 1.25rem;
+            max-height: 92vh;
+            overflow-y: auto;
+          }
         }
         @keyframes modalScale {
           from { transform: scale(0.9) translateY(20px); }

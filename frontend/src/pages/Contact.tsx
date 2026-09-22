@@ -282,6 +282,11 @@ export const Contact: React.FC = () => {
           border: 1px solid var(--border-light);
           box-shadow: 0 10px 30px rgba(7, 19, 29, 0.05);
         }
+        @media (max-width: 600px) {
+          .contact-info-card {
+            padding: 1.75rem 1.25rem;
+          }
+        }
         .badge-wrapper {
           margin-bottom: 0.75rem;
         }

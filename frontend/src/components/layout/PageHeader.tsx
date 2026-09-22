@@ -70,6 +70,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           font-size: 0.8rem;
           margin-bottom: 0.85rem;
           font-family: var(--font-display);
+          flex-wrap: wrap;
         }
         .breadcrumb-link {
           color: var(--text-muted);
@@ -93,11 +94,11 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         }
         .page-header-title {
           font-family: var(--font-serif) !important;
-          font-size: clamp(2.4rem, 4.8vw, 3.8rem);
+          font-size: clamp(1.85rem, 5.5vw, 3.8rem);
           font-weight: 400;
           letter-spacing: 0.02em;
           color: var(--text-primary);
-          line-height: 1.08;
+          line-height: 1.1;
           margin-bottom: 1.15rem;
           text-transform: uppercase;
         }

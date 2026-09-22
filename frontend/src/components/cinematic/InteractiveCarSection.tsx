@@ -144,7 +144,8 @@ export const InteractiveCarSection: React.FC = () => {
         @media (max-width: 960px) {
           .blueprint-stage {
             grid-template-columns: 1fr;
-            padding: 1.5rem;
+            padding: 1.25rem;
+            gap: 1.75rem;
           }
         }
         .blueprint-vehicle-wrap {
@@ -156,7 +157,12 @@ export const InteractiveCarSection: React.FC = () => {
         }
         @media (max-width: 640px) {
           .blueprint-vehicle-wrap {
-            height: 320px;
+            height: 280px;
+          }
+        }
+        @media (max-width: 400px) {
+          .blueprint-vehicle-wrap {
+            height: 240px;
           }
         }
         .blueprint-img {
@@ -197,6 +203,13 @@ export const InteractiveCarSection: React.FC = () => {
           box-shadow: var(--shadow-card);
           transition: all 0.25s var(--ease-cinematic);
         }
+        @media (max-width: 480px) {
+          .pin-circle {
+            width: 34px;
+            height: 34px;
+            font-size: 0.75rem;
+          }
+        }
         .hotspot-pin.active .pin-circle {
           background: var(--accent-lime);
           transform: scale(1.15);
@@ -210,6 +223,12 @@ export const InteractiveCarSection: React.FC = () => {
           background: rgba(216, 243, 106, 0.5);
           animation: pulsePin 2s infinite ease-out;
           pointer-events: none;
+        }
+        @media (max-width: 480px) {
+          .pin-pulse {
+            width: 44px;
+            height: 44px;
+          }
         }
         @keyframes pulsePin {
           0% { transform: scale(0.6); opacity: 1; }
@@ -239,12 +258,14 @@ export const InteractiveCarSection: React.FC = () => {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          width: 100%;
         }
         .inspector-header {
           display: flex;
           align-items: center;
           gap: 0.75rem;
           margin-bottom: 1.25rem;
+          flex-wrap: wrap;
         }
         .inspector-num-badge {
           display: flex;
@@ -258,23 +279,24 @@ export const InteractiveCarSection: React.FC = () => {
           font-size: 0.75rem;
         }
         .inspector-title {
-          font-size: 2.2rem;
+          font-size: clamp(1.4rem, 5.5vw, 2.2rem);
           font-weight: 900;
           letter-spacing: -0.03em;
           margin-bottom: 0.85rem;
           color: var(--text-primary);
+          line-height: 1.15;
         }
         .inspector-desc {
-          font-size: 1.05rem;
+          font-size: clamp(0.9rem, 2.8vw, 1.05rem);
           color: var(--text-secondary);
           line-height: 1.6;
-          margin-bottom: 1.75rem;
+          margin-bottom: 1.5rem;
         }
         .inspector-marking-box {
           background: var(--bg-surface-alt);
           border-left: 3px solid var(--accent-lime);
           border-radius: var(--radius-md);
-          padding: 1.25rem;
+          padding: 1.15rem;
           display: flex;
           align-items: flex-start;
           gap: 0.75rem;

@@ -256,6 +256,23 @@ export const DrivingLessons: React.FC = () => {
           overflow: hidden;
           background: #EAE8DE;
         }
+        @media (max-width: 768px) {
+          .lessons-hero-img-box {
+            height: 280px;
+          }
+          .hero-actions button,
+          .hero-actions a,
+          .final-cta-btns button,
+          .final-cta-btns a {
+            width: 100%;
+          }
+          .final-box {
+            padding: 2.25rem 1.25rem;
+          }
+          .vehicle-snippet-box {
+            padding: 1.5rem 1.15rem;
+          }
+        }
         .lessons-img {
           width: 100%;
           height: 100%;

@@ -1,12 +1,14 @@
+
+
 import React, { useState } from 'react';
-import { 
-  ShieldCheck, 
-  Star, 
-  Award, 
-  MapPin, 
-  Languages, 
-  Car, 
-  CheckCircle2, 
+import {
+  ShieldCheck,
+  Star,
+  Award,
+  MapPin,
+  Languages,
+  Car,
+  CheckCircle2,
   ArrowRight,
   Filter
 } from 'lucide-react';
@@ -71,7 +73,7 @@ export const Instructors: React.FC = () => {
 
   return (
     <div className="instructors-page">
-      <PageHeader 
+      <PageHeader
         tag="NSW AUTHORIZED INSTRUCTORS"
         title="MEET YOUR DRIVING INSTRUCTORS."
         subtitle="Professional, friendly, and fully certified dual-control driving instructors with proven test pass records."
@@ -92,8 +94,8 @@ export const Instructors: React.FC = () => {
                 { id: 'miranda', label: 'Miranda' },
                 { id: 'silverwater', label: 'Silverwater' }
               ].map(f => (
-                <button 
-                  key={f.id} 
+                <button
+                  key={f.id}
                   className={`filter-pill-btn ${locationFilter === f.id ? 'active' : ''}`}
                   onClick={() => setLocationFilter(f.id)}
                 >
@@ -180,6 +182,15 @@ export const Instructors: React.FC = () => {
           border-radius: var(--radius-lg);
           border: 1px solid var(--border-light);
         }
+        @media (max-width: 768px) {
+          .filter-controls-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.15rem 1rem;
+            margin-bottom: 1.75rem;
+            gap: 0.75rem;
+          }
+        }
         .filter-label {
           font-size: 0.85rem;
           font-weight: 800;
@@ -191,7 +202,10 @@ export const Instructors: React.FC = () => {
           flex-wrap: wrap;
         }
         .filter-pill-btn {
-          padding: 0.4rem 0.9rem;
+          min-height: 40px;
+          display: inline-flex;
+          align-items: center;
+          padding: 0.45rem 0.95rem;
           border-radius: var(--radius-full);
           border: 1px solid var(--border-light);
           background: #FFFFFF;
@@ -238,6 +252,12 @@ export const Instructors: React.FC = () => {
           gap: 1.25rem;
           transition: all 0.35s var(--ease-cinematic);
           box-shadow: 0 4px 20px rgba(17, 17, 17, 0.03);
+        }
+
+        @media (max-width: 480px) {
+          .instructor-card {
+            padding: 1.25rem;
+          }
         }
 
         .instructor-card:hover {

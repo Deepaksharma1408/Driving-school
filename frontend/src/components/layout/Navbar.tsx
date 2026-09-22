@@ -191,7 +191,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
             <div className="right-editorial-actions">
               {/* Primary Book Button: Pill with Arrow */}
               <Link to="/book" className="hero-nav-book-pill">
-                <span>BOOK A LESSON</span>
+                <span className="book-pill-text-desktop">BOOK A LESSON</span>
+                <span className="book-pill-text-mobile">BOOK</span>
                 <ArrowRight size={14} />
               </Link>
 
@@ -459,6 +460,49 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
           text-decoration: none;
           transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        .book-pill-text-mobile {
+          display: none;
+        }
+        @media (max-width: 640px) {
+          .book-pill-text-desktop {
+            display: none;
+          }
+          .book-pill-text-mobile {
+            display: inline;
+          }
+          .hero-nav-book-pill {
+            padding: 0.55rem 1.05rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            gap: 0.4rem;
+          }
+          .brand-name {
+            font-size: 1.05rem !important;
+            letter-spacing: 0.16em !important;
+          }
+          .brand-subtitle {
+            font-size: 0.52rem !important;
+            letter-spacing: 0.16em !important;
+          }
+          .hero-circle-menu-btn {
+            width: 38px !important;
+            height: 38px !important;
+          }
+          .right-editorial-actions {
+            gap: 0.65rem !important;
+          }
+        }
+        @media (max-width: 360px) {
+          .book-pill-text-mobile {
+            display: none;
+          }
+          .hero-nav-book-pill {
+            padding: 0.55rem;
+            width: 38px;
+            height: 38px;
+            justify-content: center;
+          }
+        }
         .hero-nav-book-pill:hover {
           background: #FFFFFF;
           color: #111111;
@@ -718,9 +762,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
           display: flex;
           flex-direction: column;
           padding: 1.5rem 3rem 2rem 3rem;
+          padding-top: max(1.5rem, env(safe-area-inset-top));
+          padding-bottom: max(2rem, env(safe-area-inset-bottom));
           color: #FFFFFF;
           animation: fullScreenFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
           -ms-overflow-style: none;
         }
@@ -733,7 +780,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
         }
         @media (max-width: 768px) {
           .cinematic-fullscreen-overlay {
-            padding: 1.25rem 1.25rem 2rem 1.25rem;
+            padding: 1.25rem 1.25rem 2.5rem 1.25rem;
+            padding-top: max(1.25rem, env(safe-area-inset-top));
+            padding-bottom: max(2.5rem, env(safe-area-inset-bottom));
+          }
+          .large-menu-link {
+            padding: 0.55rem 0 !important;
+            min-height: 44px;
+          }
+          .sub-tool-link {
+            padding: 0.65rem 0 !important;
+            min-height: 44px;
           }
         }
 

@@ -253,7 +253,7 @@ export const EditorialPrograms: React.FC = () => {
         .programs-headline {
           font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
           font-optical-sizing: auto;
-          font-size: clamp(2.4rem, 5vw, 3.8rem);
+          font-size: clamp(1.85rem, 6vw, 3.8rem);
           font-weight: 700;
           line-height: 1.06;
           letter-spacing: 0.035em;

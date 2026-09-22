@@ -217,6 +217,14 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) 
           color: var(--text-primary);
           line-height: 1.7;
         }
+        @media (max-width: 600px) {
+          .article-modal-overlay {
+            padding: 0.75rem;
+          }
+          .article-modal-body {
+            padding: 1.5rem 1.15rem;
+          }
+        }
         .article-cta-box {
           background: var(--bg-warm-ivory);
           border-radius: var(--radius-md);
@@ -227,6 +235,18 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) 
           justify-content: space-between;
           gap: 1.5rem;
           flex-wrap: wrap;
+        }
+        @media (max-width: 600px) {
+          .article-cta-box {
+            padding: 1.25rem;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .article-cta-box button,
+          .article-cta-box a {
+            width: 100%;
+          }
+        }
         .cta-box-text h4 {
           font-family: var(--font-display);
           font-size: 1.05rem;

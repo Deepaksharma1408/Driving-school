@@ -467,14 +467,21 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
           display: inline-block;
           font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
           font-optical-sizing: auto;
-          font-size: clamp(2.3rem, 4.2vw, 3.9rem);
+          font-size: clamp(1.85rem, 5.2vw, 3.9rem);
           font-weight: 700;
           line-height: 1.05;
-          letter-spacing: 0.04em;
+          letter-spacing: 0.035em;
           color: #FFFFFF;
           text-transform: uppercase;
           text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
           will-change: transform, opacity;
+        }
+
+        @media (max-width: 480px) {
+          .headline-masked-word {
+            font-size: clamp(1.6rem, 7.5vw, 2.3rem);
+            letter-spacing: 0.02em;
+          }
         }
 
         .hero-lead-description {
@@ -494,6 +501,17 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
           align-items: center;
           gap: 1.8rem;
           flex-wrap: wrap;
+        }
+
+        @media (max-width: 480px) {
+          .hero-action-buttons-group {
+            gap: 1rem;
+            width: 100%;
+          }
+          .hero-primary-pill-btn {
+            width: 100%;
+            justify-content: center;
+          }
         }
 
         .hero-primary-pill-btn {
@@ -719,8 +737,15 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
           .stats-kpi-group {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
+            gap: 0.75rem;
             width: 100%;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .stats-kpi-group {
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem 0.75rem;
           }
         }
 
@@ -732,7 +757,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
 
         .kpi-num {
           font-family: 'Cinzel', 'Outfit', sans-serif;
-          font-size: clamp(2.2rem, 3.4vw, 2.75rem);
+          font-size: clamp(1.65rem, 3.4vw, 2.75rem);
           font-weight: 700;
           letter-spacing: 0.02em;
           color: #FFFFFF;

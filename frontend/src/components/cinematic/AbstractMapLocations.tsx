@@ -180,6 +180,12 @@ export const AbstractMapLocations: React.FC = () => {
           }
         }
 
+        @media (max-width: 640px) {
+          .abstract-map-canvas {
+            min-height: 280px;
+          }
+        }
+
         .roads-svg-layer {
           position: absolute;
           inset: 0;

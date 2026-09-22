@@ -183,7 +183,7 @@ export const EditorialInstructors: React.FC = () => {
 
         .instructors-headline {
           font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
-          font-size: clamp(2.4rem, 4.8vw, 3.8rem);
+          font-size: clamp(1.85rem, 6vw, 3.8rem);
           font-weight: 700;
           line-height: 1.06;
           letter-spacing: 0.035em;

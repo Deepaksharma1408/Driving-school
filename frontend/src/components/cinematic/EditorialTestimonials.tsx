@@ -136,6 +136,19 @@ export const EditorialTestimonials: React.FC = () => {
           margin-bottom: 3.5rem;
         }
 
+        @media (max-width: 640px) {
+          .testimonials-top-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+          }
+          .carousel-nav-arrows {
+            width: 100%;
+            justify-content: space-between;
+          }
+        }
+
         .carousel-nav-arrows {
           display: flex;
           align-items: center;

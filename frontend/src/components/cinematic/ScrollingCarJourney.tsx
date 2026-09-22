@@ -111,7 +111,7 @@ export const ScrollingCarJourney: React.FC = () => {
             {/* Traveling Vehicle Icon Indicator */}
             <div 
               className="traveling-car-rig" 
-              style={{ left: `${current.carPosPercent}%` }}
+              style={{ left: `clamp(55px, ${current.carPosPercent}%, calc(100% - 55px))` }}
             >
               <div className="car-marker-box">
                 <Car size={20} className="car-icon-champagne" />
@@ -345,6 +345,19 @@ export const ScrollingCarJourney: React.FC = () => {
           }
         }
 
+        @media (max-width: 420px) {
+          .stages-milestones-row {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+          }
+          .stage-step-btn {
+            padding: 0.65rem 0.35rem;
+          }
+          .stage-step-tag {
+            font-size: 0.62rem;
+          }
+        }
+
         .stage-step-btn {
           display: flex;
           flex-direction: column;
@@ -415,7 +428,7 @@ export const ScrollingCarJourney: React.FC = () => {
 
         .spotlight-title {
           font-family: var(--font-display);
-          font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+          font-size: clamp(1.3rem, 2.5vw, 1.8rem);
           font-weight: 600;
           letter-spacing: -0.01em;
           color: #FFFFFF;
@@ -467,6 +480,10 @@ export const ScrollingCarJourney: React.FC = () => {
         @media (max-width: 960px) {
           .spotlight-action {
             justify-content: flex-start;
+          }
+          .spotlight-action button,
+          .spotlight-action a {
+            width: 100%;
           }
         }
       `}</style>

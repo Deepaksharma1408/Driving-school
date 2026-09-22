@@ -185,12 +185,23 @@ export const TestPreparation: React.FC = () => {
           gap: 1rem;
           flex-wrap: wrap;
         }
+        @media (max-width: 640px) {
+          .test-prep-actions button,
+          .test-prep-actions a {
+            width: 100%;
+          }
+        }
         .test-prep-img-box {
           position: relative;
           height: 520px;
           border-radius: var(--radius-xl);
           overflow: hidden;
           background: #EAE8DE;
+        }
+        @media (max-width: 768px) {
+          .test-prep-img-box {
+            height: 280px;
+          }
         }
         .test-img {
           width: 100%;

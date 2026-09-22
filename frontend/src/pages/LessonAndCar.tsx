@@ -276,6 +276,23 @@ export const LessonAndCar: React.FC = () => {
           overflow: hidden;
           background: #EAE8DE;
         }
+        @media (max-width: 768px) {
+          .package-hero-image-wrap {
+            height: 280px;
+          }
+          .package-action-row button,
+          .package-action-row a,
+          .pkg-cta-btns button,
+          .pkg-cta-btns a {
+            width: 100%;
+          }
+          .pkg-cta-box {
+            padding: 2.25rem 1.25rem;
+          }
+          .package-highlights-box {
+            padding: 1.5rem 1.15rem;
+          }
+        }
         .pkg-img {
           width: 100%;
           height: 100%;
