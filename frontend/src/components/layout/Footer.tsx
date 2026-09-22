@@ -27,7 +27,14 @@ export const Footer: React.FC = () => {
         {/* Top Minimal Brand & Socials Bar */}
         <div className="footer-top-compact">
           <div className="footer-brand-lockup">
-            <Link to="/" className="footer-logo-link">
+            <Link 
+              to="/" 
+              className="footer-logo-link"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = '/';
+              }}
+            >
               <span className="footer-logo-title">DRIVINITY</span>
               <span className="footer-logo-sub">DRIVING ACADEMY</span>
             </Link>

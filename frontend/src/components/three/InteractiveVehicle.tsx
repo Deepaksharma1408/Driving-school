@@ -450,7 +450,7 @@ export const InteractiveVehicle: React.FC<InteractiveVehicleProps> = ({
 
       {/* Floating Studio Controls (Benchmark: "Hotspots Off/On" & "Change colour") */}
       {showControls && (
-        <div className="studio-control-overlay hide-mobile">
+        <div className="studio-control-overlay">
           {/* Color Switcher */}
           <div className="studio-pill-control">
             <span className="control-label">FINISH:</span>
@@ -567,6 +567,16 @@ export const InteractiveVehicle: React.FC<InteractiveVehicleProps> = ({
           justify-content: space-between;
           z-index: 15;
           pointer-events: none;
+        }
+        @media (max-width: 768px) {
+          .studio-control-overlay {
+            bottom: 0.75rem;
+            left: 0.75rem;
+            right: 0.75rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+          }
         }
         .studio-pill-control {
           pointer-events: auto;

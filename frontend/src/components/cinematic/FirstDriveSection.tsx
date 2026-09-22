@@ -1,12 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Play, X, Volume2, VolumeX, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export const FirstDriveSection: React.FC = () => {
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   return (
     <>
       <section id="approach-section" className="editorial-approach-section">
@@ -17,7 +13,7 @@ export const FirstDriveSection: React.FC = () => {
             <div className="approach-eyebrow-dash" />
           </div>
 
-          {/* Three-Column Editorial Hero-Follower Layout matching Screenshot */}
+          {/* Two-Column Editorial Hero-Follower Layout */}
           <div className="approach-main-editorial-grid">
             {/* Column 1: Monumental Serif Headline */}
             <div className="approach-headline-col">
@@ -37,33 +33,6 @@ export const FirstDriveSection: React.FC = () => {
                 <span>EXPLORE OUR PROGRAMS</span>
                 <ArrowRight size={15} />
               </Link>
-            </div>
-
-            {/* Column 3: Mountain Road Video Card with Play Button & Caption */}
-            <div className="approach-visual-col">
-              <div 
-                className="road-video-card" 
-                onClick={() => setIsVideoModalOpen(true)}
-                role="button"
-                tabIndex={0}
-                aria-label="Play Real Roads Real Skills Video"
-              >
-                <img 
-                  src="/assets/mountain-winding-road.jpg" 
-                  alt="Winding Scenic Mountain Driving Road" 
-                  className="road-card-image"
-                />
-                <div className="road-card-vignette" />
-                
-                <div className="road-play-circle">
-                  <Play size={14} className="play-ico" fill="currentColor" />
-                </div>
-
-                <div className="road-caption-badge">
-                  <span className="caption-line">REAL ROADS.</span>
-                  <span className="caption-line">REAL SKILLS.</span>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -101,67 +70,6 @@ export const FirstDriveSection: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* Video Modal */}
-      {isVideoModalOpen && (
-        <div 
-          className="approach-modal-overlay" 
-          onClick={() => setIsVideoModalOpen(false)}
-        >
-          <div 
-            className="approach-modal-box"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="approach-modal-top">
-              <div className="modal-title-stack">
-                <span className="modal-sub">REAL ROADS // REAL SKILLS</span>
-                <h4 className="modal-heading">Service NSW Real-World Driving Preparation</h4>
-              </div>
-
-              <div className="modal-top-actions">
-                <button 
-                  type="button" 
-                  className="icon-circle-btn"
-                  onClick={() => {
-                    if (videoRef.current) {
-                      videoRef.current.muted = !isMuted;
-                      setIsMuted(!isMuted);
-                    }
-                  }}
-                  aria-label={isMuted ? "Unmute" : "Mute"}
-                >
-                  {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                </button>
-
-                <button 
-                  type="button" 
-                  className="icon-circle-btn"
-                  onClick={() => setIsVideoModalOpen(false)}
-                  aria-label="Close video"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-            </div>
-
-            <div className="approach-video-wrap">
-              <video 
-                ref={videoRef}
-                autoPlay 
-                controls 
-                loop 
-                playsInline
-                muted={isMuted}
-                className="approach-video-player"
-              >
-                <source src="/videos/drivinity-hero-driving.mp4" type="video/mp4" />
-                <source src="/videos/also_make_a_simplee_mountain_d.mp4" type="video/mp4" />
-                <source src="/videos/gerte_an_vedio_ofa_moving_car.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-        </div>
-      )}
 
       <style>{`
         /* ============================================================
@@ -206,10 +114,10 @@ export const FirstDriveSection: React.FC = () => {
           opacity: 0.4;
         }
 
-        /* 3-Column Editorial Grid matching Screenshot */
+        /* 2-Column Editorial Grid */
         .approach-main-editorial-grid {
           display: grid;
-          grid-template-columns: 1.2fr 1fr 1.15fr;
+          grid-template-columns: 1.2fr 1fr;
           gap: 3.5rem;
           align-items: flex-start;
           margin-bottom: 4.5rem;

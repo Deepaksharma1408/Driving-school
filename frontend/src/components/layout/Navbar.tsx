@@ -25,9 +25,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
   }, []);
 
   useEffect(() => {
+    if (isMobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileOpen]);
+
+  useEffect(() => {
     setIsMobileOpen(false);
     setActiveDropdown(null);
     setIsLangOpen(false);
+    document.body.style.overflow = '';
   }, [location.pathname]);
 
   const changeLanguage = (langCode: string, langLabel: string) => {
@@ -81,7 +93,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
         <div className="container-wide">
           <nav className="navbar-row">
             {/* LEFT: DRIVINITY Luxury Wordmark */}
-            <Link to="/" className="brand-lockup" aria-label="Drivinity Driving Academy Home">
+            <Link 
+              to="/" 
+              className="brand-lockup" 
+              aria-label="Drivinity Driving Academy Home"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = '/';
+              }}
+            >
               <span className="brand-name">DRIVINITY</span>
               <span className="brand-subtitle">DRIVING ACADEMY</span>
             </Link>
@@ -91,6 +111,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
               <Link 
                 to="/" 
                 className={`nav-editorial-link ${location.pathname === '/' ? 'active has-dot' : ''}`}
+                onClick={(e) => {
+                  if (location.pathname === '/') {
+                    e.preventDefault();
+                    window.location.href = '/';
+                  }
+                }}
               >
                 HOME
               </Link>
@@ -191,7 +217,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
           <div className="fullscreen-menu-container">
             {/* Top Control Bar */}
             <div className="menu-top-bar">
-              <Link to="/" className="brand-lockup" onClick={() => setIsMobileOpen(false)}>
+              <Link 
+                to="/" 
+                className="brand-lockup" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileOpen(false);
+                  window.location.href = '/';
+                }}
+              >
                 <span className="brand-name">DRIVINITY</span>
                 <span className="brand-subtitle">DRIVING ACADEMY // NSW</span>
               </Link>

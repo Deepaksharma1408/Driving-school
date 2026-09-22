@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play, X, Volume2, VolumeX } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
 interface EditorialHeroProps {
   onHeroReady?: () => void;
@@ -9,10 +9,7 @@ interface EditorialHeroProps {
 
 export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
-  const modalVideoRef = useRef<HTMLVideoElement>(null);
 
   const steps = [
     { num: '01', title: 'LEARN', desc: 'Dual-control vehicle mastery, road rules, and observation routines.' },
@@ -27,14 +24,13 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
     }
   }, [onHeroReady]);
 
-  // Auto-cycle steps smoothly every 5.5 seconds if video modal is closed
+  // Auto-cycle steps smoothly every 5.5 seconds
   useEffect(() => {
-    if (isVideoModalOpen) return;
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % steps.length);
     }, 5500);
     return () => clearInterval(interval);
-  }, [isVideoModalOpen, steps.length]);
+  }, [steps.length]);
 
   // Subtle luxury 3D mouse parallax tracking
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
@@ -170,27 +166,6 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
                     <ArrowRight size={16} className="btn-arrow" />
                   </Link>
                 </motion.div>
-
-                <motion.button 
-                  type="button"
-                  className="hero-watch-story-btn"
-                  onClick={() => setIsVideoModalOpen(true)}
-                  aria-label="Watch Our Story Video"
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.96 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                >
-                  <div className="play-icon-circle-wrapper">
-                    <span className="play-radar-pulse" />
-                    <span className="play-radar-pulse pulse-delay" />
-                    <div className="play-icon-circle">
-                      <Play size={13} className="play-arrow" fill="currentColor" />
-                    </div>
-                  </div>
-                  <span className="watch-story-label">
-                    WATCH<br />OUR STORY
-                  </span>
-                </motion.button>
               </motion.div>
             </div>
 
@@ -313,78 +288,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
         </motion.div>
       </section>
 
-      {/* Cinematic Driving Story Video Modal with AnimatePresence */}
-      <AnimatePresence>
-        {isVideoModalOpen && (
-          <motion.div 
-            className="hero-video-modal-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.28 }}
-            onClick={() => setIsVideoModalOpen(false)}
-          >
-            <motion.div 
-              className="video-modal-dialog"
-              initial={{ scale: 0.92, opacity: 0, y: 24 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.92, opacity: 0, y: 24 }}
-              transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Modal Header Bar */}
-              <div className="video-modal-header">
-                <div className="modal-title-lockup">
-                  <span className="modal-tag">DRIVINITY ACADEMY CINEMATIC</span>
-                  <h3 className="modal-headline">Confidence Drives Further // The Journey</h3>
-                </div>
-                
-                <div className="modal-header-actions">
-                  <button 
-                    type="button" 
-                    className="modal-mute-btn"
-                    onClick={() => {
-                      if (modalVideoRef.current) {
-                        modalVideoRef.current.muted = !isMuted;
-                        setIsMuted(!isMuted);
-                      }
-                    }}
-                    aria-label={isMuted ? "Unmute video" : "Mute video"}
-                  >
-                    {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-                  </button>
 
-                  <button 
-                    type="button" 
-                    className="modal-close-btn"
-                    onClick={() => setIsVideoModalOpen(false)}
-                    aria-label="Close video modal"
-                  >
-                    <X size={22} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Video Viewport */}
-              <div className="video-player-container">
-                <video 
-                  ref={modalVideoRef}
-                  autoPlay 
-                  controls 
-                  loop 
-                  playsInline
-                  muted={isMuted}
-                  className="hero-actual-video"
-                >
-                  <source src="/videos/drivinity-hero-driving.mp4" type="video/mp4" />
-                  <source src="/videos/gerte_an_vedio_ofa_moving_car.mp4" type="video/mp4" />
-                  <source src="/videos/also_make_a_simplee_mountain_d.mp4" type="video/mp4" />
-                </video>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <style>{`
         /* ============================================================
@@ -644,81 +548,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
           transform: translateX(3px);
         }
 
-        .hero-watch-story-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.9rem;
-          background: transparent;
-          border: none;
-          color: #FFFFFF;
-          cursor: pointer;
-          padding: 0.4rem;
-        }
 
-        .play-icon-circle-wrapper {
-          position: relative;
-          width: 44px;
-          height: 44px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .play-radar-pulse {
-          position: absolute;
-          inset: -4px;
-          border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, 0.45);
-          animation: radarWave 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-          pointer-events: none;
-        }
-
-        .play-radar-pulse.pulse-delay {
-          animation-delay: 1.4s;
-        }
-
-        @keyframes radarWave {
-          0% { transform: scale(0.9); opacity: 0.9; }
-          100% { transform: scale(1.85); opacity: 0; }
-        }
-
-        .play-icon-circle {
-          position: relative;
-          z-index: 2;
-          width: 42px;
-          height: 42px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.35);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #FFFFFF;
-          transition: all 0.28s var(--ease-cinematic);
-        }
-
-        .hero-watch-story-btn:hover .play-icon-circle {
-          background: rgba(255, 255, 255, 0.22);
-          border-color: rgba(255, 255, 255, 0.8);
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
-        }
-
-        .play-arrow {
-          margin-left: 2px;
-        }
-
-        .watch-story-label {
-          font-family: var(--font-display);
-          font-size: 0.66rem;
-          font-weight: 500;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          line-height: 1.25;
-          color: rgba(255, 255, 255, 0.85);
-          text-align: left;
-        }
 
         /* Right Column Elements */
         .hero-right-editorial-column {
@@ -924,8 +754,32 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
         }
 
         @media (max-width: 640px) {
+          .headline-masked-word {
+            font-size: clamp(1.85rem, 8.5vw, 3.2rem);
+          }
+          .hero-lead-description {
+            font-size: 0.92rem;
+            max-width: 100%;
+          }
           .kpi-divider-line {
             display: none;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .stats-kpi-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem 1.75rem;
+            width: 100%;
+          }
+          .kpi-num {
+            font-size: 1.9rem;
+          }
+          .hero-primary-pill-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 0.9rem 1.6rem;
           }
         }
 
@@ -964,114 +818,6 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({ onHeroReady }) => 
         @keyframes pulseDash {
           0% { width: 32px; opacity: 0.4; }
           100% { width: 56px; opacity: 0.9; }
-        }
-
-        /* Video Modal Backdrop */
-        .hero-video-modal-backdrop {
-          position: fixed;
-          inset: 0;
-          z-index: 3000;
-          background: rgba(0, 0, 0, 0.92);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 1.5rem;
-          box-sizing: border-box;
-        }
-
-        .video-modal-dialog {
-          position: relative;
-          width: min(92vw, calc((82vh - 60px) * (16 / 9)));
-          max-width: 960px;
-          background: #0E0F12;
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          border-radius: var(--radius-md);
-          overflow: hidden;
-          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.95);
-          display: flex;
-          flex-direction: column;
-          margin: auto;
-        }
-
-        .video-modal-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0.85rem 1.25rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(18, 18, 22, 0.98);
-          flex-shrink: 0;
-          min-height: 54px;
-          box-sizing: border-box;
-        }
-
-        .modal-title-lockup {
-          display: flex;
-          flex-direction: column;
-          gap: 0.15rem;
-        }
-
-        .modal-tag {
-          font-family: var(--font-display);
-          font-size: 0.65rem;
-          font-weight: 600;
-          letter-spacing: 0.2em;
-          color: var(--accent-champagne);
-        }
-
-        .modal-headline {
-          font-family: var(--font-display);
-          font-size: 0.92rem;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          color: #FFFFFF;
-          margin: 0;
-        }
-
-        .modal-header-actions {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-        }
-
-        .modal-mute-btn, .modal-close-btn {
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.16);
-          color: #FFFFFF;
-          border-radius: 50%;
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .modal-mute-btn:hover, .modal-close-btn:hover {
-          background: rgba(255, 255, 255, 0.25);
-          transform: scale(1.06);
-        }
-
-        .video-player-container {
-          position: relative;
-          width: 100%;
-          aspect-ratio: 16 / 9;
-          background: #000000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-        }
-
-        .hero-actual-video {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          display: block;
-          background: #000000;
         }
       `}</style>
     </>
