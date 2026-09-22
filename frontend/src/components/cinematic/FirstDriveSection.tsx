@@ -1,199 +1,560 @@
-import React from 'react';
-import { ArrowRight, Compass, Sparkles } from 'lucide-react';
-import { Button } from '../ui/Button';
+import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Play, X, Volume2, VolumeX, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export const FirstDriveSection: React.FC = () => {
-  return (
-    <section id="first-drive-section" className="first-drive-section">
-      <div className="container-wide">
-        <div className="first-drive-header">
-          <span className="pill-badge accent">
-            <Sparkles size={14} />
-            SECTION 01 // THE FIRST DRIVE
-          </span>
-          <h2 className="first-drive-headline mega-title">
-            EVERY DRIVER <br />
-            <span className="text-stroke">STARTS SOMEWHERE.</span>
-          </h2>
-          <p className="first-drive-subcopy">
-            Whether you’re learning from scratch or preparing for your practical test, we build instincts and road confidence one lesson at a time.
-          </p>
-        </div>
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-        {/* Cinematic Horizontal Roadway Track */}
-        <div className="roadway-cinematic-stage">
-          <div className="road-lane-line" />
-          <div className="road-vehicle-element">
-            <img 
-              src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80" 
-              alt="Driving Academy Training Vehicle on road" 
-              className="road-car-img" 
-            />
-            <div className="road-car-caption">
-              <span className="caption-tag">SYDNEY ROADWAYS</span>
-              <strong>Dual-Control Safety Fleet</strong>
+  return (
+    <>
+      <section id="approach-section" className="editorial-approach-section">
+        <div className="container-wide">
+          {/* Eyebrow Label with Hairline Rule matching Screenshot */}
+          <div className="approach-eyebrow-row">
+            <span className="approach-eyebrow-text">OUR APPROACH</span>
+            <div className="approach-eyebrow-dash" />
+          </div>
+
+          {/* Three-Column Editorial Hero-Follower Layout matching Screenshot */}
+          <div className="approach-main-editorial-grid">
+            {/* Column 1: Monumental Serif Headline */}
+            <div className="approach-headline-col">
+              <h2 className="approach-serif-title">
+                A MODERN WAY<br />
+                TO LEARN DRIVING.
+              </h2>
+            </div>
+
+            {/* Column 2: Narrative Description & Underlined Link */}
+            <div className="approach-narrative-col">
+              <p className="approach-lead-p">
+                We combine professional instruction, real-world experience and modern tools to help you become a safer, smarter and more confident driver.
+              </p>
+
+              <Link to="/services" className="approach-explore-link">
+                <span>EXPLORE OUR PROGRAMS</span>
+                <ArrowRight size={15} />
+              </Link>
+            </div>
+
+            {/* Column 3: Mountain Road Video Card with Play Button & Caption */}
+            <div className="approach-visual-col">
+              <div 
+                className="road-video-card" 
+                onClick={() => setIsVideoModalOpen(true)}
+                role="button"
+                tabIndex={0}
+                aria-label="Play Real Roads Real Skills Video"
+              >
+                <img 
+                  src="/assets/mountain-winding-road.jpg" 
+                  alt="Winding Scenic Mountain Driving Road" 
+                  className="road-card-image"
+                />
+                <div className="road-card-vignette" />
+                
+                <div className="road-play-circle">
+                  <Play size={14} className="play-ico" fill="currentColor" />
+                </div>
+
+                <div className="road-caption-badge">
+                  <span className="caption-line">REAL ROADS.</span>
+                  <span className="caption-line">REAL SKILLS.</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="road-telemetry-box">
-            <div className="telemetry-item">
-              <span className="t-label">LOGBOOK STATUS</span>
-              <strong className="t-val">3x Multiplier (NSW)</strong>
+
+          {/* Technical Fleet & Pedagogy Standards Bar */}
+          <div className="approach-standards-bar">
+            <div className="standard-item">
+              <span className="std-label">VEHICLE ARCHITECTURE</span>
+              <strong className="std-value">DUAL-CONTROL AUTOMATIC</strong>
+              <span className="std-desc">Secondary hydraulic dual-brake pedal</span>
             </div>
-            <div className="telemetry-item">
-              <span className="t-label">TRANSMISSION</span>
-              <strong className="t-val">Smooth Automatic</strong>
+
+            <div className="std-divider" />
+
+            <div className="standard-item">
+              <span className="std-label">SAFETY RATING</span>
+              <strong className="std-value">5-STAR ANCAP SAFETY</strong>
+              <span className="std-desc">Autonomous emergency braking & 8 airbags</span>
             </div>
-            <div className="telemetry-item">
-              <span className="t-label">SAFETY ASSISTS</span>
-              <strong className="t-val">Dual Secondary Brakes</strong>
+
+            <div className="std-divider" />
+
+            <div className="standard-item">
+              <span className="std-label">INSTRUCTION</span>
+              <strong className="std-value">1-ON-1 ACCREDITED COACHES</strong>
+              <span className="std-desc">Transport for NSW licensed instructors</span>
+            </div>
+
+            <div className="std-divider" />
+
+            <div className="standard-item">
+              <span className="std-label">LOGBOOK VALUE</span>
+              <strong className="std-value">3-FOR-1 BONUS HOURS</strong>
+              <span className="std-desc">10 structured hours = 30 logbook hours</span>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Video Modal */}
+      {isVideoModalOpen && (
+        <div 
+          className="approach-modal-overlay" 
+          onClick={() => setIsVideoModalOpen(false)}
+        >
+          <div 
+            className="approach-modal-box"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="approach-modal-top">
+              <div className="modal-title-stack">
+                <span className="modal-sub">REAL ROADS // REAL SKILLS</span>
+                <h4 className="modal-heading">Service NSW Real-World Driving Preparation</h4>
+              </div>
+
+              <div className="modal-top-actions">
+                <button 
+                  type="button" 
+                  className="icon-circle-btn"
+                  onClick={() => {
+                    if (videoRef.current) {
+                      videoRef.current.muted = !isMuted;
+                      setIsMuted(!isMuted);
+                    }
+                  }}
+                  aria-label={isMuted ? "Unmute" : "Mute"}
+                >
+                  {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                </button>
+
+                <button 
+                  type="button" 
+                  className="icon-circle-btn"
+                  onClick={() => setIsVideoModalOpen(false)}
+                  aria-label="Close video"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+
+            <div className="approach-video-wrap">
+              <video 
+                ref={videoRef}
+                autoPlay 
+                controls 
+                loop 
+                playsInline
+                muted={isMuted}
+                className="approach-video-player"
+              >
+                <source src="/videos/drivinity-hero-driving.mp4" type="video/mp4" />
+                <source src="/videos/also_make_a_simplee_mountain_d.mp4" type="video/mp4" />
+                <source src="/videos/gerte_an_vedio_ofa_moving_car.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
-        .first-drive-section {
-          padding: 8rem 0 6rem 0;
-          background: #FFFFFF;
+        /* ============================================================
+           OUR APPROACH SECTION (MATCHING SCREENSHOT DIRECTLY BELOW HERO)
+           ============================================================ */
+        .editorial-approach-section {
+          background-color: var(--bg-warm-ivory);
+          padding-top: 5.5rem;
+          padding-bottom: 5.5rem;
           border-bottom: 1px solid var(--border-light);
-          position: relative;
-          overflow: hidden;
-        }
-        .first-drive-header {
-          max-width: 980px;
-          margin-bottom: 3.5rem;
-        }
-        .first-drive-headline {
-          margin-top: 1rem;
-          margin-bottom: 1.5rem;
           color: var(--text-primary);
-        }
-        .text-stroke {
-          color: var(--text-primary);
-          position: relative;
-          display: inline-block;
-        }
-        .text-stroke::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 8px;
-          width: 100%;
-          height: 16px;
-          background: var(--accent-subtle);
-          z-index: -1;
-          border-radius: 4px;
-        }
-        .first-drive-subcopy {
-          font-size: 1.25rem;
-          color: var(--text-secondary);
-          max-width: 680px;
-          line-height: 1.6;
         }
 
-        /* Roadway Stage */
-        .roadway-cinematic-stage {
-          position: relative;
-          width: 100%;
-          height: 480px;
-          border-radius: var(--radius-xl);
-          background: #EAE8DE;
-          overflow: hidden;
-          box-shadow: var(--shadow-cinematic);
-          display: flex;
-          align-items: flex-end;
-          padding: 2.5rem;
-        }
         @media (max-width: 768px) {
-          .roadway-cinematic-stage {
-            height: 360px;
-            padding: 1.5rem;
+          .editorial-approach-section {
+            padding-top: 3.5rem;
+            padding-bottom: 3.5rem;
           }
         }
-        .road-lane-line {
-          position: absolute;
-          top: 50%;
-          left: 0;
-          right: 0;
-          height: 2px;
-          background: repeating-linear-gradient(90deg, #FFFFFF 0px, #FFFFFF 30px, transparent 30px, transparent 60px);
-          opacity: 0.6;
-          z-index: 2;
+
+        /* Eyebrow with Line */
+        .approach-eyebrow-row {
+          display: inline-flex;
+          align-items: center;
+          gap: 1.25rem;
+          margin-bottom: 2.2rem;
         }
-        .road-vehicle-element {
+
+        .approach-eyebrow-text {
+          font-family: var(--font-display);
+          font-size: 0.72rem;
+          font-weight: 600;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: var(--text-secondary);
+        }
+
+        .approach-eyebrow-dash {
+          width: 55px;
+          height: 1px;
+          background-color: var(--text-secondary);
+          opacity: 0.4;
+        }
+
+        /* 3-Column Editorial Grid matching Screenshot */
+        .approach-main-editorial-grid {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr 1.15fr;
+          gap: 3.5rem;
+          align-items: flex-start;
+          margin-bottom: 4.5rem;
+        }
+
+        @media (max-width: 1024px) {
+          .approach-main-editorial-grid {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+          }
+        }
+
+        /* Column 1: Serif Title */
+        .approach-serif-title {
+          font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+          font-optical-sizing: auto;
+          font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+          font-weight: 700;
+          line-height: 1.06;
+          letter-spacing: 0.035em;
+          color: var(--text-primary);
+          text-transform: uppercase;
+          margin: 0;
+        }
+
+        /* Column 2: Lead Paragraph & Underlined Link */
+        .approach-narrative-col {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 2rem;
+          padding-top: 0.5rem;
+        }
+
+        .approach-lead-p {
+          font-family: var(--font-body);
+          font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+          line-height: 1.65;
+          color: var(--text-secondary);
+          margin: 0;
+        }
+
+        .approach-explore-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          font-family: var(--font-display);
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--text-primary);
+          text-decoration: none;
+          padding-bottom: 4px;
+          border-bottom: 1.5px solid var(--text-primary);
+          transition: all 0.25s ease;
+        }
+
+        .approach-explore-link:hover {
+          color: var(--accent-champagne);
+          border-bottom-color: var(--accent-champagne);
+          transform: translateX(3px);
+        }
+
+        /* Column 3: Mountain Road Video Card with play button & caption */
+        .approach-visual-col {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+
+        @media (max-width: 1024px) {
+          .approach-visual-col {
+            justify-content: flex-start;
+          }
+        }
+
+        .road-video-card {
+          position: relative;
+          width: 100%;
+          max-width: 380px;
+          height: 155px;
+          border-radius: var(--radius-sm);
+          overflow: hidden;
+          cursor: pointer;
+          border: 1px solid var(--border-light);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 1.25rem 1.5rem;
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+
+        .road-video-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
+        }
+
+        .road-card-image {
           position: absolute;
           inset: 0;
-          z-index: 1;
-        }
-        .road-car-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transition: transform 0.6s ease;
         }
-        .road-car-caption {
+
+        .road-video-card:hover .road-card-image {
+          transform: scale(1.05);
+        }
+
+        .road-card-vignette {
           position: absolute;
-          top: 24px;
-          left: 24px;
-          background: rgba(16, 24, 32, 0.85);
-          backdrop-filter: blur(10px);
+          inset: 0;
+          background: linear-gradient(
+            90deg, 
+            rgba(0, 0, 0, 0.1) 0%, 
+            rgba(0, 0, 0, 0.65) 60%, 
+            rgba(0, 0, 0, 0.88) 100%
+          );
+        }
+
+        .road-play-circle {
+          position: relative;
+          z-index: 5;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
           color: #FFFFFF;
-          padding: 0.75rem 1.25rem;
+          transition: all 0.25s ease;
+          flex-shrink: 0;
+        }
+
+        .road-video-card:hover .road-play-circle {
+          background: #FFFFFF;
+          color: #111111;
+          border-color: #FFFFFF;
+          transform: scale(1.1);
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .play-ico {
+          margin-left: 2px;
+        }
+
+        .road-caption-badge {
+          position: relative;
+          z-index: 5;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          text-align: right;
+          gap: 0.15rem;
+        }
+
+        .caption-line {
+          font-family: var(--font-display);
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: #FFFFFF;
+        }
+
+        /* Standards Bar */
+        .approach-standards-bar {
+          display: grid;
+          grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+          gap: 2rem;
+          align-items: center;
+          background: #FFFFFF;
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-sm);
+          padding: 1.5rem 2rem;
+          box-shadow: 0 4px 20px rgba(17, 17, 17, 0.03);
+        }
+
+        @media (max-width: 1024px) {
+          .approach-standards-bar {
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            padding: 1.25rem;
+          }
+          .std-divider {
+            display: none;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .approach-standards-bar {
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+          }
+        }
+
+        .standard-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .std-label {
+          font-family: var(--font-display);
+          font-size: 0.65rem;
+          font-weight: 600;
+          letter-spacing: 0.18em;
+          color: var(--accent-champagne);
+          text-transform: uppercase;
+        }
+
+        .std-value {
+          font-family: var(--font-display);
+          font-size: 0.88rem;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          color: var(--text-primary);
+        }
+
+        .std-desc {
+          font-size: 0.76rem;
+          color: var(--text-secondary);
+        }
+
+        .std-divider {
+          width: 1px;
+          height: 38px;
+          background-color: var(--border-light);
+        }
+
+        /* Modal */
+        .approach-modal-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          background: rgba(0, 0, 0, 0.85);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1.5rem;
+        }
+
+        .approach-modal-box {
+          position: relative;
+          width: min(92vw, calc((82vh - 60px) * (16 / 9)));
+          max-width: 960px;
+          background: #111114;
+          border: 1px solid rgba(255, 255, 255, 0.15);
           border-radius: var(--radius-md);
+          overflow: hidden;
+          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
+          display: flex;
+          flex-direction: column;
+          margin: auto;
+        }
+
+        .approach-modal-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.85rem 1.25rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(18, 18, 22, 0.95);
+          flex-shrink: 0;
+          min-height: 54px;
+          box-sizing: border-box;
+        }
+
+        .modal-title-stack {
           display: flex;
           flex-direction: column;
           gap: 0.2rem;
-          z-index: 5;
-        }
-        .caption-tag {
-          font-size: 0.7rem;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          color: var(--accent-lime);
-        }
-        .road-car-caption strong {
-          font-size: 0.95rem;
         }
 
-        /* Telemetry Box */
-        .road-telemetry-box {
-          position: relative;
-          z-index: 5;
-          background: rgba(255, 255, 255, 0.92);
-          backdrop-filter: blur(14px);
-          border: 1px solid var(--border-light);
-          border-radius: var(--radius-lg);
-          padding: 1.25rem 2rem;
+        .modal-sub {
+          font-family: var(--font-display);
+          font-size: 0.65rem;
+          font-weight: 600;
+          letter-spacing: 0.2em;
+          color: var(--accent-champagne);
+        }
+
+        .modal-heading {
+          font-family: var(--font-display);
+          font-size: 0.95rem;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          color: #FFFFFF;
+          margin: 0;
+        }
+
+        .modal-top-actions {
           display: flex;
           align-items: center;
-          gap: 2.5rem;
-          box-shadow: var(--shadow-card);
+          gap: 0.75rem;
         }
-        @media (max-width: 768px) {
-          .road-telemetry-box {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 1rem;
-            width: 100%;
-          }
-        }
-        .telemetry-item {
+
+        .icon-circle-btn {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: #FFFFFF;
           display: flex;
-          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
         }
-        .t-label {
-          font-size: 0.7rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          color: var(--text-muted);
+
+        .icon-circle-btn:hover {
+          background: rgba(255, 255, 255, 0.25);
+          transform: scale(1.05);
         }
-        .t-val {
-          font-family: var(--font-display);
-          font-weight: 900;
-          font-size: 1.05rem;
-          color: var(--text-primary);
+
+        .approach-video-wrap {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          background: #000000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        .approach-video-player {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          display: block;
+          background: #000000;
         }
       `}</style>
-    </section>
+    </>
   );
 };

@@ -215,41 +215,41 @@ export const PLACEHOLDER_REVIEWS: TestimonialItem[] = [
 export const TEST_LOCATIONS: LocationItem[] = [
   {
     id: 'loc-01',
-    name: 'SERVICE LOCATION 01 (Botany / South Sydney)',
-    region: 'Sydney South',
-    code: 'NSW-01',
-    description: 'Active testing centre covering urban, industrial, and suburban roundabouts.',
-    addressPlaceholder: 'Near Service NSW Centre, South Sydney Area, NSW',
-    testCenterType: 'Service NSW Practical Test Centre',
+    name: 'Service Zone 01 (South Region)',
+    region: 'South Region',
+    code: 'ZONE-01',
+    description: 'Comprehensive driving assessment route covering multi-lane roundabouts, suburban corridors, and precision parking.',
+    addressPlaceholder: 'Accredited Driving Testing Route Hub, NSW',
+    testCenterType: 'Accredited Practical Test Route',
     isPopular: true
   },
   {
     id: 'loc-02',
-    name: 'SERVICE LOCATION 02 (Silverwater / Inner West)',
-    region: 'Sydney Inner West',
-    code: 'NSW-02',
-    description: 'Multi-lane traffic flows, 40 km/h school zones, and highway merge corridors.',
-    addressPlaceholder: 'Near Service NSW Centre, Inner West Hub, NSW',
-    testCenterType: 'Service NSW Practical Test Centre',
+    name: 'Service Zone 02 (West Region)',
+    region: 'West Region',
+    code: 'ZONE-02',
+    description: 'Multi-lane traffic flows, 40 km/h active school zones, and highway merge corridors.',
+    addressPlaceholder: 'Accredited Driving Testing Route Hub, NSW',
+    testCenterType: 'Accredited Practical Test Route',
     isPopular: true
   },
   {
     id: 'loc-03',
-    name: 'SERVICE LOCATION 03 (Marrickville / City Fringe)',
-    region: 'Sydney City Fringe',
-    code: 'NSW-03',
-    description: 'Narrow residential streets, pedestrian crossings, and tight reverse parallel parking.',
-    addressPlaceholder: 'Near Service NSW Centre, City Fringe, NSW',
-    testCenterType: 'Service NSW Practical Test Centre'
+    name: 'Service Zone 03 (Central Region)',
+    region: 'Central Region',
+    code: 'ZONE-03',
+    description: 'Urban street flows, pedestrian crossings, and tight reverse parallel parking manoeuvres.',
+    addressPlaceholder: 'Accredited Driving Testing Route Hub, NSW',
+    testCenterType: 'Accredited Practical Test Route'
   },
   {
     id: 'loc-04',
-    name: 'SERVICE LOCATION 04 (Rockdale / St George)',
-    region: 'St George Region',
-    code: 'NSW-04',
-    description: 'Suburban test routes with speed changes, stop sign priorities, and hill starts.',
-    addressPlaceholder: 'Near Service NSW Centre, Rockdale District, NSW',
-    testCenterType: 'Service NSW Practical Test Centre'
+    name: 'Service Zone 04 (East Region)',
+    region: 'East Region',
+    code: 'ZONE-04',
+    description: 'Varied gradient test routes with hill starts, priority intersections, and speed transitions.',
+    addressPlaceholder: 'Accredited Driving Testing Route Hub, NSW',
+    testCenterType: 'Accredited Practical Test Route'
   }
 ];
 

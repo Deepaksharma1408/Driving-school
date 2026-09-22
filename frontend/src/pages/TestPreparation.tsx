@@ -113,12 +113,24 @@ export const TestPreparation: React.FC = () => {
             gap: 2.5rem;
           }
         }
-        .lead-text {
-          font-size: 1.15rem;
-          color: var(--text-secondary);
-          line-height: 1.65;
+        .editorial-title {
+          font-family: var(--font-serif) !important;
+          font-size: clamp(2rem, 3.8vw, 3.2rem);
+          font-weight: 400;
+          line-height: 1.08;
+          letter-spacing: -0.015em;
+          color: var(--text-primary);
+          text-transform: uppercase;
           margin-top: 1rem;
+          margin-bottom: 1.75rem;
+        }
+        .lead-text {
+          font-family: var(--font-body);
+          font-size: 1.05rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
           margin-bottom: 2rem;
+          max-width: 680px;
         }
         .criteria-checklist-grid {
           display: grid;
@@ -134,28 +146,38 @@ export const TestPreparation: React.FC = () => {
         .criteria-item {
           background: #FFFFFF;
           padding: 1.5rem;
-          border-radius: var(--radius-lg);
+          border-radius: var(--radius-md);
+          border: 1px solid var(--border-light);
           display: flex;
           flex-direction: column;
           gap: 0.4rem;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .criteria-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 24px rgba(17, 17, 17, 0.05);
         }
         .criteria-header {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.6rem;
         }
         .chk-green {
           color: #16A34A;
           flex-shrink: 0;
         }
         .criteria-header h4 {
-          font-size: 1rem;
-          font-weight: 800;
+          font-family: var(--font-display);
+          font-size: 0.95rem;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+          color: var(--text-primary);
         }
         .criteria-item p {
+          font-family: var(--font-body);
           font-size: 0.85rem;
           color: var(--text-secondary);
-          line-height: 1.45;
+          line-height: 1.5;
         }
         .test-prep-actions {
           display: flex;

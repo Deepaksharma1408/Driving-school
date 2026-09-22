@@ -25,6 +25,7 @@ export const Instructors: React.FC = () => {
       rating: 4.9,
       reviewsCount: 310,
       passRate: '97.2% Pass Rate',
+      portrait: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
       languages: ['English', 'Hindi', 'Punjabi'],
       testCentres: ['Service NSW Botany', 'Service NSW Marrickville'],
       specialities: ['Parallel Parking Specialist', 'Anxious Learner Coach', 'Mock Test Audit'],
@@ -39,6 +40,7 @@ export const Instructors: React.FC = () => {
       rating: 5.0,
       reviewsCount: 240,
       passRate: '98.0% Pass Rate',
+      portrait: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80',
       languages: ['English', 'Spanish'],
       testCentres: ['Service NSW Rockdale', 'Service NSW Miranda'],
       specialities: ['Kerbside Stops', 'School Zone Speed Management', 'Night Driving'],
@@ -53,6 +55,7 @@ export const Instructors: React.FC = () => {
       rating: 4.9,
       reviewsCount: 420,
       passRate: '96.5% Pass Rate',
+      portrait: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
       languages: ['English', 'Hindi', 'Gujarati'],
       testCentres: ['Service NSW Silverwater', 'Service NSW Botany'],
       specialities: ['Complex Roundabouts', 'Highway Merging', 'Refresher Driving'],
@@ -106,15 +109,15 @@ export const Instructors: React.FC = () => {
               <div key={inst.id} className="instructor-card aura-card">
                 <div className="card-header-row">
                   <div className="inst-avatar">
-                    <ShieldCheck size={28} />
+                    <img src={inst.portrait} alt={inst.name} className="inst-avatar-img" />
                   </div>
                   <div className="inst-meta">
                     <h3 className="inst-name">{inst.name}</h3>
                     <span className="inst-title">{inst.title}</span>
                     <div className="rating-row">
-                      <Star size={16} fill="#D2B04C" color="#D2B04C" />
+                      <Star size={14} fill="#D2B04C" color="#D2B04C" />
                       <strong>{inst.rating}</strong>
-                      <span className="reviews-cnt">({inst.reviewsCount} reviews)</span>
+                      <span className="reviews-cnt">({inst.reviewsCount})</span>
                       <span className="pass-badge">{inst.passRate}</span>
                     </div>
                   </div>
@@ -205,74 +208,117 @@ export const Instructors: React.FC = () => {
         }
 
         .instructors-cards-grid {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
+          align-items: stretch;
         }
+
+        @media (max-width: 1024px) {
+          .instructors-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+          }
+        }
+
+        @media (max-width: 680px) {
+          .instructors-cards-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+        }
+
         .instructor-card {
-          padding: 2.25rem;
+          background: #FFFFFF;
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-lg);
+          padding: 1.85rem;
           display: flex;
           flex-direction: column;
           gap: 1.25rem;
+          transition: all 0.35s var(--ease-cinematic);
+          box-shadow: 0 4px 20px rgba(17, 17, 17, 0.03);
         }
+
+        .instructor-card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(197, 168, 128, 0.45);
+          box-shadow: 0 20px 45px rgba(17, 17, 17, 0.09);
+        }
+
         .card-header-row {
           display: flex;
-          gap: 1.25rem;
-          align-items: flex-start;
-        }
-        .inst-avatar {
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          background: #07131D;
-          color: var(--accent-gold);
-          display: flex;
+          gap: 1rem;
           align-items: center;
-          justify-content: center;
+        }
+
+        .inst-avatar {
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          overflow: hidden;
+          background: #07131D;
           flex-shrink: 0;
+          border: 2px solid var(--accent-champagne);
         }
+
+        .inst-avatar-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
         .inst-name {
-          font-size: 1.4rem;
+          font-family: var(--font-display);
+          font-size: 1.22rem;
+          font-weight: 700;
           margin-bottom: 0.15rem;
+          color: var(--text-primary);
         }
+
         .inst-title {
-          font-size: 0.85rem;
+          font-size: 0.78rem;
           color: #64748B;
           display: block;
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.3rem;
         }
+
         .rating-row {
           display: flex;
           align-items: center;
-          gap: 0.4rem;
-          font-size: 0.85rem;
+          gap: 0.35rem;
+          font-size: 0.8rem;
         }
+
         .reviews-cnt {
           color: #64748B;
         }
+
         .pass-badge {
-          font-size: 0.725rem;
+          font-size: 0.68rem;
           font-weight: 800;
-          background: rgba(22, 163, 74, 0.15);
+          background: rgba(22, 163, 74, 0.12);
           color: #16A34A;
-          padding: 0.15rem 0.55rem;
+          padding: 0.15rem 0.5rem;
           border-radius: var(--radius-full);
-          margin-left: 0.5rem;
+          margin-left: 0.4rem;
         }
 
         .inst-bio {
-          font-size: 0.95rem;
-          color: #475569;
-          line-height: 1.5;
+          font-family: var(--font-body);
+          font-size: 0.88rem;
+          color: var(--text-secondary);
+          line-height: 1.55;
+          flex: 1;
         }
 
         .inst-details-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
           background: #FAFAF8;
-          padding: 1.25rem;
-          border-radius: var(--radius-lg);
+          padding: 1rem 1.15rem;
+          border-radius: var(--radius-md);
           border: 1px solid var(--border-light);
         }
         @media (max-width: 768px) {

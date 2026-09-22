@@ -1,195 +1,219 @@
 import React from 'react';
-import { ArrowRight, Sparkles, Compass, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Button } from '../ui/Button';
 
 export const CinematicFinalCTA: React.FC = () => {
   return (
-    <section className="cinematic-final-cta-section section-padding">
+    <section className="cinematic-final-cta-section">
       <div className="container-wide">
         <div className="final-experience-stage">
+          {/* Deep Horizon Road Perspective */}
           <div className="final-road-perspective" />
           
-          {/* Car moving into distance towards horizon */}
+          {/* Subtle Silhouette of Vehicle Traveling Toward the Horizon */}
           <div className="horizon-traveling-car">
-            <div className="horizon-headlights" />
+            <div className="car-taillights-glow" />
           </div>
 
           <div className="final-cta-content text-center">
-            <span className="horizon-eyebrow-badge">
-              SECTION 11 // THE HORIZON
-            </span>
+            <div className="editorial-meta-tag champagne horizon-badge">
+              <span>FINAL CALL</span>
+              <span className="tag-dash" />
+              <span>THE HORIZON</span>
+            </div>
 
-            <h2 className="final-mega-headline">
-              READY FOR <br />
-              <span className="text-yellow-glow">YOUR NEXT DRIVE?</span>
+            <h2 className="final-mega-headline font-thin">
+              READY TO <br />
+              <span className="font-medium text-gradient-champagne">TAKE THE WHEEL?</span>
             </h2>
 
             <p className="final-lead-copy">
-              No stress. No shouting. Just structured, calm coaching and modern dual-control safety that turns nervous learners into confident, licensed Australian drivers.
+              No shouting. No test anxiety. Just structured, patient coaching and modern dual-control safety that turns nervous beginners into calm, licensed Australian motorists.
             </p>
 
             <div className="final-actions-row">
-              <Button to="/book" variant="yellow" size="lg" icon={<ArrowRight size={20} />}>
-                BOOK YOUR FIRST LESSON
+              <Button to="/book" variant="primary" size="lg" icon={<ArrowRight size={16} />}>
+                START YOUR JOURNEY
               </Button>
               <Button to="/services" variant="glass-outline" size="lg">
-                EXPLORE ALL SERVICES
+                EXPLORE PROGRAMS
               </Button>
             </div>
 
+            {/* Official Luxury Brand Signature */}
             <div className="final-brand-signature">
-              <span className="sig-main">CANGURU<span className="sig-yellow">BER</span></span>
-              <span className="sig-sub">DRIVING SCHOOL // NSW</span>
+              <span className="sig-main">DRIVIN<span className="sig-champagne">ITY</span></span>
+              <span className="sig-sub">DRIVING ACADEMY // NSW</span>
             </div>
           </div>
         </div>
       </div>
 
       <style>{`
+        /* ============================================================
+           CINEMATIC FINAL CTA SECTION STYLING (#080808)
+           ============================================================ */
         .cinematic-final-cta-section {
-          background-color: #FFFFFF;
-          padding-top: 4rem;
-          padding-bottom: 5rem;
+          background-color: var(--bg-warm-ivory);
+          padding-top: 3rem;
+          padding-bottom: 6rem;
         }
+
         @media (max-width: 768px) {
           .cinematic-final-cta-section {
-            padding-top: 2.5rem;
-            padding-bottom: 3rem;
+            padding-top: 2rem;
+            padding-bottom: 4rem;
           }
         }
+
         .final-experience-stage {
-          background: #0A1420;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          border-radius: var(--radius-lg);
-          padding: 4rem 2.5rem;
+          background: #080808;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: var(--radius-md);
+          padding: 6rem 3rem;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+          box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+          color: #FFFFFF;
         }
+
         @media (max-width: 768px) {
           .final-experience-stage {
-            padding: 2.5rem 1.25rem;
-            border-radius: var(--radius-md);
+            padding: 3.5rem 1.5rem;
           }
         }
+
+        /* Perspective Road Line */
         .final-road-perspective {
           position: absolute;
           bottom: 0;
-          left: 20%;
-          right: 20%;
-          height: 60%;
-          background: linear-gradient(180deg, rgba(255, 208, 0, 0.08) 0%, rgba(5, 11, 18, 0.95) 100%);
-          clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
-          border-top: 1px solid rgba(255, 208, 0, 0.25);
+          left: 25%;
+          right: 25%;
+          height: 65%;
+          background: linear-gradient(180deg, rgba(197, 168, 128, 0.08) 0%, rgba(8, 8, 8, 0.95) 100%);
+          clip-path: polygon(44% 0%, 56% 0%, 100% 100%, 0% 100%);
+          border-top: 1px solid rgba(197, 168, 128, 0.3);
           pointer-events: none;
         }
+
         @media (max-width: 640px) {
           .final-road-perspective {
-            left: 5%;
-            right: 5%;
-            height: 65%;
+            left: 10%;
+            right: 10%;
           }
         }
+
+        /* Subtle Taillight Glow Traveling into Horizon */
         .horizon-traveling-car {
           position: absolute;
-          top: 38%;
+          top: 36%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 80px;
-          height: 40px;
-          background: radial-gradient(ellipse at center, rgba(255, 208, 0, 0.9) 0%, rgba(255, 208, 0, 0.2) 60%, transparent 100%);
-          filter: blur(6px);
-          animation: carHorizonGlow 3s ease-in-out infinite alternate;
+          width: 60px;
+          height: 24px;
+          pointer-events: none;
         }
-        @keyframes carHorizonGlow {
-          0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-          100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+
+        .car-taillights-glow {
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.2) 60%, transparent 100%);
+          filter: blur(4px);
+          animation: carPulseHorizon 3s ease-in-out infinite alternate;
         }
+
+        @keyframes carPulseHorizon {
+          0% { transform: scale(0.85); opacity: 0.6; }
+          100% { transform: scale(1.15); opacity: 1; }
+        }
+
         .final-cta-content {
           position: relative;
           z-index: 5;
-          max-width: 760px;
+          max-width: 820px;
           margin: 0 auto;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
-        .horizon-eyebrow-badge {
-          display: inline-block;
-          font-family: var(--font-display);
-          font-weight: 800;
-          font-size: clamp(0.68rem, 2.4vw, 0.75rem);
-          letter-spacing: 0.16em;
-          color: var(--accent-gold);
-          background: rgba(210, 176, 76, 0.12);
-          border: 1px solid rgba(210, 176, 76, 0.3);
-          padding: 0.3rem 0.8rem;
-          border-radius: var(--radius-full);
-          margin-bottom: 1.15rem;
+
+        .horizon-badge {
+          margin-bottom: 1.5rem;
         }
+
         .final-mega-headline {
-          font-family: var(--font-display);
-          font-size: clamp(1.85rem, 6.5vw, 3.4rem);
-          font-weight: 900;
-          letter-spacing: -0.035em;
-          line-height: 1.05;
+          font-family: var(--font-serif);
+          font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+          line-height: 1.08;
+          letter-spacing: 0.02em;
+          text-transform: uppercase;
           color: #FFFFFF !important;
-          margin-bottom: 1.15rem;
+          margin-bottom: 1.5rem;
         }
-        .text-yellow-glow {
-          color: var(--accent-gold);
-          text-shadow: 0 0 35px rgba(210, 176, 76, 0.5);
+
+        .text-gradient-champagne {
+          background: linear-gradient(135deg, #F0E6D8 0%, #C5A880 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
+
         .final-lead-copy {
-          font-size: clamp(0.925rem, 2.5vw, 1.05rem);
-          color: #CBD5E1 !important;
-          line-height: 1.6;
-          max-width: 620px;
-          margin-bottom: 2rem;
+          font-family: var(--font-body);
+          font-size: 1.05rem;
+          color: #A3A099 !important;
+          line-height: 1.68;
+          max-width: 660px;
+          margin-bottom: 2.75rem;
         }
+
         .final-actions-row {
           display: flex;
           align-items: center;
-          gap: 1.25rem;
-          margin-bottom: 3rem;
+          gap: 1.5rem;
+          margin-bottom: 4rem;
           flex-wrap: wrap;
           justify-content: center;
-          width: 100%;
         }
+
         @media (max-width: 640px) {
           .final-actions-row {
             flex-direction: column;
+            width: 100%;
             gap: 0.75rem;
-            margin-bottom: 2.25rem;
           }
           .final-actions-row .btn {
             width: 100%;
-            justify-content: center;
           }
         }
+
+        /* Brand Signature */
         .final-brand-signature {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 0.25rem;
-          padding-top: 1.75rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.12);
+          gap: 0.35rem;
+          padding-top: 2rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .sig-main {
           font-family: var(--font-display);
-          font-weight: 900;
-          font-size: 1.4rem;
-          letter-spacing: 0.15em;
+          font-weight: 700;
+          font-size: 1.35rem;
+          letter-spacing: 0.22em;
           color: #FFFFFF;
         }
-        .sig-yellow {
-          color: var(--accent-gold);
+
+        .sig-champagne {
+          color: var(--accent-champagne);
         }
+
         .sig-sub {
-          font-size: 0.7rem;
-          letter-spacing: 0.25em;
-          color: var(--accent-gold);
-          font-weight: 800;
+          font-family: var(--font-display);
+          font-size: 0.65rem;
+          letter-spacing: 0.22em;
+          color: var(--accent-champagne);
+          font-weight: 600;
         }
       `}</style>
     </section>

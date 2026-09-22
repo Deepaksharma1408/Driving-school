@@ -1,408 +1,276 @@
-import React, { useState, useRef } from 'react';
-import { Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, Star, ShieldCheck } from 'lucide-react';
 import { PLACEHOLDER_REVIEWS } from '../../data/content';
 
 export const EditorialTestimonials: React.FC = () => {
   const [activeIdx, setActiveIdx] = useState<number>(0);
-  const sliderRef = useRef<HTMLDivElement | null>(null);
-  const isDownRef = useRef<boolean>(false);
-  const startXRef = useRef<number>(0);
-  const scrollLeftRef = useRef<number>(0);
-  const hasDraggedRef = useRef<boolean>(false);
 
-  const reviewBackgrounds = [
-    'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1600&q=85',
-    'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1600&q=85',
-    'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1600&q=85',
-    'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=85'
+  const testimonials = [
+    {
+      id: 'rev-01',
+      quote: "THE LESSONS CHANGED THE WAY I DRIVE.",
+      body: "Passed my practical test on the first attempt at Botany Service NSW. The warm-up session on actual test routes completely eliminated my anxiety.",
+      author: "LUCAS M.",
+      location: "Service NSW Botany",
+      service: "Lesson + Car Package",
+      result: "PASSED FIRST ATTEMPT",
+      portrait: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: 'rev-02',
+      quote: "CONVERTING MY OVERSEAS LICENCE WAS SEAMLESS.",
+      body: "Clear, systematic instruction on Sydney multi-lane roundabouts, safe 3-second buffers, and blind-spot confirmation that examiners look for.",
+      author: "ANA CLARA S.",
+      location: "Service NSW Silverwater",
+      service: "Overseas Conversion Coaching",
+      result: "LICENCE CONVERTED",
+      portrait: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: 'rev-03',
+      quote: "PATIENT, METHODICAL, AND TEST-ROUTE MASTERED.",
+      body: "My instructor knew every single nuance of the Marrickville test corridor. The dual-control car was smooth, responsive, and incredibly easy to park.",
+      author: "MICHAEL K.",
+      location: "Service NSW Marrickville",
+      service: "Driving Lessons",
+      result: "PASSED FIRST ATTEMPT",
+      portrait: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: 'rev-04',
+      quote: "THE DUAL-CONTROL CAR GAVE ME TOTAL POISE.",
+      body: "Hiring the car for my driving test was the best decision. The instructor accompanied me to the counter and ensured everything was completely stress-free.",
+      author: "CHLOE W.",
+      location: "Service NSW Rockdale",
+      service: "Car Hire for Test",
+      result: "PASSED TEST",
+      portrait: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80"
+    }
   ];
 
-  const total = PLACEHOLDER_REVIEWS.length;
+  const total = testimonials.length;
+  const current = testimonials[activeIdx];
 
-  const scrollToSlide = (index: number) => {
-    if (!sliderRef.current) return;
-    const targetIdx = (index + total) % total;
-    const slideWidth = sliderRef.current.offsetWidth;
-    sliderRef.current.scrollTo({
-      left: targetIdx * slideWidth,
-      behavior: 'smooth'
-    });
-    setActiveIdx(targetIdx);
-  };
-
-  // Sync activeIdx on scroll (for touch swipe on mobile and trackpad)
-  const handleScroll = () => {
-    if (!sliderRef.current) return;
-    const scrollLeft = sliderRef.current.scrollLeft;
-    const width = sliderRef.current.offsetWidth;
-    if (width > 0) {
-      const newIdx = Math.round(scrollLeft / width);
-      if (newIdx !== activeIdx && newIdx >= 0 && newIdx < total) {
-        setActiveIdx(newIdx);
-      }
-    }
-  };
-
-  // Mouse Drag to slide on desktop
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!sliderRef.current) return;
-    isDownRef.current = true;
-    hasDraggedRef.current = false;
-    startXRef.current = e.pageX - sliderRef.current.offsetLeft;
-    scrollLeftRef.current = sliderRef.current.scrollLeft;
-    sliderRef.current.style.scrollBehavior = 'auto';
-    sliderRef.current.style.cursor = 'grabbing';
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDownRef.current || !sliderRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - sliderRef.current.offsetLeft;
-    const walk = (x - startXRef.current) * 1.2;
-    if (Math.abs(walk) > 5) {
-      hasDraggedRef.current = true;
-    }
-    sliderRef.current.scrollLeft = scrollLeftRef.current - walk;
-  };
-
-  const handleMouseUpOrLeave = () => {
-    if (!isDownRef.current || !sliderRef.current) return;
-    isDownRef.current = false;
-    sliderRef.current.style.cursor = 'grab';
-    sliderRef.current.style.scrollBehavior = 'smooth';
-    
-    // Snap to nearest slide
-    const width = sliderRef.current.offsetWidth;
-    const currentScroll = sliderRef.current.scrollLeft;
-    const nearest = Math.round(currentScroll / width);
-    scrollToSlide(nearest);
-  };
+  const nextTestimonial = () => setActiveIdx((prev) => (prev + 1) % total);
+  const prevTestimonial = () => setActiveIdx((prev) => (prev - 1 + total) % total);
 
   return (
     <section className="editorial-testimonials-section section-padding">
-      <div className="container">
-        <div className="section-header-row">
-          <div className="section-header">
-            <span className="testimonials-eyebrow">
-              SECTION 08 // STUDENT STORIES
+      <div className="container-wide">
+        {/* Eyebrow */}
+        <div className="testimonials-top-row">
+          <div className="editorial-meta-tag champagne">
+            <span>SECTION 08</span>
+            <span className="tag-dash" />
+            <span>STUDENT VERIFICATIONS</span>
+          </div>
+
+          <div className="carousel-nav-arrows">
+            <button 
+              className="arrow-circle-btn" 
+              onClick={prevTestimonial}
+              aria-label="Previous testimonial"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <span className="slide-counter-text">
+              0{activeIdx + 1} / 0{total}
             </span>
-            <h2 className="testimonials-headline">DRIVEN BY OUR STUDENTS.</h2>
+            <button 
+              className="arrow-circle-btn" 
+              onClick={nextTestimonial}
+              aria-label="Next testimonial"
+            >
+              <ChevronRight size={18} />
+            </button>
           </div>
         </div>
 
-        {/* Native Touch & Drag Snap-Slider Viewport */}
-        <div 
-          className="testimonials-viewport"
-          ref={sliderRef}
-          onScroll={handleScroll}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUpOrLeave}
-          onMouseLeave={handleMouseUpOrLeave}
-          role="region"
-          aria-label="Student testimonials slider"
-        >
-          {PLACEHOLDER_REVIEWS.map((review, i) => {
-            const bg = reviewBackgrounds[i % reviewBackgrounds.length];
-            return (
-              <div className="testimonial-slide" key={review.id}>
-                <div className="magazine-quote-card">
-                  {/* Background Photo */}
-                  <div className="card-bg-photo-layer">
-                    <img 
-                      src={bg} 
-                      alt="Confident student driver with Drivinity" 
-                      className="girl-driving-bg-img"
-                      draggable={false}
-                    />
-                    <div className="card-photo-dark-scrim" />
-                  </div>
+        {/* Single Dominant Testimonial Stage */}
+        <div className="dominant-testimonial-stage">
+          <div className="testimonial-quote-block">
+            <blockquote className="dominant-quote-headline font-thin">
+              "{current.quote}"
+            </blockquote>
 
-                  <div className="quote-top-strip">
-                    <div className="stars-cluster">
-                      {[...Array(5)].map((_, starI) => (
-                        <Star key={starI} size={18} className="star-yellow" fill="currentColor" />
-                      ))}
-                    </div>
-                    <span className="pass-status-pill">{review.passStatus}</span>
-                  </div>
+            <p className="dominant-body-copy">
+              {current.body}
+            </p>
 
-                  <blockquote className="master-quote-text">
-                    "{review.reviewText}"
-                  </blockquote>
-
-                  <div className="student-profile-footer">
-                    <div className="student-avatar-box">
-                      <span className="avatar-letter">{review.studentName.charAt(0)}</span>
-                    </div>
-                    <div className="student-meta">
-                      <strong className="student-name">{review.studentName}</strong>
-                      <span className="student-detail">{review.serviceType} • {review.locationTag} • {review.date}</span>
-                    </div>
-                  </div>
+            {/* Small Student Metadata */}
+            <div className="dominant-meta-row">
+              <div className="student-profile-lockup">
+                <img 
+                  src={current.portrait} 
+                  alt={current.author} 
+                  className="student-avatar" 
+                />
+                <div className="student-text">
+                  <strong className="student-author-name">{current.author}</strong>
+                  <span className="student-location-tag">{current.location} • {current.service}</span>
                 </div>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Indicator dots */}
-        <div className="testimonial-dots-row">
-          {PLACEHOLDER_REVIEWS.map((_, i) => (
-            <button
-              key={i}
-              className={`t-dot ${i === activeIdx ? 'active' : ''}`}
-              onClick={() => scrollToSlide(i)}
-              aria-label={`Go to testimonial ${i + 1}`}
-            />
-          ))}
+              <div className="pass-result-badge">
+                <ShieldCheck size={14} className="champagne-icon" />
+                <span>{current.result}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <style>{`
+        /* ============================================================
+           EDITORIAL TESTIMONIALS SECTION STYLING (WARM IVORY)
+           ============================================================ */
         .editorial-testimonials-section {
-          background-color: #FFFFFF;
-          color: var(--drivinity-navy);
-          border-top: 1px solid var(--border-light);
+          background-color: var(--bg-warm-ivory);
           border-bottom: 1px solid var(--border-light);
         }
-        @media (max-width: 768px) {
-          .editorial-testimonials-section {
-            padding-top: 3rem;
-            padding-bottom: 3rem;
-          }
-        }
-        .testimonials-eyebrow {
-          display: inline-block;
-          font-family: var(--font-display);
-          font-weight: 800;
-          font-size: clamp(0.725rem, 2.5vw, 0.825rem);
-          letter-spacing: 0.16em;
-          color: #B28F00;
-          margin-bottom: 0.5rem;
-        }
-        .testimonials-headline {
-          font-family: var(--font-display);
-          font-size: clamp(1.75rem, 5.5vw, 3.2rem);
-          font-weight: 900;
-          letter-spacing: -0.035em;
-          color: var(--drivinity-navy);
-        }
-        .section-header-row {
+
+        .testimonials-top-row {
           display: flex;
-          align-items: flex-end;
+          align-items: center;
           justify-content: space-between;
-          margin-bottom: 2rem;
+          margin-bottom: 3.5rem;
+        }
+
+        .carousel-nav-arrows {
+          display: flex;
+          align-items: center;
           gap: 1rem;
         }
-        .carousel-nav-buttons {
-          display: flex;
-          gap: 0.5rem;
-        }
-        .nav-arrow {
+
+        .arrow-circle-btn {
           width: 44px;
           height: 44px;
           border-radius: 50%;
-          background: #0A1420;
-          border: 1.5px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid var(--border-light);
+          background: #FFFFFF;
+          color: var(--text-primary);
           display: flex;
           align-items: center;
           justify-content: center;
+          cursor: pointer;
+          transition: all 0.25s ease;
+        }
+
+        .arrow-circle-btn:hover {
+          background: var(--bg-charcoal);
           color: #FFFFFF;
-          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @media (max-width: 640px) {
-          .nav-arrow {
-            width: 38px;
-            height: 38px;
-          }
-        }
-        .nav-arrow:hover {
-          background: var(--accent-gold);
-          color: #0A1420;
-          border-color: var(--accent-gold);
-          transform: translateY(-2px);
+          border-color: var(--bg-charcoal);
         }
 
-        /* Testimonials Viewport & Multi-Slide Snap Track */
-        .testimonials-viewport {
-          position: relative;
-          width: 100%;
-          display: flex;
-          overflow-x: auto;
-          overflow-y: hidden;
-          scroll-snap-type: x mandatory;
-          scroll-behavior: smooth;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          border-radius: var(--radius-lg);
-          user-select: none;
-          cursor: grab;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-        .testimonials-viewport::-webkit-scrollbar {
-          display: none;
-        }
-        @media (max-width: 768px) {
-          .testimonials-viewport {
-            border-radius: var(--radius-md);
-          }
-        }
-        .testimonial-slide {
-          flex: 0 0 100%;
-          min-width: 100%;
-          width: 100%;
-          scroll-snap-align: start;
-          scroll-snap-stop: always;
-          box-sizing: border-box;
+        .slide-counter-text {
+          font-family: var(--font-display);
+          font-size: 0.76rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          color: var(--text-muted);
         }
 
-        /* Magazine Card */
-        .magazine-quote-card {
+        /* Dominant Testimonial Stage */
+        .dominant-testimonial-stage {
+          background: #FFFFFF;
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-md);
+          padding: 5rem 4.5rem;
+          box-shadow: 0 16px 40px rgba(17, 17, 17, 0.05);
           position: relative;
-          background: #07131D;
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          border-radius: var(--radius-lg);
-          padding: 3.5rem 4rem;
-          min-height: 340px;
+        }
+
+        @media (max-width: 900px) {
+          .dominant-testimonial-stage {
+            padding: 3rem 2rem;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .dominant-testimonial-stage {
+            padding: 2rem 1.25rem;
+          }
+        }
+
+        .testimonial-quote-block {
+          max-width: 1040px;
+          margin: 0 auto;
+        }
+
+        .dominant-quote-headline {
+          font-family: var(--font-serif);
+          font-size: clamp(2rem, 4vw, 3.4rem);
+          line-height: 1.12;
+          letter-spacing: 0.015em;
+          color: var(--text-primary);
+          text-transform: uppercase;
+          margin-bottom: 1.75rem;
+        }
+
+        .dominant-body-copy {
+          font-family: var(--font-body);
+          font-size: clamp(1rem, 1.3vw, 1.12rem);
+          color: var(--text-secondary);
+          line-height: 1.7;
+          margin-bottom: 2.75rem;
+          max-width: 820px;
+        }
+
+        .dominant-meta-row {
           display: flex;
-          flex-direction: column;
+          align-items: center;
           justify-content: space-between;
-          overflow: hidden;
-        }
-        @media (max-width: 768px) {
-          .magazine-quote-card {
-            padding: 2rem 1.35rem;
-            min-height: auto;
-            border-radius: var(--radius-md);
-          }
+          border-top: 1px solid var(--border-subtle);
+          padding-top: 2rem;
+          flex-wrap: wrap;
+          gap: 1.5rem;
         }
 
-        /* Background Photo Layer */
-        .card-bg-photo-layer {
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-          pointer-events: none;
+        .student-profile-lockup {
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
         }
-        .girl-driving-bg-img {
-          width: 100%;
-          height: 100%;
+
+        .student-avatar {
+          width: 52px;
+          height: 52px;
+          border-radius: 50%;
           object-fit: cover;
-          object-position: center 35%;
-          transform: scale(1.03);
-        }
-        .card-photo-dark-scrim {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            135deg, 
-            rgba(7, 19, 29, 0.95) 0%, 
-            rgba(7, 19, 29, 0.9) 50%, 
-            rgba(7, 19, 29, 0.78) 100%
-          );
+          border: 1px solid var(--border-light);
         }
 
-        /* Foreground Elements (z-index: 5) */
-        .quote-top-strip {
-          position: relative;
-          z-index: 5;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 1.25rem;
-          flex-wrap: wrap;
-          gap: 0.65rem;
-        }
-        .stars-cluster {
-          display: flex;
-          gap: 0.25rem;
-        }
-        .star-yellow {
-          color: #FFD000;
-          filter: drop-shadow(0 0 8px rgba(255, 208, 0, 0.6));
-        }
-        .pass-status-pill {
-          font-family: var(--font-display);
-          font-size: 0.75rem;
-          font-weight: 800;
-          padding: 0.3rem 0.85rem;
-          background: rgba(255, 208, 0, 0.18);
-          color: #FFD000;
-          border: 1.5px solid #FFD000;
-          border-radius: var(--radius-full);
-          letter-spacing: 0.05em;
-          backdrop-filter: blur(8px);
-        }
-        .master-quote-text {
-          position: relative;
-          z-index: 5;
-          font-family: var(--font-display);
-          font-size: clamp(1.2rem, 3.8vw, 2.15rem);
-          font-weight: 800;
-          letter-spacing: -0.02em;
-          line-height: 1.4;
-          color: #FFFFFF !important;
-          margin-bottom: 1.5rem;
-          text-shadow: 0 3px 15px rgba(0, 0, 0, 0.8);
-        }
-        .student-profile-footer {
-          position: relative;
-          z-index: 5;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.15);
-          flex-wrap: wrap;
-        }
-        .student-avatar-box {
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background: #FFD000;
-          color: #07131D;
-          font-family: var(--font-display);
-          font-weight: 900;
-          font-size: 1.25rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 15px rgba(255, 208, 0, 0.4);
-          flex-shrink: 0;
-        }
-        .student-meta {
+        .student-text {
           display: flex;
           flex-direction: column;
-        }
-        .student-name {
-          font-size: 1.05rem;
-          font-weight: 800;
-          color: #FFFFFF !important;
-        }
-        .student-detail {
-          font-size: 0.8rem;
-          color: #CBD5E1 !important;
+          gap: 0.2rem;
         }
 
-        .testimonial-dots-row {
-          display: flex;
-          justify-content: center;
-          gap: 0.6rem;
-          margin-top: 1.75rem;
+        .student-author-name {
+          font-family: var(--font-display);
+          font-size: 0.95rem;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          color: var(--text-primary);
         }
-        .t-dot {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: var(--border-light);
-          transition: all 0.25s;
+
+        .student-location-tag {
+          font-size: 0.8rem;
+          color: var(--text-muted);
         }
-        .t-dot.active {
-          width: 32px;
-          border-radius: 6px;
-          background: #FFD000;
+
+        .pass-result-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-family: var(--font-display);
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          color: var(--accent-champagne);
+          background: var(--accent-champagne-subtle);
+          padding: 0.4rem 0.85rem;
+          border-radius: var(--radius-full);
         }
       `}</style>
     </section>

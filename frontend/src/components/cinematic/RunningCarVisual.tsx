@@ -6,7 +6,6 @@ export const RunningCarVisual: React.FC = () => {
 
   return (
     <div className="running-car-stage">
-      {/* Video / Animated Drive Scene */}
       <div className={`running-car-viewport ${isPlaying ? 'in-motion' : 'paused'}`}>
         {/* Real Driving Video Layer */}
         <video 
@@ -22,41 +21,40 @@ export const RunningCarVisual: React.FC = () => {
           <source src="https://assets.mixkit.co/videos/preview/mixkit-driving-down-a-coastal-road-42861-large.mp4" type="video/mp4" />
         </video>
 
-        {/* Dynamic Road Speed Streaks & Motion Overlay */}
-        <div className="road-speed-motion-lines" />
+        {/* Dynamic Road Vignette & Refined Ambient Mask */}
         <div className="asphalt-reflection-vignette" />
 
-        {/* Live HUD Telemetry Overlay */}
+        {/* Minimal Restrained Telemetry Overlay */}
         <div className="car-hud-overlay">
           <div className="hud-badge live-status">
             <span className="live-pulsar-dot" />
-            <span>LIVE MOCK ROUTE</span>
+            <span>MOCK ROUTE AUDIT ACTIVE</span>
           </div>
 
           <div className="hud-bottom-telemetry">
             <div className="hud-chip">
-              <Gauge size={14} className="hud-icon-gold" />
-              <span>58 KM/H</span>
+              <Gauge size={13} className="hud-icon-champagne" />
+              <span>50 KM/H URBAN CORRIDOR</span>
             </div>
             <div className="hud-chip">
-              <Shield size={14} className="hud-icon-gold" />
-              <span>DUAL CONTROL ACTIVE</span>
+              <Shield size={13} className="hud-icon-champagne" />
+              <span>DUAL BRAKE ARMED</span>
             </div>
             <div className="hud-chip">
-              <Navigation size={14} className="hud-icon-gold" />
-              <span>SERVICE NSW ROUTE</span>
+              <Navigation size={13} className="hud-icon-champagne" />
+              <span>SERVICE NSW BOTANY / ROCKDALE</span>
             </div>
           </div>
         </div>
 
-        {/* Pause/Play Toggle Button */}
+        {/* Minimal Playback Toggle */}
         <button 
           className="playback-toggle-btn"
           onClick={() => setIsPlaying(!isPlaying)}
-          aria-label={isPlaying ? 'Pause car motion' : 'Play car motion'}
+          aria-label={isPlaying ? 'Pause simulation motion' : 'Play simulation motion'}
         >
-          {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-          <span>{isPlaying ? 'MOTION ACTIVE' : 'RESUME'}</span>
+          {isPlaying ? <Pause size={12} /> : <Play size={12} />}
+          <span>{isPlaying ? 'PAUSE' : 'RESUME'}</span>
         </button>
       </div>
 
@@ -65,23 +63,20 @@ export const RunningCarVisual: React.FC = () => {
           position: relative;
           width: 100%;
           height: 100%;
-          min-height: 440px;
-          border-radius: var(--radius-xl);
+          min-height: 480px;
+          border-radius: var(--radius-md);
           overflow: hidden;
-          background: #050B12;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+          background: #080808;
+          border: 1px solid var(--border-light);
+          box-shadow: 0 16px 40px rgba(17, 17, 17, 0.08);
         }
+
         @media (max-width: 960px) {
           .running-car-stage {
-            min-height: 320px;
-            border-radius: var(--radius-lg);
+            min-height: 340px;
           }
         }
-        @media (max-width: 600px) {
-          .running-car-stage {
-            min-height: 280px;
-          }
-        }
+
         .running-car-viewport {
           position: relative;
           width: 100%;
@@ -89,140 +84,121 @@ export const RunningCarVisual: React.FC = () => {
           overflow: hidden;
         }
 
-        /* Live video */
         .live-driving-video {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transform: scale(1.04);
+          transform: scale(1.02);
           transition: filter 0.3s ease;
         }
+
         .running-car-viewport.paused .live-driving-video {
-          filter: grayscale(30%) brightness(0.85);
+          filter: grayscale(40%) brightness(0.7);
         }
 
-        /* Dynamic Moving Road Lines */
-        .road-speed-motion-lines {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            180deg, 
-            rgba(0, 0, 0, 0.1) 0%, 
-            rgba(10, 20, 32, 0.3) 60%, 
-            rgba(10, 20, 32, 0.85) 100%
-          );
-          pointer-events: none;
-        }
         .asphalt-reflection-vignette {
           position: absolute;
           inset: 0;
-          box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.6);
+          background: linear-gradient(180deg, rgba(8, 8, 8, 0.25) 0%, rgba(8, 8, 8, 0.2) 40%, rgba(8, 8, 8, 0.85) 100%);
           pointer-events: none;
         }
 
-        /* HUD Overlay */
+        /* Restrained HUD Overlay */
         .car-hud-overlay {
           position: absolute;
           inset: 0;
-          padding: 1.25rem;
+          padding: 1.5rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           pointer-events: none;
           z-index: 10;
         }
+
         @media (max-width: 600px) {
           .car-hud-overlay {
-            padding: 0.75rem;
+            padding: 1rem;
           }
         }
+
         .hud-badge {
           display: inline-flex;
           align-items: center;
-          gap: 0.4rem;
-          background: rgba(10, 20, 32, 0.85);
-          backdrop-filter: blur(8px);
+          gap: 0.5rem;
+          background: rgba(17, 17, 17, 0.82);
+          backdrop-filter: blur(12px);
           border: 1px solid rgba(255, 255, 255, 0.15);
           color: #FFFFFF;
           font-family: var(--font-display);
-          font-weight: 800;
-          font-size: 0.7rem;
-          letter-spacing: 0.08em;
-          padding: 0.25rem 0.65rem;
+          font-weight: 600;
+          font-size: 0.65rem;
+          letter-spacing: 0.14em;
+          padding: 0.35rem 0.85rem;
           border-radius: var(--radius-full);
           width: fit-content;
         }
+
         .live-pulsar-dot {
-          width: 7px;
-          height: 7px;
+          width: 6px;
+          height: 6px;
           border-radius: 50%;
-          background: #22C55E;
-          box-shadow: 0 0 10px #22C55E;
-          animation: pulseLive 1.5s infinite;
-        }
-        @keyframes pulseLive {
-          0% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.4; transform: scale(1.3); }
-          100% { opacity: 1; transform: scale(1); }
+          background: #34D399;
+          box-shadow: 0 0 8px #34D399;
         }
 
         .hud-bottom-telemetry {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.65rem;
           flex-wrap: wrap;
         }
+
         .hud-chip {
           display: inline-flex;
           align-items: center;
-          gap: 0.35rem;
-          background: rgba(10, 20, 32, 0.85);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          gap: 0.4rem;
+          background: rgba(17, 17, 17, 0.82);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.14);
           color: #FFFFFF;
           font-family: var(--font-display);
-          font-weight: 700;
-          font-size: 0.68rem;
-          letter-spacing: 0.04em;
-          padding: 0.25rem 0.6rem;
+          font-weight: 600;
+          font-size: 0.64rem;
+          letter-spacing: 0.08em;
+          padding: 0.35rem 0.75rem;
           border-radius: var(--radius-full);
         }
-        .hud-icon-gold {
-          color: var(--accent-gold);
+
+        .hud-icon-champagne {
+          color: var(--accent-champagne);
         }
 
-        /* Playback toggle */
         .playback-toggle-btn {
           position: absolute;
-          top: 1.25rem;
-          right: 1.25rem;
+          top: 1.5rem;
+          right: 1.5rem;
           z-index: 20;
           display: inline-flex;
           align-items: center;
-          gap: 0.35rem;
-          background: rgba(10, 20, 32, 0.85);
-          backdrop-filter: blur(8px);
+          gap: 0.4rem;
+          background: rgba(17, 17, 17, 0.82);
+          backdrop-filter: blur(12px);
           border: 1px solid rgba(255, 255, 255, 0.2);
           color: #FFFFFF;
           font-family: var(--font-display);
-          font-weight: 800;
-          font-size: 0.65rem;
-          letter-spacing: 0.06em;
-          padding: 0.25rem 0.65rem;
+          font-weight: 600;
+          font-size: 0.62rem;
+          letter-spacing: 0.14em;
+          padding: 0.35rem 0.75rem;
           border-radius: var(--radius-full);
           transition: all 0.2s ease;
           cursor: pointer;
         }
-        @media (max-width: 600px) {
-          .playback-toggle-btn {
-            top: 0.75rem;
-            right: 0.75rem;
-          }
-        }
+
         .playback-toggle-btn:hover {
-          background: var(--accent-gold);
-          color: #0A1420;
-          border-color: var(--accent-gold);
+          background: var(--accent-champagne);
+          color: #111111;
+          border-color: var(--accent-champagne);
         }
       `}</style>
     </div>

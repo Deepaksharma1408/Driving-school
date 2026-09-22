@@ -326,15 +326,14 @@ END:VCALENDAR`;
 
                         <div className="form-group">
                           <label className="form-label">Select Transmission Type</label>
-                          <div className="transmission-toggle">
-                            <button 
-                              type="button" 
-                              className={`trans-btn ${booking.transmission === 'automatic' ? 'active' : ''}`}
-                              onClick={() => setBooking({ ...booking, transmission: 'automatic' })}
-                            >
-                              Automatic Transmission (Default)
-                            </button>
-                          </div>
+                          <select 
+                            className="form-select"
+                            value={booking.transmission}
+                            onChange={(e) => setBooking({ ...booking, transmission: e.target.value })}
+                          >
+                            <option value="automatic">Automatic Transmission (Dual-Control)</option>
+                            <option value="manual">Manual Transmission (Dual-Control)</option>
+                          </select>
                         </div>
                       </div>
 
@@ -468,7 +467,7 @@ END:VCALENDAR`;
                         <div className="review-block">
                           <span className="rev-label">Appointment Time</span>
                           <strong className="rev-val">{booking.date}</strong>
-                          <span className="rev-sub">{booking.timeSlot} ({booking.transmission} vehicle)</span>
+                          <span className="rev-sub">{booking.timeSlot} • {booking.transmission.toUpperCase()} Dual-Control</span>
                         </div>
 
                         <div className="review-block">
@@ -596,8 +595,8 @@ END:VCALENDAR`;
           top: 18px;
           left: 0;
           right: 0;
-          height: 4px;
-          background: #E2DFD6;
+          height: 2px;
+          background: var(--border-light);
           border-radius: 99px;
           z-index: 1;
         }
@@ -605,8 +604,8 @@ END:VCALENDAR`;
           position: absolute;
           top: 18px;
           left: 0;
-          height: 4px;
-          background: var(--accent-gold);
+          height: 2px;
+          background: var(--accent-champagne);
           border-radius: 99px;
           z-index: 2;
           transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
@@ -615,18 +614,18 @@ END:VCALENDAR`;
         /* Moving Car Badge */
         .stepper-car-badge {
           position: absolute;
-          top: 2px;
+          top: 3px;
           z-index: 5;
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          background: var(--bg-deep-charcoal);
-          color: var(--accent-gold);
+          background: #111111;
+          color: var(--accent-champagne);
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 4px 14px rgba(7, 19, 29, 0.3);
-          border: 2px solid var(--accent-gold);
+          box-shadow: 0 4px 14px rgba(17, 17, 17, 0.2);
+          border: 1.5px solid var(--accent-champagne);
           transition: left 0.45s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -638,6 +637,7 @@ END:VCALENDAR`;
           gap: 0.4rem;
           position: relative;
           z-index: 4;
+          cursor: pointer;
         }
         .node-num-wrapper {
           padding: 2px;
@@ -648,33 +648,33 @@ END:VCALENDAR`;
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          background: #E8E5DC;
-          color: #07131D;
+          background: #F3F0E9;
+          color: #111111;
           font-family: var(--font-display);
-          font-weight: 800;
-          font-size: 0.85rem;
+          font-weight: 700;
+          font-size: 0.8rem;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          border: 2px solid #DDD9CE;
+          border: 1px solid var(--border-light);
         }
 
         /* Completed Steps (1, 2, 3, 4) */
         .step-node.done .node-num {
-          background: #07131D;
+          background: #111111;
           color: #FFFFFF;
-          border-color: #07131D;
-          font-size: 0.775rem;
+          border-color: #111111;
+          font-size: 0.75rem;
         }
 
         /* Active Current Step */
         .step-node.active .node-num {
-          background: var(--accent-gold);
-          color: #07131D;
-          border-color: #07131D;
-          box-shadow: 0 0 0 4px rgba(210, 176, 76, 0.3);
-          transform: scale(1.08);
+          background: var(--accent-champagne);
+          color: #111111;
+          border-color: var(--accent-champagne);
+          box-shadow: 0 0 0 4px rgba(197, 168, 128, 0.2);
+          transform: scale(1.06);
         }
 
         .node-label {

@@ -106,9 +106,10 @@ export const StudentPortalModal: React.FC<StudentPortalModalProps> = ({ isOpen, 
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(17, 24, 32, 0.65);
-          backdrop-filter: blur(6px);
-          z-index: 500;
+          background: rgba(8, 9, 12, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          z-index: 2500;
           display: flex;
           align-items: center;
           justify-content: center;
