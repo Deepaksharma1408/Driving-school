@@ -30,6 +30,8 @@ import { LiveTracking } from './pages/LiveTracking';
 import { Cockpit } from './pages/Cockpit';
 import { Badges } from './pages/Badges';
 import { Schedule } from './pages/Schedule';
+import { Privacy } from './pages/Privacy';
+import { Terms } from './pages/Terms';
 
 import { BlogArticle } from './types';
 
@@ -78,6 +80,10 @@ export const App: React.FC = () => {
             <Route path="/cockpit" element={<Cockpit />} />
             <Route path="/badges" element={<Badges />} />
             <Route path="/schedule" element={<Schedule />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/privacy-policy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/terms-and-conditions" element={<Terms />} />
             {/* Fallback route */}
             <Route path="*" element={<Home onSelectArticle={setSelectedArticle} />} />
           </Routes>

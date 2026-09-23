@@ -19,18 +19,13 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) 
         </button>
 
         <div className="article-hero-image">
-          {/* Ambient blurred backdrop derived from the article image */}
-          <div 
-            className="article-hero-backdrop"
-            style={{ backgroundImage: `url(${article.image})` }}
-          />
-          
-          {/* Main crisp full image */}
+          {/* Main full-size image */}
           <img 
             src={article.image} 
             alt={article.title} 
             className="article-hero-main-img"
           />
+          <div className="article-hero-scrim" />
           
           <span className="article-tag">{article.category}</span>
         </div>
@@ -118,35 +113,28 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) 
         .article-hero-image {
           position: relative;
           width: 100%;
-          height: 330px;
+          height: 380px;
           overflow: hidden;
           background: #07131D;
-          display: flex;
-          align-items: center;
-          justify-content: center;
         }
         @media (max-width: 640px) {
           .article-hero-image {
-            height: 240px;
+            height: 250px;
           }
         }
-        .article-hero-backdrop {
-          position: absolute;
-          inset: -25px;
-          background-size: cover;
-          background-position: center;
-          filter: blur(28px) brightness(0.4);
-          opacity: 0.9;
-          transform: scale(1.15);
-          pointer-events: none;
-        }
         .article-hero-main-img {
-          position: relative;
-          z-index: 2;
           width: 100%;
           height: 100%;
-          object-fit: contain;
+          object-fit: cover;
+          object-position: center;
           display: block;
+        }
+        .article-hero-scrim {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+          pointer-events: none;
+          z-index: 2;
         }
         .article-tag {
           position: absolute;

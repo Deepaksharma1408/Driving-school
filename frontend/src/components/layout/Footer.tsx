@@ -75,6 +75,8 @@ export const Footer: React.FC = () => {
             <ul className="footer-links">
               <li><Link to="/about">About Drivinity</Link></li>
               <li><Link to="/instructors">Accredited Coaches</Link></li>
+              <li><Link to="/privacy">Privacy Policy</Link></li>
+              <li><Link to="/terms">Terms & Conditions</Link></li>
               <li><Link to="/faq">Frequently Asked Questions</Link></li>
               <li><Link to="/blog">The Journal</Link></li>
             </ul>
@@ -125,9 +127,9 @@ export const Footer: React.FC = () => {
           <div className="footer-legal-links">
             <Link to="/faq">FAQ</Link>
             <span className="dot">•</span>
-            <Link to="/about">Privacy</Link>
+            <Link to="/privacy">Privacy Policy</Link>
             <span className="dot">•</span>
-            <Link to="/about">Terms</Link>
+            <Link to="/terms">Terms & Conditions</Link>
           </div>
         </div>
       </div>
