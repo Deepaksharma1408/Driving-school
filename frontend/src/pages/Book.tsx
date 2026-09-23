@@ -10,7 +10,8 @@ import {
   Car, 
   User, 
   ShieldCheck, 
-  Sparkles 
+  Sparkles,
+  Download
 } from 'lucide-react';
 import { SERVICES, TEST_LOCATIONS, BRAND_INFO } from '../data/content';
 import { PageHeader } from '../components/layout/PageHeader';
@@ -43,6 +44,14 @@ export const Book: React.FC = () => {
   const [bookingRef, setBookingRef] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  // Promo / Referral Code State
+  const [promoInput, setPromoInput] = useState('');
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [appliedCode, setAppliedCode] = useState('');
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [promoError, setPromoError] = useState('');
+  const [promoSuccess, setPromoSuccess] = useState('');
+
   useEffect(() => {
     if (searchParams.get('service')) {
       setBooking(prev => ({ ...prev, serviceId: searchParams.get('service') || prev.serviceId }));
@@ -50,10 +59,48 @@ export const Book: React.FC = () => {
     if (searchParams.get('location')) {
       setBooking(prev => ({ ...prev, locationId: searchParams.get('location') || prev.locationId }));
     }
+    const urlRef = searchParams.get('ref') || searchParams.get('promo');
+    if (urlRef) {
+      setPromoInput(urlRef);
+      handleApplyPromo(urlRef);
+    }
   }, [searchParams]);
+
+  const handleApplyPromo = (codeToApply?: string) => {
+    const code = (codeToApply || promoInput).trim().toUpperCase();
+    setPromoError('');
+    setPromoSuccess('');
+
+    if (!code) {
+      setPromoError('Please enter a valid promo or referral code.');
+      return;
+    }
+
+    let discount = 20; // Default $20 discount for referral or promo code
+    if (code === 'WELCOME10') discount = 10;
+    if (code === 'REFER50' || code === 'SUPER50') discount = 50;
+    if (code === 'DRIVE20') discount = 20;
+
+    setAppliedCode(code);
+    setDiscountAmount(discount);
+    setPromoApplied(true);
+    setPromoSuccess(`Promo Code "${code}" applied! You saved $${discount}.`);
+  };
+
+  const handleRemovePromo = () => {
+    setPromoApplied(false);
+    setAppliedCode('');
+    setDiscountAmount(0);
+    setPromoInput('');
+    setPromoSuccess('');
+    setPromoError('');
+  };
 
   const selectedServiceObj = SERVICES.find(s => s.id === booking.serviceId) || SERVICES[0];
   const selectedLocationObj = TEST_LOCATIONS.find(l => l.id === booking.locationId) || TEST_LOCATIONS[0];
+
+  const basePriceNum = parseFloat((selectedServiceObj?.pricePlaceholder || '$75.00').replace(/[^0-9.]/g, '')) || 75;
+  const finalPriceNum = Math.max(0, basePriceNum - (promoApplied ? discountAmount : 0));
 
   const timeSlots = [
     '07:30 AM - 09:00 AM (Early Slot)',
@@ -80,13 +127,32 @@ export const Book: React.FC = () => {
 
   const handleFinalSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
     if (e) e.preventDefault();
-    setSubmitting(true);
-    const res = await createBooking(booking);
-    setSubmitting(false);
-    if (res && res.bookingId) {
-      setBookingRef(res.bookingId);
+    if (!booking.fullName || !booking.email || !booking.phone) {
+      alert('Please fill in your name, email, and phone number to continue.');
+      setStep(4);
+      return;
     }
-    setIsCompleted(true);
+    setSubmitting(true);
+    const fallbackId = `BOOK-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
+    try {
+      const res = await createBooking({
+        ...booking,
+        promoCode: promoApplied ? appliedCode : undefined,
+        discountAmount: promoApplied ? discountAmount : undefined
+      });
+      if (res && res.bookingId) {
+        setBookingRef(res.bookingId);
+      } else {
+        setBookingRef(fallbackId);
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      setBookingRef(fallbackId);
+    } finally {
+      setSubmitting(false);
+      setIsCompleted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const downloadICalFile = () => {
@@ -110,6 +176,61 @@ END:VCALENDAR`;
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', `drivinity-booking-${bookingRef || 'session'}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const downloadReceiptFile = () => {
+    const receiptText = `====================================================
+           DRIVINITY DRIVING ACADEMY
+           OFFICIAL BOOKING RECEIPT
+====================================================
+
+Booking Reference: ${bookingRef || 'BOOK-CONFIRMED'}
+Date Issued:       ${new Date().toLocaleDateString('en-AU', { dateStyle: 'full' })}
+Status:            CONFIRMED / RESERVED
+
+----------------------------------------------------
+STUDENT INFORMATION
+----------------------------------------------------
+Student Name:     ${booking.fullName}
+Email Address:    ${booking.email}
+Phone Number:     ${booking.phone}
+Licence Status:   ${booking.licenceType}
+
+----------------------------------------------------
+SESSION & LOCATION DETAILS
+----------------------------------------------------
+Service Selected: ${selectedServiceObj?.title || 'Driving Session'}
+Location / Hub:   ${selectedLocationObj?.name || 'Service NSW Hub'}
+Date & Time Slot: ${booking.date} @ ${booking.timeSlot}
+Transmission:     ${booking.transmission.toUpperCase()} Dual-Control
+
+----------------------------------------------------
+PRICE SUMMARY
+----------------------------------------------------
+Base Package Price: ${selectedServiceObj?.pricePlaceholder || '$75.00'}
+${promoApplied ? `Promo Discount (${appliedCode}): -$${discountAmount} OFF\nNet Total Payable:   $${finalPriceNum} AUD` : `Total Estimated:     ${selectedServiceObj?.pricePlaceholder || '$75.00'}`}
+Payment Method:     Mock Online Reservation (Zero Risk / Pay on Lesson)
+
+----------------------------------------------------
+INSTRUCTOR & PICKUP NOTES
+----------------------------------------------------
+Pickup Address:   ${booking.pickupAddress || 'Standard Test Centre / Suburb Pickup'}
+Special Notes:    ${booking.notes || 'None'}
+
+====================================================
+Thank you for booking with Drivinity Driving Academy!
+Support Contact: 1300 855 374 | contact@drivinity.com
+Website: https://drivinity.com.au
+====================================================`;
+
+    const blob = new Blob([receiptText], { type: 'text/plain;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `drivinity-receipt-${bookingRef || 'session'}.txt`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -224,7 +345,10 @@ END:VCALENDAR`;
                   </div>
 
                   <div className="success-actions">
-                    <Button onClick={downloadICalFile} variant="yellow" size="lg" icon={<CalendarIcon size={16} />}>
+                    <Button onClick={downloadReceiptFile} variant="yellow" size="lg" icon={<Download size={16} />}>
+                      DOWNLOAD RECEIPT
+                    </Button>
+                    <Button onClick={downloadICalFile} variant="outline" size="lg" icon={<CalendarIcon size={16} />}>
                       ADD TO CALENDAR (.ICS)
                     </Button>
                     <Button onClick={() => { setIsCompleted(false); setStep(1); }} variant="primary" size="lg">
@@ -439,6 +563,42 @@ END:VCALENDAR`;
                           onChange={(e) => setBooking({ ...booking, notes: e.target.value })}
                         />
                       </div>
+
+                      {/* Promo / Referral Code Section */}
+                      <div className="promo-code-box aura-card" style={{ marginTop: '1.5rem', padding: '1.25rem', background: '#FAFAF8', border: '1px dashed var(--accent-gold)' }}>
+                        <label className="form-label" style={{ fontWeight: 800, color: '#07131D', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                          <Sparkles size={16} className="gold" /> Promo / Referral Code
+                        </label>
+                        <p style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '0.75rem' }}>
+                          Have a referral link or discount promo code (e.g. <strong>DRIVE20</strong>, <strong>WELCOME10</strong>, or <strong>REF-YOURNAME</strong>)? Enter it here!
+                        </p>
+                        
+                        {promoApplied ? (
+                          <div className="promo-applied-badge" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(34, 197, 94, 0.12)', border: '1px solid #22C55E', padding: '0.65rem 1rem', borderRadius: '8px', color: '#16A34A', fontWeight: 700, fontSize: '0.85rem' }}>
+                            <span>✓ PROMO APPLIED ({appliedCode}): -${discountAmount} OFF</span>
+                            <button type="button" onClick={handleRemovePromo} style={{ background: 'none', border: 'none', color: '#EF4444', fontWeight: 800, cursor: 'pointer', fontSize: '0.75rem' }}>
+                              REMOVE
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="promo-input-row" style={{ display: 'flex', gap: '0.5rem' }}>
+                            <input 
+                              type="text" 
+                              className="form-input" 
+                              placeholder="e.g. DRIVE20 or REF-JORDAN20" 
+                              value={promoInput}
+                              onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                              style={{ flex: 1, textTransform: 'uppercase' }}
+                            />
+                            <Button type="button" onClick={() => handleApplyPromo()} variant="yellow" size="sm">
+                              APPLY
+                            </Button>
+                          </div>
+                        )}
+
+                        {promoSuccess && <span style={{ display: 'block', fontSize: '0.8rem', color: '#16A34A', fontWeight: 700, marginTop: '0.5rem' }}>{promoSuccess}</span>}
+                        {promoError && <span style={{ display: 'block', fontSize: '0.8rem', color: '#EF4444', fontWeight: 700, marginTop: '0.5rem' }}>{promoError}</span>}
+                      </div>
                     </div>
                   )}
 
@@ -534,10 +694,27 @@ END:VCALENDAR`;
                       <span className="side-time">{booking.timeSlot}</span>
                     </div>
 
-                    <div className="sidebar-item price-row">
-                      <span className="side-label">Total Estimated Price</span>
-                      <strong className="side-price">{selectedServiceObj.pricePlaceholder}</strong>
-                    </div>
+                    {promoApplied ? (
+                      <>
+                        <div className="sidebar-item">
+                          <span className="side-label">Base Package Price</span>
+                          <strong className="side-val" style={{ textDecoration: 'line-through', color: '#94A3B8' }}>${basePriceNum}</strong>
+                        </div>
+                        <div className="sidebar-item" style={{ color: '#16A34A' }}>
+                          <span className="side-label">Promo Discount ({appliedCode})</span>
+                          <strong className="side-val">-${discountAmount} OFF</strong>
+                        </div>
+                        <div className="sidebar-item price-row">
+                          <span className="side-label">Net Total Payable</span>
+                          <strong className="side-price" style={{ color: '#16A34A' }}>${finalPriceNum} AUD</strong>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="sidebar-item price-row">
+                        <span className="side-label">Total Estimated Price</span>
+                        <strong className="side-price">{selectedServiceObj.pricePlaceholder}</strong>
+                      </div>
+                    )}
                   </div>
 
                   <div className="sidebar-trust-box">

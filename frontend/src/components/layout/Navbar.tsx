@@ -310,6 +310,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
                       <span>Student Badges & Milestones</span>
                       <ArrowRight size={13} />
                     </Link>
+                    <Link to="/login" className="sub-tool-link" onClick={() => setIsMobileOpen(false)}>
+                      <span style={{ fontWeight: 800, color: 'var(--accent-gold)' }}>Student Login & Portal</span>
+                      <ArrowRight size={13} />
+                    </Link>
+                    <Link to="/drivers" className="sub-tool-link" onClick={() => setIsMobileOpen(false)}>
+                      <span style={{ fontWeight: 800, color: 'var(--accent-gold)' }}>Drivers & Instructors Portal</span>
+                      <ArrowRight size={13} />
+                    </Link>
+                    <Link to="/admin" className="sub-tool-link" onClick={() => setIsMobileOpen(false)}>
+                      <span style={{ fontWeight: 800, color: 'var(--accent-gold)' }}>Super Admin Dashboard</span>
+                      <ArrowRight size={13} />
+                    </Link>
                     <Link to="/referral" className="sub-tool-link" onClick={() => setIsMobileOpen(false)}>
                       <span>Referral & Rewards Program</span>
                       <ArrowRight size={13} />

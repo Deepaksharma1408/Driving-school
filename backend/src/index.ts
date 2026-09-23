@@ -15,6 +15,7 @@ import notificationsRouter from './routes/notifications.js';
 import progressRouter from './routes/progress.js';
 import adminRouter from './routes/admin.js';
 import settingsRouter from './routes/settings.js';
+import subscriptionsRouter from './routes/subscriptions.js';
 
 dotenv.config();
 
@@ -67,6 +68,7 @@ app.use('/api/notifications', notificationsRouter);
 app.use('/api/progress', progressRouter);
 app.use('/api', adminRouter);
 app.use('/api/settings', settingsRouter);
+app.use('/api/subscriptions', subscriptionsRouter);
 
 // Global Error Handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

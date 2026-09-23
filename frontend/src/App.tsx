@@ -32,6 +32,8 @@ import { Badges } from './pages/Badges';
 import { Schedule } from './pages/Schedule';
 import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
+import { DriversPortal } from './pages/DriversPortal';
+import { StudentLogin } from './pages/StudentLogin';
 
 import { BlogArticle } from './types';
 
@@ -70,6 +72,12 @@ export const App: React.FC = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/book" element={<Book />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/super-admin" element={<Admin />} />
+            <Route path="/drivers" element={<DriversPortal />} />
+            <Route path="/driver-portal" element={<DriversPortal />} />
+            <Route path="/login" element={<StudentLogin />} />
+            <Route path="/student-login" element={<StudentLogin />} />
+            <Route path="/student-portal" element={<StudentLogin />} />
             <Route path="/logbook" element={<LogbookCalculator />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/submit-review" element={<SubmitReview />} />

@@ -32,6 +32,7 @@ const defaultAdminPasswordHash = bcrypt.hashSync('admin123', 10);
 export const inMemoryStore = {
   bookings: [] as any[],
   contactInquiries: [] as any[],
+  subscriptions: [] as any[],
   users: [
     { id: 'usr-admin-01', fullName: 'Head Instructor (Admin)', email: 'admin@drivinity.com', phone: '0400000000', passwordHash: defaultAdminPasswordHash, role: 'admin' },
     { id: 'usr-admin-02', fullName: 'Head Instructor (Admin Legacy)', email: 'admin@canguruber.com.au', phone: '0400000000', passwordHash: defaultAdminPasswordHash, role: 'admin' },

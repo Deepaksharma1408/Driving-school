@@ -52,7 +52,16 @@ export const Admin: React.FC = () => {
   const [submittingLogin, setSubmittingLogin] = useState(false);
 
   // Admin Active Tab
-  const [activeTab, setActiveTab] = useState<'overview' | 'bookings' | 'instructors' | 'vehicles' | 'students' | 'inquiries' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'bookings' | 'instructors' | 'vehicles' | 'students' | 'inquiries' | 'settings' | 'promos'>('overview');
+
+  // Promo / Referral Codes list state
+  const [promoCodesList, setPromoCodesList] = useState([
+    { code: 'DRIVE20', discount: '$20 OFF', description: 'Standard referral & marketing code', usages: 42, active: true },
+    { code: 'WELCOME10', discount: '$10 OFF', description: 'First-time student welcome code', usages: 18, active: true },
+    { code: 'REFER50', discount: '$50 OFF', description: 'Student referral combo package code', usages: 9, active: true }
+  ]);
+  const [newPromoCode, setNewPromoCode] = useState('');
+  const [newPromoDiscount, setNewPromoDiscount] = useState('20');
 
   // Admin Data States
   const [stats, setStats] = useState<any | null>(null);
@@ -375,6 +384,12 @@ export const Admin: React.FC = () => {
                 onClick={() => setActiveTab('inquiries')}
               >
                 <FileText size={16} /> Inquiries ({inquiries.length})
+              </button>
+              <button 
+                className={`tab-btn ${activeTab === 'promos' ? 'active' : ''}`}
+                onClick={() => setActiveTab('promos')}
+              >
+                <Award size={16} /> Promo Codes ({promoCodesList.length})
               </button>
               <button 
                 className={`tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
@@ -759,6 +774,98 @@ export const Admin: React.FC = () => {
                       ))}
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* TAB: PROMO & REFERRAL CODES MANAGEMENT */}
+              {activeTab === 'promos' && (
+                <div className="tab-content">
+                  <div className="aura-card" style={{ padding: '2rem', marginBottom: '1.5rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+                      <div>
+                        <h3 style={{ margin: 0, fontSize: '1.35rem' }}>PROMO & REFERRAL CODES MANAGEMENT</h3>
+                        <p style={{ color: '#64748B', fontSize: '0.875rem', margin: '0.25rem 0 0 0' }}>
+                          Manage discount codes applied by students during online lesson booking.
+                        </p>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          placeholder="Code e.g. DRIVE20" 
+                          value={newPromoCode}
+                          onChange={(e) => setNewPromoCode(e.target.value.toUpperCase())}
+                          style={{ textTransform: 'uppercase', width: '150px' }}
+                        />
+                        <input 
+                          type="number" 
+                          className="form-input" 
+                          placeholder="Discount $" 
+                          value={newPromoDiscount}
+                          onChange={(e) => setNewPromoDiscount(e.target.value)}
+                          style={{ width: '100px' }}
+                        />
+                        <Button 
+                          onClick={() => {
+                            if (!newPromoCode) return;
+                            setPromoCodesList(prev => [
+                              ...prev,
+                              { code: newPromoCode, discount: `$${newPromoDiscount} OFF`, description: 'Custom admin created promo code', usages: 0, active: true }
+                            ]);
+                            setNewPromoCode('');
+                          }} 
+                          variant="yellow" 
+                          size="sm"
+                        >
+                          + ADD CODE
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="admin-table-container">
+                      <table className="admin-table">
+                        <thead>
+                          <tr>
+                            <th>Promo Code</th>
+                            <th>Discount Amount</th>
+                            <th>Description</th>
+                            <th>Total Redemptions</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {promoCodesList.map((p, idx) => (
+                            <tr key={idx}>
+                              <td><strong style={{ color: 'var(--accent-gold)', fontSize: '1.05rem' }}>{p.code}</strong></td>
+                              <td><strong>{p.discount}</strong></td>
+                              <td>{p.description}</td>
+                              <td><strong>{p.usages} times</strong></td>
+                              <td>
+                                <span className={`status-badge ${p.active ? 'confirmed' : 'cancelled'}`}>
+                                  {p.active ? 'ACTIVE' : 'DISABLED'}
+                                </span>
+                              </td>
+                              <td>
+                                <Button 
+                                  onClick={() => {
+                                    setPromoCodesList(prev =>
+                                      prev.map((item, i) => i === idx ? { ...item, active: !item.active } : item)
+                                    );
+                                  }}
+                                  variant={p.active ? 'outline' : 'yellow'} 
+                                  size="sm"
+                                >
+                                  {p.active ? 'DISABLE' : 'ENABLE'}
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               )}
 

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Search, BookOpen, Sparkles, ArrowRight } from 'lucide-react';
+import { Search, BookOpen, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { BLOG_ARTICLES } from '../data/content';
 import { PageHeader } from '../components/layout/PageHeader';
 import { BlogCard } from '../components/ui/BlogCard';
 import { BlogArticle } from '../types';
 import { Button } from '../components/ui/Button';
+import { subscribeNewsletter } from '../services/api';
 
 interface BlogProps {
   onSelectArticle: (article: BlogArticle) => void;
@@ -13,6 +14,9 @@ interface BlogProps {
 export const Blog: React.FC<BlogProps> = ({ onSelectArticle }) => {
   const [selectedCat, setSelectedCat] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [emailInput, setEmailInput] = useState<string>('');
+  const [isSubscribing, setIsSubscribing] = useState<boolean>(false);
+  const [subscribedMessage, setSubscribedMessage] = useState<string | null>(null);
 
   const categories = ['All', 'Driving Test', 'NSW Licence', 'International Drivers', 'Driving Tips', 'Test Preparation'];
 
@@ -25,6 +29,18 @@ export const Blog: React.FC<BlogProps> = ({ onSelectArticle }) => {
   });
 
   const featured = BLOG_ARTICLES[0];
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!emailInput || !emailInput.includes('@')) return;
+
+    setIsSubscribing(true);
+    const res = await subscribeNewsletter(emailInput);
+    setIsSubscribing(false);
+
+    setEmailInput('');
+    setSubscribedMessage(res.message || 'Subscribed to NSW driving updates successfully!');
+  };
 
   return (
     <div className="blog-page">
@@ -119,12 +135,28 @@ export const Blog: React.FC<BlogProps> = ({ onSelectArticle }) => {
             <p className="newsletter-desc">
               Receive new guides on Sydney test center route changes, road rule revisions, and parking tutorials directly in your inbox.
             </p>
-            <form onSubmit={(e) => { e.preventDefault(); alert('Subscribed to NSW driving updates placeholder!'); }} className="newsletter-form">
-              <input type="email" placeholder="Enter your email address" className="form-input" required />
-              <Button type="submit" variant="dark" icon={<ArrowRight size={16} />}>
-                SUBSCRIBE
-              </Button>
-            </form>
+
+            {subscribedMessage ? (
+              <div className="newsletter-success-box">
+                <CheckCircle2 size={22} className="success-ico" />
+                <span>{subscribedMessage}</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="newsletter-form">
+                <input 
+                  type="email" 
+                  placeholder="Enter your email address" 
+                  className="form-input" 
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  required 
+                  disabled={isSubscribing}
+                />
+                <Button type="submit" variant="dark" icon={<ArrowRight size={16} />} disabled={isSubscribing}>
+                  {isSubscribing ? 'SAVING...' : 'SUBSCRIBE'}
+                </Button>
+              </form>
+            )}
           </div>
         </div>
       </section>
@@ -289,6 +321,25 @@ export const Blog: React.FC<BlogProps> = ({ onSelectArticle }) => {
         .newsletter-form .form-input {
           flex: 1;
           min-width: 240px;
+        }
+        .newsletter-success-box {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.35);
+          border-radius: var(--radius-full);
+          padding: 0.85rem 1.75rem;
+          color: #065F46;
+          font-family: var(--font-display);
+          font-size: 0.9rem;
+          font-weight: 600;
+          margin-top: 0.5rem;
+          box-shadow: 0 4px 16px rgba(16, 185, 129, 0.1);
+        }
+        .newsletter-success-box .success-ico {
+          color: #10B981;
+          flex-shrink: 0;
         }
       `}</style>
     </div>
