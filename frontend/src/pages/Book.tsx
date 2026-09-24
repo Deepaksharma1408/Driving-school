@@ -46,13 +46,14 @@ export const Book: React.FC = () => {
   const [bookingRef, setBookingRef] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  // Payment Gateway State (Stripe Integration)
-  const [paymentMethod, setPaymentMethod] = useState<'stripe_card' | 'pay_on_lesson'>('stripe_card');
+  // Payment Gateway State (Stripe & UPI Integration)
+  const [paymentMethod, setPaymentMethod] = useState<'stripe_card' | 'pay_on_lesson' | 'upi_qr'>('stripe_card');
   const [paymentOption, setPaymentOption] = useState<'deposit' | 'full'>('full');
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvc, setCardCvc] = useState('');
+  const [upiId, setUpiId] = useState('');
 
   // Promo / Referral Code State
   const [promoInput, setPromoInput] = useState('');
@@ -144,7 +145,7 @@ export const Book: React.FC = () => {
     }
     setSubmitting(true);
     const fallbackId = `BOOK-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
-    const paidAmount = paymentMethod === 'stripe_card' 
+    const paidAmount = (paymentMethod === 'stripe_card' || paymentMethod === 'upi_qr') 
       ? (paymentOption === 'deposit' ? 50 : finalPriceNum)
       : 0;
 
@@ -155,7 +156,7 @@ export const Book: React.FC = () => {
         discountAmount: promoApplied ? discountAmount : undefined,
         paymentMethod,
         paymentOption,
-        paymentStatus: paymentMethod === 'stripe_card' ? 'paid' : 'pending',
+        paymentStatus: (paymentMethod === 'stripe_card' || paymentMethod === 'upi_qr') ? 'paid' : 'pending',
         amountPaid: paidAmount
       });
       if (res && res.bookingId) {
@@ -671,7 +672,7 @@ Website: https://drivinity.com.au
                           <CreditCard size={18} className="gold" /> Select Payment Method
                         </h4>
 
-                        <div className="payment-methods-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }}>
+                        <div className="payment-methods-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
                           <div 
                             className={`payment-method-card ${paymentMethod === 'stripe_card' ? 'selected' : ''}`}
                             onClick={() => setPaymentMethod('stripe_card')}
@@ -685,10 +686,29 @@ Website: https://drivinity.com.au
                             }}
                           >
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-                              <strong style={{ fontSize: '0.9rem', color: '#07131D' }}>Instant Card Checkout</strong>
-                              <span style={{ fontSize: '0.65rem', background: '#22C55E', color: '#FFF', padding: '2px 6px', borderRadius: '4px', fontWeight: 800 }}>STRIPE SECURE</span>
+                              <strong style={{ fontSize: '0.85rem', color: '#07131D' }}>Credit / Debit Card</strong>
+                              <span style={{ fontSize: '0.6rem', background: '#22C55E', color: '#FFF', padding: '2px 5px', borderRadius: '4px', fontWeight: 800 }}>STRIPE</span>
                             </div>
-                            <p style={{ fontSize: '0.75rem', color: '#64748B', margin: 0 }}>Visa, Mastercard, Amex. Guaranteed instant booking confirmation.</p>
+                            <p style={{ fontSize: '0.75rem', color: '#64748B', margin: 0 }}>Visa, Mastercard, Amex. Instant confirmation.</p>
+                          </div>
+
+                          <div 
+                            className={`payment-method-card ${paymentMethod === 'upi_qr' ? 'selected' : ''}`}
+                            onClick={() => setPaymentMethod('upi_qr')}
+                            style={{
+                              padding: '1rem',
+                              borderRadius: '10px',
+                              border: paymentMethod === 'upi_qr' ? '2px solid var(--accent-gold)' : '1px solid var(--border-light)',
+                              background: paymentMethod === 'upi_qr' ? '#FFFFFF' : '#F8FAFC',
+                              cursor: 'pointer',
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                              <strong style={{ fontSize: '0.85rem', color: '#07131D' }}>UPI Payment (India)</strong>
+                              <span style={{ fontSize: '0.6rem', background: '#3B82F6', color: '#FFF', padding: '2px 5px', borderRadius: '4px', fontWeight: 800 }}>GPay / PhonePe</span>
+                            </div>
+                            <p style={{ fontSize: '0.75rem', color: '#64748B', margin: 0 }}>Pay instantly using UPI ID or QR code scan.</p>
                           </div>
 
                           <div 
@@ -704,10 +724,10 @@ Website: https://drivinity.com.au
                             }}
                           >
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-                              <strong style={{ fontSize: '0.9rem', color: '#07131D' }}>Pay on Lesson Day</strong>
-                              <span style={{ fontSize: '0.65rem', background: '#64748B', color: '#FFF', padding: '2px 6px', borderRadius: '4px', fontWeight: 800 }}>ZERO RISKS</span>
+                              <strong style={{ fontSize: '0.85rem', color: '#07131D' }}>Pay on Lesson Day</strong>
+                              <span style={{ fontSize: '0.6rem', background: '#64748B', color: '#FFF', padding: '2px 5px', borderRadius: '4px', fontWeight: 800 }}>ZERO RISKS</span>
                             </div>
-                            <p style={{ fontSize: '0.75rem', color: '#64748B', margin: 0 }}>Reserve slot now, pay cash or card directly to your instructor on lesson day.</p>
+                            <p style={{ fontSize: '0.75rem', color: '#64748B', margin: 0 }}>Reserve slot now, pay cash/card to instructor.</p>
                           </div>
                         </div>
 
@@ -776,6 +796,57 @@ Website: https://drivinity.com.au
                                   value={cardCvc} 
                                   onChange={(e) => setCardCvc(e.target.value)} 
                                 />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {paymentMethod === 'upi_qr' && (
+                          <div className="upi-payment-form" style={{ background: '#FFFFFF', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}>
+                            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+                              <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer', color: '#07131D' }}>
+                                <input 
+                                  type="radio" 
+                                  name="payOptionUpi" 
+                                  checked={paymentOption === 'full'} 
+                                  onChange={() => setPaymentOption('full')} 
+                                />
+                                Pay Full Amount (${finalPriceNum} AUD ~ ₹{Math.round(finalPriceNum * 55)} INR)
+                              </label>
+                              <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer', color: '#07131D' }}>
+                                <input 
+                                  type="radio" 
+                                  name="payOptionUpi" 
+                                  checked={paymentOption === 'deposit'} 
+                                  onChange={() => setPaymentOption('deposit')} 
+                                />
+                                Pay $50 Deposit (~ ₹2,750 INR)
+                              </label>
+                            </div>
+
+                            <div className="form-group" style={{ marginBottom: '0.75rem' }}>
+                              <label className="form-label" style={{ fontSize: '0.75rem' }}>Enter Your VPA / UPI ID (Google Pay, PhonePe, Paytm, BHIM)</label>
+                              <input 
+                                type="text" 
+                                className="form-input" 
+                                placeholder="e.g. mobile@upi or username@okaxis / @paytm" 
+                                value={upiId} 
+                                onChange={(e) => setUpiId(e.target.value)} 
+                              />
+                            </div>
+
+                            <div className="upi-qr-box" style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '1.25rem', background: '#F8FAFC', padding: '0.85rem', borderRadius: '8px', border: '1px dashed var(--border-light)' }}>
+                              <div className="qr-preview" style={{ background: '#FFF', padding: '6px', borderRadius: '6px', border: '1px solid var(--border-light)', display: 'inline-block' }}>
+                                <img 
+                                  src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(`upi://pay?pa=drivinity@okaxis&pn=Drivinity%20Driving%20Academy&am=${paymentOption === 'deposit' ? 2750 : Math.round(finalPriceNum * 55)}&cu=INR`)}`} 
+                                  alt="UPI Payment QR Code" 
+                                  style={{ width: '90px', height: '90px', display: 'block' }}
+                                />
+                              </div>
+                              <div className="qr-info">
+                                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#07131D', display: 'block', marginBottom: '0.2rem' }}>Scan QR Code via any UPI App</span>
+                                <span style={{ fontSize: '0.7rem', color: '#64748B', display: 'block' }}>Supported: GPay, PhonePe, Paytm, BHIM, Amazon Pay</span>
+                                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#22C55E', display: 'inline-block', marginTop: '0.3rem' }}>Merchant: drivinity@okaxis</span>
                               </div>
                             </div>
                           </div>

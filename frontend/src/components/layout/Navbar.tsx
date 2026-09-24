@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, X, Globe, UserCheck, ShieldCheck } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface NavbarProps {
   onOpenStudentPortal?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
+  const { language, setLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<'programs' | 'experience' | null>(null);
@@ -189,9 +191,56 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenStudentPortal }) => {
 
             {/* RIGHT: Actions matching screenshot */}
             <div className="right-editorial-actions">
+              {/* Language Selector Dropdown */}
+              <div className="lang-switcher-wrapper" style={{ position: 'relative' }}>
+                <button 
+                  onClick={() => setIsLangOpen(!isLangOpen)}
+                  className="lang-switcher-btn"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.12)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    borderRadius: '99px',
+                    padding: '0.4rem 0.75rem',
+                    color: '#FFF',
+                    fontSize: '0.75rem',
+                    fontWeight: 800,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Globe size={13} style={{ color: 'var(--accent-gold)' }} />
+                  <span>{language.toUpperCase()}</span>
+                </button>
+                {isLangOpen && (
+                  <div className="lang-dropdown-menu" style={{
+                    position: 'absolute',
+                    top: '120%',
+                    right: 0,
+                    background: '#07131D',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    borderRadius: '12px',
+                    padding: '0.4rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.2rem',
+                    zIndex: 1000,
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                    minWidth: '140px'
+                  }}>
+                    <button onClick={() => { setLanguage('en'); setIsLangOpen(false); }} style={{ padding: '0.45rem 0.65rem', color: '#FFF', background: language === 'en' ? 'rgba(210,176,76,0.25)' : 'transparent', border: 'none', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>🇬🇧 English</button>
+                    <button onClick={() => { setLanguage('hi'); setIsLangOpen(false); }} style={{ padding: '0.45rem 0.65rem', color: '#FFF', background: language === 'hi' ? 'rgba(210,176,76,0.25)' : 'transparent', border: 'none', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>🇮🇳 हिंदी (Hindi)</button>
+                    <button onClick={() => { setLanguage('zh'); setIsLangOpen(false); }} style={{ padding: '0.45rem 0.65rem', color: '#FFF', background: language === 'zh' ? 'rgba(210,176,76,0.25)' : 'transparent', border: 'none', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>🇨🇳 中文 (Chinese)</button>
+                    <button onClick={() => { setLanguage('ar'); setIsLangOpen(false); }} style={{ padding: '0.45rem 0.65rem', color: '#FFF', background: language === 'ar' ? 'rgba(210,176,76,0.25)' : 'transparent', border: 'none', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>🇦🇪 العربية (Arabic)</button>
+                  </div>
+                )}
+              </div>
+
               {/* Primary Book Button: Pill with Arrow */}
               <Link to="/book" className="hero-nav-book-pill">
-                <span className="book-pill-text-desktop">BOOK A LESSON</span>
+                <span className="book-pill-text-desktop">{t.nav.bookNow.toUpperCase()}</span>
                 <span className="book-pill-text-mobile">BOOK</span>
                 <ArrowRight size={14} />
               </Link>

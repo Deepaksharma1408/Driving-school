@@ -16,7 +16,7 @@ export interface BookingPayload {
   notes?: string;
   promoCode?: string;
   discountAmount?: number;
-  paymentMethod?: 'stripe_card' | 'pay_on_lesson';
+  paymentMethod?: 'stripe_card' | 'pay_on_lesson' | 'upi_qr';
   paymentOption?: 'deposit' | 'full';
   paymentStatus?: 'paid' | 'pending';
   amountPaid?: number;
