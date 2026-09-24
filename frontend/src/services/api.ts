@@ -1,4 +1,4 @@
-// API Client for Apex Driving Academy SaaS Backend
+// API Client for Drivinity Driving Academy SaaS Backend
 
 const API_BASE_URL = '/api';
 

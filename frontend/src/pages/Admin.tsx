@@ -906,7 +906,7 @@ export const Admin: React.FC = () => {
                           className="form-input" 
                           value={schoolName}
                           onChange={(e) => setSchoolName(e.target.value)}
-                          placeholder="e.g. Apex Auto Driving School"
+                          placeholder="e.g. Drivinity Driving School"
                           required
                           style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '8px', border: '1px solid var(--border-light)' }}
                         />

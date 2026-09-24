@@ -35,7 +35,7 @@ export const inMemoryStore = {
   subscriptions: [] as any[],
   users: [
     { id: 'usr-admin-01', fullName: 'Head Instructor (Admin)', email: 'admin@drivinity.com', phone: '0400000000', passwordHash: defaultAdminPasswordHash, role: 'admin' },
-    { id: 'usr-admin-02', fullName: 'Head Instructor (Admin Legacy)', email: 'admin@canguruber.com.au', phone: '0400000000', passwordHash: defaultAdminPasswordHash, role: 'admin' },
+    { id: 'usr-admin-02', fullName: 'Head Instructor (Admin Legacy)', email: 'admin@drivinity.com.au', phone: '0400000000', passwordHash: defaultAdminPasswordHash, role: 'admin' },
     { id: 'usr-inst-01', fullName: 'John Doe', email: 'john.d@drivinity.com', phone: '0411222333', passwordHash: defaultAdminPasswordHash, role: 'instructor' },
     { id: 'usr-stud-01', fullName: 'Alex Smith', email: 'alex.s@gmail.com', phone: '0433444555', passwordHash: defaultAdminPasswordHash, role: 'student' }
   ] as any[],

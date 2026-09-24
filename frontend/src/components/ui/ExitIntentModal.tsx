@@ -49,7 +49,7 @@ export const ExitIntentModal: React.FC = () => {
   };
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText('SAVE20-CANGURU');
+    navigator.clipboard.writeText('SAVE20-DRIVINITY');
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 3000);
   };
@@ -110,7 +110,7 @@ export const ExitIntentModal: React.FC = () => {
             <div className="voucher-code-box">
               <div className="code-display">
                 <Tag size={18} className="gold" />
-                <strong>SAVE20-CANGURU</strong>
+                <strong>SAVE20-DRIVINITY</strong>
               </div>
               <button onClick={handleCopyCode} className="copy-code-btn">
                 {isCopied ? 'COPIED! ✓' : <Copy size={16} />}

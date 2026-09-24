@@ -10,7 +10,7 @@ export const WhatsAppButton: React.FC = () => {
     cleanPhone = '61' + cleanPhone.slice(1);
   }
 
-  const message = encodeURIComponent('Hi Apex Driving Academy! I want to inquire about booking a driving lesson or test car hire.');
+  const message = encodeURIComponent('Hi Drivinity Driving Academy! I want to inquire about booking a driving lesson or test car hire.');
   const whatsappUrl = `https://wa.me/${cleanPhone}?text=${message}`;
 
   return (
