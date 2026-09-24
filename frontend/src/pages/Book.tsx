@@ -400,6 +400,18 @@ Website: https://drivinity.com.au
                         <p className="step-desc">Select whether you need driving instruction, practical test car rental, or the combined package.</p>
                       </div>
 
+                      {searchParams.get('audience') && (
+                        <div className="custom-audience-banner aura-card" style={{ marginBottom: '1.25rem', padding: '0.85rem 1.25rem', background: 'rgba(210, 176, 76, 0.12)', border: '1px solid var(--accent-gold)', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <Sparkles size={18} style={{ color: 'var(--accent-gold)' }} />
+                          <div>
+                            <strong style={{ fontSize: '0.85rem', color: '#07131D', display: 'block' }}>
+                              Customized Program Selected: {searchParams.get('audience') === 'beginners' ? '🔰 Beginner Driver Training' : searchParams.get('audience') === 'international' ? '🌏 Overseas License Conversion' : '🛡️ Nervous & Anxious Driver Confidence Building'}
+                            </strong>
+                            <span style={{ fontSize: '0.75rem', color: '#64748B' }}>Your instructor will tailor your session specifically to your confidence level and logbook goals.</span>
+                          </div>
+                        </div>
+                      )}
+
                       <div className="service-select-grid">
                         {SERVICES.map((s) => {
                           const isSelected = booking.serviceId === s.id;

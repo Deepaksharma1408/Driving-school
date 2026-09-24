@@ -147,7 +147,7 @@ export const AUDIENCE_TYPES: AudienceItem[] = [
     description: 'For learners getting behind the wheel for the very first time. We start in quiet residential streets and progressively build road instincts.',
     image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=800&q=80',
     focusPoints: ['Pedal sensitivity & steering control', 'NSW logbook 3-for-1 bonus hours', 'Basic maneuvers & parking mastery'],
-    link: '/driving-lessons'
+    link: '/book?service=driving-lesson&audience=beginners'
   },
   {
     id: 'international',
@@ -156,7 +156,7 @@ export const AUDIENCE_TYPES: AudienceItem[] = [
     description: 'For experienced drivers adapting to Australian road rules, driving on the left side, complex Sydney roundabouts, and practical test criteria.',
     image: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80',
     focusPoints: ['Eliminating old habits that fail tests', 'Sydney multi-lane roundabouts & school zones', 'Understanding Service NSW test scoring'],
-    link: '/driving-lessons'
+    link: '/book?service=driving-lesson&audience=international'
   },
   {
     id: 'anxious',
@@ -165,7 +165,7 @@ export const AUDIENCE_TYPES: AudienceItem[] = [
     description: 'For people who feel stressed about traffic, previous test setbacks, or busy highways. We provide calm, reassuring, and systematic practice.',
     image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80',
     focusPoints: ['Step-by-step low-stress progression', 'Breathing & test-day anxiety management', 'Safe defensive decision making'],
-    link: '/driving-lessons'
+    link: '/book?service=driving-lesson&audience=anxious'
   }
 ];
 

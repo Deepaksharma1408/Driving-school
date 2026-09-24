@@ -330,6 +330,15 @@ export const SavingsCalculator: React.FC = () => {
         .calc-cta-box {
           margin-top: auto;
         }
+        .calc-cta-box .btn, .calc-cta-box .btn-yellow {
+          background-color: #F59E0B !important;
+          color: #07131D !important;
+          font-weight: 800 !important;
+        }
+        .calc-cta-box .btn span, .calc-cta-box .btn-yellow span {
+          color: #07131D !important;
+          font-weight: 800 !important;
+        }
       `}</style>
     </div>
   );

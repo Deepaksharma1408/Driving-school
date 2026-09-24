@@ -295,18 +295,25 @@ img, video {
   transform: scale(0.98);
 }
 
-/* Primary Muted Champagne Button */
+/* Primary High-Contrast Yellow/Gold Button */
 .btn-champagne, .btn-gold, .btn-primary, .btn-yellow {
-  background-color: var(--accent-champagne);
-  color: var(--bg-soft-black);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 16px var(--accent-champagne-subtle);
+  background-color: #F59E0B !important;
+  color: #07131D !important;
+  font-weight: 800 !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35) !important;
+}
+
+.btn-champagne *, .btn-gold *, .btn-primary *, .btn-yellow * {
+  color: #07131D !important;
+  fill: currentColor;
 }
 
 .btn-champagne:hover, .btn-gold:hover, .btn-primary:hover, .btn-yellow:hover {
-  background-color: var(--accent-champagne-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px var(--accent-champagne-glow);
+  background-color: #D97706 !important;
+  color: #000000 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.5) !important;
 }
 
 /* Dark Editorial Button */
@@ -388,7 +395,7 @@ img, video {
   color: var(--text-white) !important;
 }
 
-.dark-theme p, .dark-theme span:not(.pill-badge):not(.champagne-text):not(.gold-text) {
+.dark-theme p, .dark-theme span:not(.pill-badge):not(.champagne-text):not(.gold-text):not(.btn):not(.btn *) {
   color: var(--text-light-muted) !important;
 }
 
