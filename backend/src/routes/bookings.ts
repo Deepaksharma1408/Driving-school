@@ -30,7 +30,13 @@ const createBookingSchema = z.object({
   phone: z.string().min(5, 'Valid phone number required'),
   licenceType: z.string().default('NSW Learner Licence'),
   pickupAddress: z.string().optional().default(''),
-  notes: z.string().optional().default('')
+  notes: z.string().optional().default(''),
+  promoCode: z.string().optional(),
+  discountAmount: z.number().optional().default(0),
+  paymentMethod: z.string().optional().default('pay_on_lesson'),
+  paymentOption: z.string().optional().default('full'),
+  paymentStatus: z.string().optional().default('pending'),
+  amountPaid: z.number().optional().default(0)
 });
 
 // GET /api/bookings/availability - Fetch free instructor & vehicle time slots for a given date

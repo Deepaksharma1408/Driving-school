@@ -16,6 +16,10 @@ export interface BookingPayload {
   notes?: string;
   promoCode?: string;
   discountAmount?: number;
+  paymentMethod?: 'stripe_card' | 'pay_on_lesson';
+  paymentOption?: 'deposit' | 'full';
+  paymentStatus?: 'paid' | 'pending';
+  amountPaid?: number;
 }
 
 export interface ContactPayload {
